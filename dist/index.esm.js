@@ -357,7 +357,7 @@ function AddBlockZone(_a) {
     showMenu = _e[0],
     setShowMenu = _e[1];
   // Block type icons
-  var getBlockIcon = function getBlockIcon(type) {
+  var getBlockIcon = function (type) {
     var iconMap = {
       header: SvgImageIcon,
       text: SvgTextIcon,
@@ -371,7 +371,7 @@ function AddBlockZone(_a) {
     return iconMap[type];
   };
   // Block type labels
-  var getBlockLabel = function getBlockLabel(type) {
+  var getBlockLabel = function (type) {
     var labelMap = {
       header: 'Header',
       text: 'Text',
@@ -384,7 +384,7 @@ function AddBlockZone(_a) {
     };
     return labelMap[type];
   };
-  var handleAddBlock = function handleAddBlock(type) {
+  var handleAddBlock = function (type) {
     var index;
     if (position === 'top') {
       index = 0;
@@ -432,13 +432,13 @@ function AddBlockZone(_a) {
       cursor: isActive ? 'pointer' : 'default',
       transition: 'height 0.2s ease'
     },
-    onMouseEnter: function onMouseEnter() {
+    onMouseEnter: function () {
       return setIsHovered(true);
     },
-    onMouseLeave: function onMouseLeave() {
+    onMouseLeave: function () {
       return setIsHovered(false);
     },
-    onClick: function onClick() {
+    onClick: function () {
       return isActive && setShowMenu(!showMenu);
     },
     children: [jsx("div", {
@@ -469,11 +469,11 @@ function AddBlockZone(_a) {
         zIndex: 10,
         border: '1.5px solid #ffffff'
       },
-      onMouseEnter: function onMouseEnter(e) {
+      onMouseEnter: function (e) {
         e.currentTarget.style.transform = 'scale(1.1)';
         e.currentTarget.style.boxShadow = '0 3px 10px rgba(0, 122, 206, 0.35)';
       },
-      onMouseLeave: function onMouseLeave(e) {
+      onMouseLeave: function (e) {
         e.currentTarget.style.transform = 'scale(1)';
         e.currentTarget.style.boxShadow = '0 2px 6px rgba(0, 122, 206, 0.25)';
       },
@@ -513,7 +513,7 @@ function AddBlockZone(_a) {
         children: Object.entries(BLOCK_TEMPLATES).map(function (_a) {
           var type = _a[0];
           return jsxs("div", {
-            onClick: function onClick() {
+            onClick: function () {
               return handleAddBlock(type);
             },
             style: {
@@ -526,10 +526,10 @@ function AddBlockZone(_a) {
               transition: 'background-color 0.15s ease',
               backgroundColor: 'transparent'
             },
-            onMouseEnter: function onMouseEnter(e) {
+            onMouseEnter: function (e) {
               e.currentTarget.style.backgroundColor = '#f3f4f6';
             },
-            onMouseLeave: function onMouseLeave(e) {
+            onMouseLeave: function (e) {
               e.currentTarget.style.backgroundColor = 'transparent';
             },
             children: [jsx("div", {
@@ -561,20 +561,20 @@ function DropZone(_a) {
   var index = _a.index,
     isDragOver = _a.isDragOver,
     isDragging = _a.isDragging,
-    _onDragOver = _a.onDragOver,
+    onDragOver = _a.onDragOver,
     onDragLeave = _a.onDragLeave,
-    _onDrop = _a.onDrop;
+    onDrop = _a.onDrop;
   // Only show drop zone when dragging
   if (!isDragging) {
     return null;
   }
   return jsx("div", {
-    onDragOver: function onDragOver(e) {
-      return _onDragOver(e, index);
+    onDragOver: function (e) {
+      return onDragOver(e, index);
     },
     onDragLeave: onDragLeave,
-    onDrop: function onDrop(e) {
-      return _onDrop(e, index);
+    onDrop: function (e) {
+      return onDrop(e, index);
     },
     style: {
       height: '4px',
@@ -595,7 +595,7 @@ function BlockHeader(_a) {
     onMouseEnter = _a.onMouseEnter,
     onMouseLeave = _a.onMouseLeave;
   // Block type icons
-  var getBlockIcon = function getBlockIcon(type) {
+  var getBlockIcon = function (type) {
     var iconMap = {
       header: SvgImageIcon,
       text: SvgTextIcon,
@@ -609,7 +609,7 @@ function BlockHeader(_a) {
     return iconMap[type];
   };
   // Block type labels
-  var getBlockLabel = function getBlockLabel(type) {
+  var getBlockLabel = function (type) {
     var labelMap = {
       header: 'Header',
       text: 'Text',
@@ -626,7 +626,7 @@ function BlockHeader(_a) {
     draggable: true,
     onDragStart: onDragStart,
     onDragEnd: onDragEnd,
-    onClick: function onClick(e) {
+    onClick: function (e) {
       // Don't trigger if clicking on drag handle or delete button
       if (!e.target.closest('[data-drag-handle]') && !e.target.closest('[data-delete-button]')) {
         onSelect();
@@ -634,12 +634,12 @@ function BlockHeader(_a) {
     },
     onMouseEnter: onMouseEnter,
     onMouseLeave: onMouseLeave,
-    onMouseDown: function onMouseDown(e) {
+    onMouseDown: function (e) {
       if (e.target === e.currentTarget || e.target.closest('[data-drag-handle]')) {
         e.currentTarget.style.cursor = 'grabbing';
       }
     },
-    onMouseUp: function onMouseUp(e) {
+    onMouseUp: function (e) {
       if (e.target.closest('[data-drag-handle]')) {
         e.currentTarget.style.cursor = 'grab';
       }
@@ -689,7 +689,7 @@ function BlockHeader(_a) {
         children: "Click to collapse"
       }), jsx("div", {
         "data-delete-button": true,
-        onClick: function onClick(e) {
+        onClick: function (e) {
           e.stopPropagation();
           onRemove();
         },
@@ -719,11 +719,11 @@ function HeaderBlockSettings(_a) {
     updateContent = _a.updateContent,
     updateStyles = _a.updateStyles;
   // Helper functions to convert between different units
-  var parsePixelValue = function parsePixelValue(value) {
+  var parsePixelValue = function (value) {
     var parsed = parseInt(value.replace('px', ''));
     return isNaN(parsed) ? 0 : parsed;
   };
-  var parsePaddingValue = function parsePaddingValue(value) {
+  var parsePaddingValue = function (value) {
     // Handle padding like "24px" or "24px 16px" - take first value
     var firstValue = value.split(' ')[0];
     return parsePixelValue(firstValue);
@@ -737,7 +737,7 @@ function HeaderBlockSettings(_a) {
     }), jsx(TextField, {
       label: "Header Text",
       value: block.content.text || '',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           text: value
         });
@@ -760,7 +760,7 @@ function HeaderBlockSettings(_a) {
         value: 'h4'
       }],
       value: block.content.level || 'h2',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           level: value
         });
@@ -778,7 +778,7 @@ function HeaderBlockSettings(_a) {
         value: 'right'
       }],
       value: block.content.alignment || 'center',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           alignment: value
         });
@@ -797,7 +797,7 @@ function HeaderBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.backgroundColor || '#ffffff',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               backgroundColor: e.target.value
             });
@@ -821,7 +821,7 @@ function HeaderBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.color || '#333333',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               color: e.target.value
             });
@@ -857,7 +857,7 @@ function HeaderBlockSettings(_a) {
         min: 12,
         max: 72,
         step: 1,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             fontSize: "".concat(value, "px")
           });
@@ -885,7 +885,7 @@ function HeaderBlockSettings(_a) {
         min: 0,
         max: 80,
         step: 4,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             padding: "".concat(value, "px")
           });
@@ -896,12 +896,12 @@ function HeaderBlockSettings(_a) {
 }
 
 // Helper function to parse pixel values
-var parsePixelValue$4 = function parsePixelValue(value) {
+var parsePixelValue$4 = function (value) {
   var parsed = parseInt(value.replace('px', ''));
   return isNaN(parsed) ? 16 : parsed;
 };
 // Helper function to parse padding values (simplified to single value)
-var parsePaddingValue$3 = function parsePaddingValue(value) {
+var parsePaddingValue$3 = function (value) {
   var firstValue = value.split(' ')[0];
   var parsed = parseInt(firstValue.replace('px', ''));
   return isNaN(parsed) ? 16 : parsed;
@@ -919,7 +919,7 @@ function TextBlockSettings(_a) {
     }), jsx(TextField, {
       label: "Text Content",
       value: block.content.text || '',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           text: value
         });
@@ -952,7 +952,7 @@ function TextBlockSettings(_a) {
         min: 12,
         max: 48,
         step: 1,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             fontSize: "".concat(value, "px")
           });
@@ -969,7 +969,7 @@ function TextBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.color || '#333333',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               color: e.target.value
             });
@@ -999,7 +999,7 @@ function TextBlockSettings(_a) {
         value: 'justify'
       }],
       value: block.styles.textAlign || 'left',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateStyles({
           textAlign: value
         });
@@ -1026,7 +1026,7 @@ function TextBlockSettings(_a) {
         min: 0,
         max: 80,
         step: 4,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             padding: "".concat(value, "px")
           });
@@ -1037,12 +1037,12 @@ function TextBlockSettings(_a) {
 }
 
 // Helper function to parse pixel values
-var parsePixelValue$3 = function parsePixelValue(value) {
+var parsePixelValue$3 = function (value) {
   var parsed = parseInt(value.replace('px', ''));
   return isNaN(parsed) ? 300 : parsed;
 };
 // Helper function to parse padding values (simplified to single value)
-var parsePaddingValue$2 = function parsePaddingValue(value) {
+var parsePaddingValue$2 = function (value) {
   var firstValue = value.split(' ')[0];
   var parsed = parseInt(firstValue.replace('px', ''));
   return isNaN(parsed) ? 16 : parsed;
@@ -1060,7 +1060,7 @@ function ImageBlockSettings(_a) {
     }), jsx(TextField, {
       label: "Image URL",
       value: block.content.src || '',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           src: value
         });
@@ -1070,7 +1070,7 @@ function ImageBlockSettings(_a) {
     }), jsx(TextField, {
       label: "Alt Text",
       value: block.content.alt || '',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           alt: value
         });
@@ -1080,7 +1080,7 @@ function ImageBlockSettings(_a) {
     }), jsx(TextField, {
       label: "Link URL (optional)",
       value: block.content.link || '',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           link: value
         });
@@ -1113,7 +1113,7 @@ function ImageBlockSettings(_a) {
         min: 100,
         max: 600,
         step: 10,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             width: "".concat(value, "px")
           });
@@ -1122,7 +1122,7 @@ function ImageBlockSettings(_a) {
     }), jsx(TextField, {
       label: "Height",
       value: block.styles.height || 'auto',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateStyles({
           height: value
         });
@@ -1142,7 +1142,7 @@ function ImageBlockSettings(_a) {
         value: 'right'
       }],
       value: block.styles.textAlign || 'center',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateStyles({
           textAlign: value
         });
@@ -1169,7 +1169,7 @@ function ImageBlockSettings(_a) {
         min: 0,
         max: 80,
         step: 4,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             padding: "".concat(value, "px")
           });
@@ -1180,7 +1180,7 @@ function ImageBlockSettings(_a) {
 }
 
 // Helper function to parse pixel values
-var parsePixelValue$2 = function parsePixelValue(value) {
+var parsePixelValue$2 = function (value) {
   var parsed = parseInt(value.replace('px', ''));
   return isNaN(parsed) ? 6 : parsed;
 };
@@ -1197,7 +1197,7 @@ function ButtonBlockSettings(_a) {
     }), jsx(TextField, {
       label: "Button Text",
       value: block.content.text || '',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           text: value
         });
@@ -1207,7 +1207,7 @@ function ButtonBlockSettings(_a) {
     }), jsx(TextField, {
       label: "Link URL",
       value: block.content.link || '',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           link: value
         });
@@ -1229,7 +1229,7 @@ function ButtonBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.backgroundColor || '#007ace',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               backgroundColor: e.target.value
             });
@@ -1254,7 +1254,7 @@ function ButtonBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.color || '#ffffff',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               color: e.target.value
             });
@@ -1290,7 +1290,7 @@ function ButtonBlockSettings(_a) {
         min: 0,
         max: 24,
         step: 1,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             borderRadius: "".concat(value, "px")
           });
@@ -1309,7 +1309,7 @@ function ButtonBlockSettings(_a) {
         value: 'right'
       }],
       value: block.styles.textAlign || 'center',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateStyles({
           textAlign: value
         });
@@ -1319,18 +1319,18 @@ function ButtonBlockSettings(_a) {
 }
 
 // Helper function to parse padding values (simplified to single value)
-var parsePaddingValue$1 = function parsePaddingValue(value) {
+var parsePaddingValue$1 = function (value) {
   var firstValue = value.split(' ')[0];
   var parsed = parseInt(firstValue.replace('px', ''));
   return isNaN(parsed) ? 20 : parsed;
 };
 // Helper function to parse border width from border string
-var parseBorderWidth = function parseBorderWidth(borderValue) {
+var parseBorderWidth = function (borderValue) {
   var match = borderValue.match(/(\d+)px/);
   return match ? parseInt(match[1]) : 1;
 };
 // Helper function to parse border color from border string
-var parseBorderColor = function parseBorderColor(borderValue) {
+var parseBorderColor = function (borderValue) {
   var match = borderValue.match(/#[0-9a-fA-F]{6}|#[0-9a-fA-F]{3}/);
   return match ? match[0] : '#e1e3e5';
 };
@@ -1347,7 +1347,7 @@ function ProductBlockSettings(_a) {
     }), jsx(Checkbox, {
       label: "Show Product Image",
       checked: block.content.showImage,
-      onChange: function onChange(checked) {
+      onChange: function (checked) {
         return updateContent({
           showImage: checked
         });
@@ -1355,7 +1355,7 @@ function ProductBlockSettings(_a) {
     }), jsx(Checkbox, {
       label: "Show Product Price",
       checked: block.content.showPrice,
-      onChange: function onChange(checked) {
+      onChange: function (checked) {
         return updateContent({
           showPrice: checked
         });
@@ -1363,7 +1363,7 @@ function ProductBlockSettings(_a) {
     }), jsx(Checkbox, {
       label: "Show Product Description",
       checked: block.content.showDescription,
-      onChange: function onChange(checked) {
+      onChange: function (checked) {
         return updateContent({
           showDescription: checked
         });
@@ -1383,7 +1383,7 @@ function ProductBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.backgroundColor || '#ffffff',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               backgroundColor: e.target.value
             });
@@ -1408,7 +1408,7 @@ function ProductBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.color || '#333333',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               color: e.target.value
             });
@@ -1433,7 +1433,7 @@ function ProductBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: parseBorderColor(block.styles.border || '1px solid #e1e3e5'),
-          onChange: function onChange(e) {
+          onChange: function (e) {
             var currentWidth = parseBorderWidth(block.styles.border || '1px solid #e1e3e5');
             updateStyles({
               border: "".concat(currentWidth, "px solid ").concat(e.target.value)
@@ -1470,7 +1470,7 @@ function ProductBlockSettings(_a) {
         min: 0,
         max: 8,
         step: 1,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           var currentColor = parseBorderColor(block.styles.border || '1px solid #e1e3e5');
           updateStyles({
             border: value === 0 ? 'none' : "".concat(value, "px solid ").concat(currentColor)
@@ -1499,7 +1499,7 @@ function ProductBlockSettings(_a) {
         min: 0,
         max: 80,
         step: 4,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             padding: "".concat(value, "px")
           });
@@ -1510,7 +1510,7 @@ function ProductBlockSettings(_a) {
 }
 
 // Helper function to parse margin values (simplified to single value)
-var parseMarginValue = function parseMarginValue(value) {
+var parseMarginValue = function (value) {
   var firstValue = value.split(' ')[0];
   var parsed = parseInt(firstValue.replace('px', ''));
   return isNaN(parsed) ? 24 : parsed;
@@ -1535,7 +1535,7 @@ function DividerBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.borderColor || '#e1e3e5',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               borderColor: e.target.value
             });
@@ -1571,7 +1571,7 @@ function DividerBlockSettings(_a) {
         min: 0,
         max: 80,
         step: 4,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             margin: "".concat(value, "px 0")
           });
@@ -1582,7 +1582,7 @@ function DividerBlockSettings(_a) {
 }
 
 // Helper function to parse pixel values
-var parsePixelValue$1 = function parsePixelValue(value) {
+var parsePixelValue$1 = function (value) {
   var parsed = parseInt(value.replace('px', ''));
   return isNaN(parsed) ? 32 : parsed;
 };
@@ -1617,7 +1617,7 @@ function SpacerBlockSettings(_a) {
         min: 8,
         max: 120,
         step: 4,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             height: "".concat(value, "px")
           });
@@ -1628,12 +1628,12 @@ function SpacerBlockSettings(_a) {
 }
 
 // Helper function to parse pixel values
-var parsePixelValue = function parsePixelValue(value) {
+var parsePixelValue = function (value) {
   var parsed = parseInt(value.replace('px', ''));
   return isNaN(parsed) ? 12 : parsed;
 };
 // Helper function to parse padding values (simplified to single value)
-var parsePaddingValue = function parsePaddingValue(value) {
+var parsePaddingValue = function (value) {
   var firstValue = value.split(' ')[0];
   var parsed = parseInt(firstValue.replace('px', ''));
   return isNaN(parsed) ? 24 : parsed;
@@ -1651,18 +1651,18 @@ function FooterBlockSettings(_a) {
     }), jsx(TextField, {
       label: "Footer Text",
       value: block.content.text || '',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           text: value
         });
       },
-      placeholder: "\xA9 2024 {{shop_name}}. All rights reserved.",
+      placeholder: "\u00A9 2024 {{shop_name}}. All rights reserved.",
       multiline: 2,
       autoComplete: "off"
     }), jsx(TextField, {
       label: "Unsubscribe Text",
       value: block.content.unsubscribeText || '',
-      onChange: function onChange(value) {
+      onChange: function (value) {
         return updateContent({
           unsubscribeText: value
         });
@@ -1672,7 +1672,7 @@ function FooterBlockSettings(_a) {
     }), jsx(Checkbox, {
       label: "Show Social Media Links",
       checked: block.content.showSocial,
-      onChange: function onChange(checked) {
+      onChange: function (checked) {
         return updateContent({
           showSocial: checked
         });
@@ -1692,7 +1692,7 @@ function FooterBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.backgroundColor || '#f8f9fa',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               backgroundColor: e.target.value
             });
@@ -1717,7 +1717,7 @@ function FooterBlockSettings(_a) {
         children: jsx("input", {
           type: "color",
           value: block.styles.color || '#6c757d',
-          onChange: function onChange(e) {
+          onChange: function (e) {
             return updateStyles({
               color: e.target.value
             });
@@ -1753,7 +1753,7 @@ function FooterBlockSettings(_a) {
         min: 10,
         max: 24,
         step: 1,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             fontSize: "".concat(value, "px")
           });
@@ -1781,7 +1781,7 @@ function FooterBlockSettings(_a) {
         min: 0,
         max: 80,
         step: 4,
-        onChange: function onChange(value) {
+        onChange: function (value) {
           return updateStyles({
             padding: "".concat(value, "px")
           });
@@ -1794,12 +1794,12 @@ function FooterBlockSettings(_a) {
 function EmailBlockSettings(_a) {
   var block = _a.block,
     onUpdate = _a.onUpdate;
-  var updateContent = function updateContent(contentUpdates) {
+  var updateContent = function (contentUpdates) {
     onUpdate(__assign(__assign({}, block), {
       content: __assign(__assign({}, block.content), contentUpdates)
     }));
   };
-  var updateStyles = function updateStyles(styleUpdates) {
+  var updateStyles = function (styleUpdates) {
     onUpdate(__assign(__assign({}, block), {
       styles: __assign(__assign({}, block.styles), styleUpdates)
     }));
@@ -1866,10 +1866,10 @@ function BlockItem(_a) {
       onRemove: onRemove,
       onDragStart: onDragStart,
       onDragEnd: onDragEnd,
-      onMouseEnter: function onMouseEnter() {
+      onMouseEnter: function () {
         return setIsHovered(true);
       },
-      onMouseLeave: function onMouseLeave() {
+      onMouseLeave: function () {
         return setIsHovered(false);
       }
     }), isSelected && jsx("div", {
@@ -2000,16 +2000,16 @@ function BlockList(_a) {
           block: block,
           isSelected: selectedBlockId === block.id,
           isDragging: dragState.draggedBlockId === block.id,
-          onSelect: function onSelect() {
+          onSelect: function () {
             return onSelectedBlockChange(selectedBlockId === block.id ? null : block.id);
           },
-          onRemove: function onRemove() {
+          onRemove: function () {
             return onRemoveBlock(block.id);
           },
-          onUpdate: function onUpdate(updates) {
+          onUpdate: function (updates) {
             return onUpdateBlock(block.id, updates);
           },
-          onDragStart: function onDragStart(e) {
+          onDragStart: function (e) {
             return handleDragStart(e, block.id);
           },
           onDragEnd: handleDragEnd
@@ -2021,11 +2021,11 @@ function BlockList(_a) {
         })]
       }, block.id);
     }), jsx("div", {
-      onDragOver: function onDragOver(e) {
+      onDragOver: function (e) {
         return handleDragOver(e, blocks.length);
       },
       onDragLeave: handleDragLeave,
-      onDrop: function onDrop(e) {
+      onDrop: function (e) {
         return handleDrop(e, blocks.length);
       },
       children: jsx(AddBlockZone, {
@@ -2098,7 +2098,7 @@ function VariablePanel(_a) {
         backgroundColor: '#f8f9fa',
         borderBottom: showVariables ? '1px solid #e1e3e5' : 'none'
       },
-      onClick: function onClick() {
+      onClick: function () {
         return setShowVariables(!showVariables);
       },
       children: [jsx(Text, {
@@ -2152,10 +2152,10 @@ function VariablePanel(_a) {
                 position: 'relative',
                 display: 'inline-block'
               },
-              onMouseEnter: function onMouseEnter() {
+              onMouseEnter: function () {
                 return setHoveredVariable(item.variable);
               },
-              onMouseLeave: function onMouseLeave() {
+              onMouseLeave: function () {
                 return setHoveredVariable(null);
               },
               children: [jsx("code", {
@@ -2572,7 +2572,7 @@ function HeaderBlockRenderer(_a) {
           height: 'auto',
           width: 'auto'
         },
-        onError: function onError(e) {
+        onError: function (e) {
           var target = e.target;
           target.style.display = 'none';
           var fallback = target.nextElementSibling;
@@ -3070,13 +3070,13 @@ function EmailEditorLayout(_a) {
 function EmailEditorEmptyState(_a) {
   var onCreateTemplate = _a.onCreateTemplate,
     templateName = _a.templateName;
-  var getTemplateName = function getTemplateName(name) {
+  var getTemplateName = function (name) {
     if (!name) return 'Email Template';
     if (name.includes('back-to-stock')) return 'Back to Stock Email';
     if (name.includes('confirmation')) return 'Confirmation Email';
     return 'Email Template';
   };
-  var getTemplateDescription = function getTemplateDescription(name) {
+  var getTemplateDescription = function (name) {
     if (!name) return 'Create a new email template with customizable blocks';
     if (name.includes('back-to-stock')) return 'Notify customers when out-of-stock products are available again';
     if (name.includes('confirmation')) return 'Send confirmation emails to customers for their orders or subscriptions';
@@ -3291,7 +3291,7 @@ function EmailEditorErrorState(_a) {
       children: "We couldn't load the template you're looking for. This might be due to a temporary issue or the template may no longer be available."
     }), jsx(Button, {
       variant: "primary",
-      onClick: function onClick() {
+      onClick: function () {
         return handleTryAgain(templateName);
       },
       children: "Try again"
@@ -3711,14 +3711,14 @@ function EmailTemplateEditor(_a) {
     }
   }, [isOpen, templateLoader]);
   // Handle creating default template
-  var handleCreateDefaultTemplate = function handleCreateDefaultTemplate() {
+  var handleCreateDefaultTemplate = function () {
     setBlocks(propInitialBlocks || initialBlocks);
   };
-  var handleTryAgain = function handleTryAgain(templateName) {
+  var handleTryAgain = function (templateName) {
     templateLoader.loadTemplate(templateName);
   };
   // Handle save
-  var handleSave = function handleSave() {
+  var handleSave = function () {
     if (templateLoader.template && templateLoader.template.id) {
       templateLoader.template.blocks = blocks;
       templateLoader.saveTemplate(templateLoader.template);
@@ -3726,7 +3726,7 @@ function EmailTemplateEditor(_a) {
     onSave(blocks);
   };
   // Handle blocks change
-  var handleBlocksChange = function handleBlocksChange(newBlocks) {
+  var handleBlocksChange = function (newBlocks) {
     setBlocks(newBlocks);
     // Notify parent of settings changes if callback provided
     if (onSettingsChange) {
@@ -3736,16 +3736,16 @@ function EmailTemplateEditor(_a) {
     }
   };
   // Select template
-  var onTemplateChange = function onTemplateChange(template) {
+  var onTemplateChange = function (template) {
     templateLoader.selectTemplate(template);
     console.log('Template changed:', template);
   };
   // Add or remove template when choose language
-  var onTemplatesUpdate = function onTemplatesUpdate(newTemplates) {
+  var onTemplatesUpdate = function (newTemplates) {
     templateLoader.updateTemplates(newTemplates);
   };
   // Determine modal content based on state
-  var getModalContent = function getModalContent() {
+  var getModalContent = function () {
     if (templateLoader.loading && !templateLoader.template) {
       return jsx(EmailEditorSkeleton, {
         showPreview: true
@@ -3775,7 +3775,7 @@ function EmailTemplateEditor(_a) {
     });
   };
   // Determine modal title based on state
-  var getModalTitle = function getModalTitle() {
+  var getModalTitle = function () {
     if (templateLoader.loading) {
       return "Loading Template...";
     }
@@ -3788,7 +3788,7 @@ function EmailTemplateEditor(_a) {
     return "Email Template Builder";
   };
   // Determine title bar actions based on state
-  var getTitleBarActions = function getTitleBarActions() {
+  var getTitleBarActions = function () {
     if (!templateLoader.loading && !templateLoader.error && !(!templateLoader.template && isTemplateLoaded)) {
       return {
         primaryAction: {
@@ -3848,10 +3848,10 @@ var SAMPLE_DATA = {
   store_name: 'Your Store'
 };
 // Helper functions
-var getSmsSegmentCount = function getSmsSegmentCount(text) {
+var getSmsSegmentCount = function (text) {
   return Math.ceil(text.length / TEMPLATE_LIMITS.SMS.SEGMENT_LENGTH);
 };
-var validateSmsTemplate = function validateSmsTemplate(text) {
+var validateSmsTemplate = function (text) {
   var length = text.length;
   return {
     isValid: length <= TEMPLATE_LIMITS.SMS.MAX_LENGTH,
@@ -3862,7 +3862,7 @@ var validateSmsTemplate = function validateSmsTemplate(text) {
     segments: getSmsSegmentCount(text)
   };
 };
-var validateWhatsappTemplate = function validateWhatsappTemplate(text) {
+var validateWhatsappTemplate = function (text) {
   var length = text.length;
   return {
     isValid: length <= TEMPLATE_LIMITS.WHATSAPP.MAX_LENGTH,
@@ -3872,7 +3872,7 @@ var validateWhatsappTemplate = function validateWhatsappTemplate(text) {
     warningLength: TEMPLATE_LIMITS.WHATSAPP.WARNING_LENGTH
   };
 };
-var validateWebPushTemplate = function validateWebPushTemplate(text) {
+var validateWebPushTemplate = function (text) {
   var length = text.length;
   return {
     isValid: length <= TEMPLATE_LIMITS.WEB_PUSH.MAX_LENGTH,
@@ -3882,7 +3882,7 @@ var validateWebPushTemplate = function validateWebPushTemplate(text) {
     warningLength: TEMPLATE_LIMITS.WEB_PUSH.WARNING_LENGTH
   };
 };
-var replaceVariablesWithSampleData = function replaceVariablesWithSampleData(text) {
+var replaceVariablesWithSampleData = function (text) {
   return text.replace(/\{\{(\w+)\}\}/g, function (match, variable) {
     return SAMPLE_DATA[variable] || match;
   });
