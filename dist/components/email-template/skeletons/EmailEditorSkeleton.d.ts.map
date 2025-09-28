@@ -1,0 +1,1 @@
+{"version":3,"file":"EmailEditorSkeleton.d.ts","sourceRoot":"","sources":["../../../../src/components/email-template/skeletons/EmailEditorSkeleton.tsx"],"names":[],"mappings":"AAEA,UAAU,wBAAwB;IAChC,WAAW,CAAC,EAAE,OAAO,CAAC;CACvB;AAED,wBAAgB,mBAAmB,CAAC,EAAE,WAAkB,EAAE,EAAE,wBAAwB,2CA2OnF"}

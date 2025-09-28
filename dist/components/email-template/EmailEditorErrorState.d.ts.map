@@ -1,0 +1,1 @@
+{"version":3,"file":"EmailEditorErrorState.d.ts","sourceRoot":"","sources":["../../../src/components/email-template/EmailEditorErrorState.tsx"],"names":[],"mappings":"AAEA,UAAU,0BAA0B;IAClC,cAAc,EAAE,CAAC,YAAY,EAAE,MAAM,KAAK,IAAI,CAAC;IAC/C,YAAY,EAAE,MAAM,CAAC;CACtB;AAED,wBAAgB,qBAAqB,CAAC,EACpC,cAAc,EACd,YAAY,EACb,EAAE,0BAA0B,2CAc5B"}

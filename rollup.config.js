@@ -1,6 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
+import babel from '@rollup/plugin-babel';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import { dts } from 'rollup-plugin-dts';
 import { readFileSync } from 'fs';
@@ -26,11 +27,23 @@ export default [
       peerDepsExternal(),
       resolve({
         browser: true,
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        preferBuiltins: false,
       }),
-      commonjs(),
+      babel({
+        babelHelpers: 'bundled',
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        exclude: 'node_modules/**',
+      }),
       typescript({
-        tsconfig: './tsconfig.json',
+        tsconfig: './tsconfig.build.json',
+        declaration: true,
+        declarationDir: 'dist',
+        rootDir: 'src',
         exclude: ['**/*.test.tsx', '**/*.test.ts', '**/*.stories.ts'],
+      }),
+      commonjs({
+        include: ['node_modules/**'],
       }),
     ],
     external: ['react', 'react-dom'],

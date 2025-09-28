@@ -1,0 +1,1 @@
+{"version":3,"file":"VariablePanel.d.ts","sourceRoot":"","sources":["../../../src/components/email-template/VariablePanel.tsx"],"names":[],"mappings":"AAIA,UAAU,kBAAkB;IAC1B,aAAa,EAAE,OAAO,CAAC;IACvB,gBAAgB,EAAE,CAAC,IAAI,EAAE,OAAO,KAAK,IAAI,CAAC;CAC3C;AAED,wBAAgB,aAAa,CAAC,EAAE,aAAa,EAAE,gBAAgB,EAAE,EAAE,kBAAkB,2CAgIpF"}

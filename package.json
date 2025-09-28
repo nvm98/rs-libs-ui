@@ -1,6 +1,7 @@
 {
-  "name": "@your-github-username/rs-libs-ui",
-  "version": "1.0.0",
+  "name": "@nvm98/rs-libs-ui",
+  "version": "1.0.1",
+  "type": "module",
   "description": "React UI components library including email template builder for Shopify apps",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -27,22 +28,28 @@
     "polaris",
     "typescript"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "nvm98 <nvm98@example.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-github-username/rs-libs-ui.git"
+    "url": "https://github.com/nvm98/rs-libs-ui.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
   "peerDependencies": {
-    "@shopify/polaris": "^12.27.0",
+    "@remix-run/react": "^2.16.1",
     "@shopify/app-bridge-react": "^4.1.6",
+    "@shopify/polaris": "^12.27.0",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "@babel/preset-react": "^7.27.1",
+    "@babel/preset-typescript": "^7.27.1",
+    "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.5",

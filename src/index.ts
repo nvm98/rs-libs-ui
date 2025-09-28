@@ -1,3 +1,4 @@
+export { EmailTemplateEditor } from './components/email-template/EmailTemplateEditor';
 export { EmailBlockRenderer } from './components/email-template/EmailBlockRenderer';
 export { EmailBlockSettings } from './components/email-template/EmailBlockSettings';
 export { EmailEditorLayout } from './components/email-template/EmailEditorLayout';

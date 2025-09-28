@@ -1,0 +1,1 @@
+{"version":3,"file":"email-block.interface.d.ts","sourceRoot":"","sources":["../../../../src/components/email-template/interfaces/email-block.interface.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,gCAAgC,CAAC;AAEhE,MAAM,WAAW,UAAU;IACzB,EAAE,EAAE,MAAM,CAAC;IACX,IAAI,EAAE,cAAc,CAAC;IACrB,OAAO,EAAE,GAAG,CAAC;IACb,MAAM,EAAE,GAAG,CAAC;CACb"}

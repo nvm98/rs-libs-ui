@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
-import { Template } from '~/components/settings/email-template/types';
+import { Template } from '../types';
 
 // API Response types
 interface TemplateApiSuccessResponse {
