@@ -6,19 +6,18 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import { dts } from 'rollup-plugin-dts';
 import { readFileSync } from 'fs';
 
-const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
-
 export default [
   {
     input: 'src/index.ts',
     output: [
       {
-        file: packageJson.main,
+        file: 'dist/index.cjs.js',
         format: 'cjs',
         sourcemap: true,
+        exports: 'named',
       },
       {
-        file: packageJson.module,
+        file: 'dist/index.esm.js',
         format: 'esm',
         sourcemap: true,
       },
