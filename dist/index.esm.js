@@ -2952,7 +2952,7 @@ function EmailPreviewPanel(_a) {
       children: jsx(Text, {
         as: "h3",
         variant: "headingSm",
-        children: "Email Preview"
+        children: "Preview"
       })
     }), jsx("div", {
       style: {

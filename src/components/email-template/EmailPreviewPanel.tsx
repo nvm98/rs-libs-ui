@@ -26,7 +26,7 @@ export function EmailPreviewPanel({
         borderBottom: '1px solid #e1e3e5',
         backgroundColor: '#ffffff'
       }}>
-        <Text as="h3" variant="headingSm">Email Preview</Text>
+        <Text as="h3" variant="headingSm">Preview</Text>
       </div>
 
       {/* Preview Content */}
