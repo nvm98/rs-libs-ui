@@ -1,3 +1,4 @@
+// Email Template Components
 export { EmailTemplateEditor } from './components/email-template/EmailTemplateEditor';
 export { EmailBlockRenderer } from './components/email-template/EmailBlockRenderer';
 export { EmailBlockSettings } from './components/email-template/EmailBlockSettings';
@@ -18,3 +19,12 @@ export * from './components/email-template/constants/variables.constant';
 export * from './components/email-template/hooks/useBlockManager';
 export * from './components/email-template/hooks/useDragAndDrop';
 export * from './components/email-template/hooks/useTemplateLoader';
+
+// WhatsApp Template Components
+export * from './components/whatsapp-template';
+
+// Web Push Template Components
+export * from './components/web-push-template';
+
+// SMS Template Components
+export * from './components/sms-template';

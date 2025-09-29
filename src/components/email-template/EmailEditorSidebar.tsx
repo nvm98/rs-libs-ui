@@ -38,10 +38,7 @@ export function EmailEditorSidebar({
   setShowVariables
 }: EmailEditorSidebarProps) {
 
-  // Find current template based on selected language
-  const currentTemplate = useMemo(() => {
-    return templates.find(template => template.locale === selectedLanguage);
-  }, [templates, selectedLanguage]);
+
 
   
   const [showAddLanguageForm, setShowAddLanguageForm] = useState(false);

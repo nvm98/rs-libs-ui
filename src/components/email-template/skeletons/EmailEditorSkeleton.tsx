@@ -4,7 +4,7 @@ interface EmailEditorSkeletonProps {
   showPreview?: boolean;
 }
 
-export function EmailEditorSkeleton({ showPreview = true }: EmailEditorSkeletonProps) {
+export function EmailEditorSkeleton({ showPreview: _showPreview = true }: EmailEditorSkeletonProps) {
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       {/* Left Sidebar Skeleton */}
