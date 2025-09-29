@@ -1,1 +1,0 @@
-{"version":3,"file":"RendererTypes.d.ts","sourceRoot":"","sources":["../../../../../src/components/email-template/renderers/types/RendererTypes.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,kBAAkB,CAAC;AAE9C,MAAM,WAAW,kBAAkB;IACjC,KAAK,EAAE,UAAU,CAAC;IAClB,gBAAgB,EAAE,CAAC,IAAI,EAAE,MAAM,KAAK,MAAM,CAAC;CAC5C;AAED,MAAM,WAAW,sBAAsB;IACrC,KAAK,EAAE,UAAU,CAAC;CACnB"}

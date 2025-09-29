@@ -27,7 +27,7 @@ export interface UseTemplateLoaderResult {
   loading: boolean;
   error: string | null;
   loadTemplate: (templateName: string) => void;
-  saveTemplate: (templateData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>) => void;
+  saveAllTemplates: (templatesData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>[]) => void;
   clearTemplate: () => void;
   updateTemplates: (newTemplates: Template[]) => void;
   selectTemplate: (template: Template) => void;
@@ -51,17 +51,21 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
     fetcher.load(url);
   }, [fetcher]);
 
-  //save template
-  const saveTemplate = useCallback((templateData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>) => {
+  //save all templates (all locales for a templateName)
+  const saveAllTemplates = useCallback((templatesData: Template[]) => {
     setLoading(true);
     setError(null);
-    const formData = new FormData();
-    Object.entries(templateData).forEach(([key, value]) => {
-      formData.append(key, String(value));
-    });
-    fetcher.submit(formData, {
-      method: 'POST',
-      action: '/api/templates'
+
+    // Save each template individually
+    templatesData.forEach(templateData => {
+      const formData = new FormData();
+      Object.entries(templateData).forEach(([key, value]) => {
+        formData.append(key, String(value));
+      });
+      fetcher.submit(formData, {
+        method: 'POST',
+        action: '/api/templates'
+      });
     });
   }, [fetcher]);
 
@@ -95,8 +99,7 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
         setError(response.error);
       }
       if (response && Array.isArray(response.data) && response.data.length > 0) {
-        let templates= response.data;
-        let template= templates[0];
+        let templates = response.data;
         setTemplates(templates);
         setTemplate(templates[0]);
       } else {
@@ -112,7 +115,7 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
     loading,
     error,
     loadTemplate,
-    saveTemplate,
+    saveAllTemplates,
     clearTemplate,
     updateTemplates,
     selectTemplate

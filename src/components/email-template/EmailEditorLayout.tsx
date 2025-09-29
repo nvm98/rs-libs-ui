@@ -1,33 +1,68 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { EmailEditorSidebar } from './EmailEditorSidebar';
 import { EmailPreviewPanel } from './EmailPreviewPanel';
 import { Template } from './types';
 import { VARIABLES } from './constants/variables.constant';
 import { EmailBlock } from './interfaces/email-block.interface';
+import { initialBlocks } from './constants/block.constant';
+import { useBlockManager } from './hooks/useBlockManager';
 
 interface EmailEditorLayoutProps {
   templates?: Template[] | undefined;
-  selectedBlockId: string | null;
-  showVariables: boolean;
-  onBlocksChange: (blocks: EmailBlock[]) => void;
-  onSelectedBlockChange: (id: string | null) => void;
-  setShowVariables: (show: boolean) => void;
-  onTemplateChange?: (template: Template) => void; // Callback khi thay đổi template
   onTemplatesUpdate?: (templates: Template[]) => void; // Callback cập nhật danh sách templates
 }
 
 export function EmailEditorLayout({
   templates = [],
-  selectedBlockId,
-  showVariables,
-  onBlocksChange,
-  onSelectedBlockChange,
-  setShowVariables,
-  onTemplateChange,
   onTemplatesUpdate
 }: EmailEditorLayoutProps) {
-  // State để theo dõi template hiện tại
-  const [currentTemplate, setCurrentTemplate] = useState<Template | null>(templates[0]);
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [currentTemplate, setCurrentTemplate] = useState<Template | null>(null);
+  const [blocks, setBlocks] = useState<EmailBlock[]>(initialBlocks);
+  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
+  const [showVariables, setShowVariables] = useState<boolean>(false);
+
+  // Find current template based on selected language
+  useEffect(() => {
+    const template = templates.find(t => t.locale === selectedLanguage);
+    if (template) {
+      setCurrentTemplate(template);
+      setBlocks(template.blocks || initialBlocks);
+    } else if (templates.length > 0) {
+      // Fallback to first template if selected language not found
+      setCurrentTemplate(templates[0]);
+      setBlocks(templates[0].blocks || initialBlocks);
+      setSelectedLanguage(templates[0].locale);
+    }
+  }, [templates, selectedLanguage]);
+
+  // Use block manager for all block operations
+  const {
+    addBlock,
+    removeBlock,
+    updateBlock,
+    moveBlock
+  } = useBlockManager(blocks, (newBlocks: EmailBlock[]) => {
+    setBlocks(newBlocks);
+    // Update current template with new blocks
+    if (currentTemplate) {
+      const updatedTemplate = {
+        ...currentTemplate,
+        blocks: newBlocks
+      };
+      setCurrentTemplate(updatedTemplate);
+
+      // Update templates array
+      if (templates && onTemplatesUpdate) {
+        const updatedTemplates = templates.map(template =>
+          template.locale === currentTemplate.locale
+            ? updatedTemplate
+            : template
+        );
+        onTemplatesUpdate(updatedTemplates);
+      }
+    }
+  });
 
   // Helper function to replace variables with example values
   const replaceVariables = useCallback((text: string) => {
@@ -38,28 +73,31 @@ export function EmailEditorLayout({
     return result;
   }, []);
 
-  // Callback để xử lý khi template thay đổi từ sidebar
-  const handleTemplateChange = useCallback((template: Template) => {
-    setCurrentTemplate(template);
-    if (onTemplateChange) {
-      onTemplateChange(template);
-    }
-  }, [onTemplateChange]);
+  // Handle language change
+  const handleLanguageChange = useCallback((language: string) => {
+    setSelectedLanguage(language);
+    setSelectedBlockId(null); // Reset selection when changing language
+  }, []);
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       <EmailEditorSidebar
         templates={templates}
-        onTemplateChange={handleTemplateChange}
         onTemplatesUpdate={onTemplatesUpdate}
-        onBlocksChange={onBlocksChange}
+        selectedLanguage={selectedLanguage}
+        onLanguageChange={handleLanguageChange}
+        blocks={blocks}
         selectedBlockId={selectedBlockId}
-        onSelectedBlockChange={onSelectedBlockChange}
+        onSelectedBlockChange={setSelectedBlockId}
+        onAddBlock={addBlock}
+        onRemoveBlock={removeBlock}
+        onUpdateBlock={updateBlock}
+        onMoveBlock={moveBlock}
         showVariables={showVariables}
         setShowVariables={setShowVariables}
       />
       <EmailPreviewPanel
-        blocks={currentTemplate?.blocks}
+        blocks={blocks}
         selectedBlockId={selectedBlockId}
         replaceVariables={replaceVariables}
       />

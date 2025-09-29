@@ -1,12 +1,17 @@
-import { useCallback } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { EmailBlock } from '../interfaces/email-block.interface';
 import { EmailBlockType } from '../types/email-block-type.type';
 import { BLOCK_TEMPLATES } from '../constants/block.constant';
 
 export function useBlockManager(
-  blocks: EmailBlock[],
+  initialBlocks: EmailBlock[] | undefined,
   onBlocksChange: (blocks: EmailBlock[]) => void
 ) {
+  const [blocks, setBlocks] = useState(initialBlocks || []);
+
+  useEffect(() => {
+    setBlocks(initialBlocks || []);
+  }, [initialBlocks]);
   // Add new block
   const addBlock = useCallback((type: EmailBlockType, index?: number) => {
     const newBlock: EmailBlock = {
@@ -20,20 +25,24 @@ export function useBlockManager(
     } else {
       newBlocks.push(newBlock);
     }
+
+    setBlocks(newBlocks);
     onBlocksChange(newBlocks);
   }, [blocks, onBlocksChange]);
 
   // Remove block
   const removeBlock = useCallback((id: string) => {
-    const newBlocks = blocks.filter(block => block.id !== id);
+    const newBlocks = blocks.filter((block: EmailBlock) => block.id !== id);
+    setBlocks(newBlocks);
     onBlocksChange(newBlocks);
   }, [blocks, onBlocksChange]);
 
   // Update block
   const updateBlock = useCallback((id: string, updates: Partial<EmailBlock>) => {
-    const newBlocks = blocks.map(block =>
+    const newBlocks = blocks.map((block: EmailBlock) =>
       block.id === id ? { ...block, ...updates } : block
     );
+    setBlocks(newBlocks);
     onBlocksChange(newBlocks);
   }, [blocks, onBlocksChange]);
 
@@ -42,6 +51,7 @@ export function useBlockManager(
     const newBlocks = [...blocks];
     const [movedBlock] = newBlocks.splice(fromIndex, 1);
     newBlocks.splice(toIndex, 0, movedBlock);
+    setBlocks(newBlocks);
     onBlocksChange(newBlocks);
   }, [blocks, onBlocksChange]);
 

@@ -10,38 +10,40 @@ import { useBlockManager } from "./hooks/useBlockManager";
 
 interface EmailEditorSidebarProps {
   templates?: Template[];
+  onTemplatesUpdate?: (templates: Template[]) => void;
+  selectedLanguage: string;
+  onLanguageChange: (language: string) => void;
+  blocks: EmailBlock[];
   selectedBlockId: string | null;
-  showVariables: boolean;
-  onTemplateChange?: (template: Template) => void;
-  onTemplatesUpdate?: (templates: Template[]) => void; // Callback để cập nhật danh sách templates
-  onBlocksChange: (blocks: EmailBlock[]) => void;
   onSelectedBlockChange: (id: string | null) => void;
+  onAddBlock: (type: any, index?: number) => void;
+  onRemoveBlock: (id: string) => void;
+  onUpdateBlock: (id: string, updates: Partial<EmailBlock>) => void;
+  onMoveBlock: (fromIndex: number, toIndex: number) => void;
+  showVariables: boolean;
   setShowVariables: (show: boolean) => void;
 }
 
 export function EmailEditorSidebar({
   templates = [],
-  selectedBlockId,
-  showVariables,
-  onTemplateChange,
   onTemplatesUpdate,
-  onBlocksChange,
+  selectedLanguage,
+  onLanguageChange,
+  blocks,
+  selectedBlockId,
   onSelectedBlockChange,
+  onAddBlock,
+  onRemoveBlock,
+  onUpdateBlock,
+  onMoveBlock,
+  showVariables,
   setShowVariables
 }: EmailEditorSidebarProps) {
 
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
-  // Tìm template hiện tại dựa trên ngôn ngữ được chọn
+  // Find current template based on selected language
   const currentTemplate = useMemo(() => {
     return templates.find(template => template.locale === selectedLanguage);
   }, [templates, selectedLanguage]);
-
-  const {
-    addBlock,
-    removeBlock,
-    updateBlock,
-    moveBlock
-  } = useBlockManager(currentTemplate?.blocks, onBlocksChange);
 
   
   const [showAddLanguageForm, setShowAddLanguageForm] = useState(false);
@@ -59,22 +61,10 @@ export function EmailEditorSidebar({
     return filteredLanguages;
   }, [templates]);
 
-  // Effect để cập nhật blocks khi thay đổi template hoặc ngôn ngữ
+  // Reset selection when language changes
   useEffect(() => {
     onSelectedBlockChange(null);
-    if (currentTemplate) {
-      if (onTemplateChange) {
-        onTemplateChange(currentTemplate);
-      }
-      if (currentTemplate.blocks && Array.isArray(currentTemplate.blocks) && currentTemplate.blocks.length > 0) {
-        onBlocksChange(currentTemplate.blocks);
-      } else {
-        onBlocksChange(initialBlocks);
-      }
-    } else {
-      onBlocksChange(initialBlocks);
-    }
-  }, [currentTemplate, onTemplateChange, onBlocksChange, selectedLanguage, onSelectedBlockChange]);
+  }, [selectedLanguage, onSelectedBlockChange]);
 
   // Lấy danh sách ngôn ngữ chưa có template
   const getAvailableLanguagesForSelection = useCallback(() => {
@@ -83,8 +73,8 @@ export function EmailEditorSidebar({
   }, [availableLanguages]);
 
   const handleLanguageChange = useCallback((value: string) => {
-    setSelectedLanguage(value);
-  }, []);
+    onLanguageChange(value);
+  }, [onLanguageChange]);
 
   const handleAddLanguage = useCallback(() => {
     if (selectedNewLanguage) {
@@ -108,17 +98,12 @@ export function EmailEditorSidebar({
         }
 
         // Chuyển sang ngôn ngữ vừa thêm
-        setSelectedLanguage(languageToAdd.value);
+        onLanguageChange(languageToAdd.value);
         setSelectedNewLanguage('');
         setShowAddLanguageForm(false);
-
-        // Gọi callback template change với template mới
-        if (onTemplateChange) {
-          onTemplateChange(newTemplate);
-        }
       }
     }
-  }, [selectedNewLanguage, templates, onTemplateChange, onTemplatesUpdate]);
+  }, [selectedNewLanguage, templates, onTemplatesUpdate, onLanguageChange]);
 
   // Tạo options cho language selector với option "Add new language"
   const languageOptions = [
@@ -212,13 +197,13 @@ export function EmailEditorSidebar({
           )}
         </Box>
         <BlockList
-          blocks={currentTemplate?.blocks}
+          blocks={blocks}
           selectedBlockId={selectedBlockId}
           onSelectedBlockChange={onSelectedBlockChange}
-          onAddBlock={addBlock}
-          onRemoveBlock={removeBlock}
-          onUpdateBlock={updateBlock}
-          onMoveBlock={moveBlock}
+          onAddBlock={onAddBlock}
+          onRemoveBlock={onRemoveBlock}
+          onUpdateBlock={onUpdateBlock}
+          onMoveBlock={onMoveBlock}
         />
       </div>
 

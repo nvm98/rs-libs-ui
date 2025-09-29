@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Modal, TitleBar } from "@shopify/app-bridge-react";
 import { EmailEditorLayout } from './EmailEditorLayout';
 import { EmailEditorEmptyState } from './EmailEditorEmptyState';
-import { EmailBlock } from "./interfaces/email-block.interface";
+
 import { initialBlocks } from "./constants/block.constant";
 import { EmailEditorErrorState } from "./EmailEditorErrorState";
 import { Template } from "./types";
@@ -12,96 +12,82 @@ import { useTemplateLoader } from "./hooks/useTemplateLoader";
 interface EmailTemplateEditorProps {
   isOpen: boolean;
   templateName?: string;
-  initialBlocks?: EmailBlock[];
-  autoLoadTemplate?: boolean;
   onClose: () => void;
-  onSave: (blocks: EmailBlock[]) => void;
-  onSettingsChange?: (settings: any) => void;
+  onSave: (templates: Template[]) => void;
 }
 
 export function EmailTemplateEditor({
   isOpen,
   templateName,
-  initialBlocks: propInitialBlocks,
-  autoLoadTemplate = true,
   onClose,
-  onSave,
-  onSettingsChange
+  onSave
 }: EmailTemplateEditorProps) {
-  // Template loader
+  // Templates management (danh sách templates theo locale)
   const templateLoader = useTemplateLoader();
   const [isTemplateLoaded, setIsTemplateLoaded] = useState(false);
-  const [blocks, setBlocks] = useState<EmailBlock[]>(propInitialBlocks || initialBlocks);
-  const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
-  const [showVariables, setShowVariables] = useState<boolean>(false);
 
   // Load template when modal opens
   useEffect(() => {
-    if (isOpen && templateName && !isTemplateLoaded && autoLoadTemplate) {
+    if (isOpen && templateName && !isTemplateLoaded) {
       templateLoader.loadTemplate(templateName);
       setIsTemplateLoaded(true);
     }
-  }, [isOpen, templateName, isTemplateLoaded, templateLoader, autoLoadTemplate]);
-
-  // Update blocks when template blocks are loaded
-  useEffect(() => {
-    if (templateLoader.template) {
-      setBlocks(templateLoader.template.blocks);
-    }
-  }, [templateLoader.template]);
-
-  // Update blocks when prop initialBlocks change
-  useEffect(() => {
-    if (propInitialBlocks) {
-      setBlocks(propInitialBlocks);
-    }
-  }, [propInitialBlocks]);
+  }, [isOpen, templateName, isTemplateLoaded, templateLoader]);
 
   // Reset state when modal closes
   useEffect(() => {
     if (!isOpen) {
       setIsTemplateLoaded(false);
       templateLoader.clearTemplate();
-      setSelectedBlockId(null);
-      setShowVariables(false);
     }
   }, [isOpen, templateLoader]);
 
   // Handle creating default template
   const handleCreateDefaultTemplate = () => {
-    setBlocks(propInitialBlocks || initialBlocks);
+    // Create default template with initial blocks
+    if (templateName) {
+      const defaultTemplate: Template = {
+        id: '',
+        shop: '',
+        name: templateName,
+        content: '',
+        blocks: initialBlocks,
+        locale: 'en',
+        type: 'email' as const,
+        engine: 'liquid' as const,
+        is_active: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      templateLoader.updateTemplates([defaultTemplate]);
+    }
   };
 
   const handleTryAgain = (templateName: string) => {
     templateLoader.loadTemplate(templateName);
   };
 
+  // State for templates
+  const [templates, setTemplates] = useState<Template[] | undefined>();
+
+  // Update state when templates are loaded
+  useEffect(() => {
+    if (templateLoader.templates) {
+      setTemplates(templateLoader.templates);
+    }
+  }, [templateLoader.templates]);
+
   // Handle save
   const handleSave = () => {
-    if (templateLoader.template && templateLoader.template.id) {
-      templateLoader.template.blocks = blocks;
-      templateLoader.saveTemplate(templateLoader.template);
-    }
-    onSave(blocks);
-  };
-
-  // Handle blocks change
-  const handleBlocksChange = (newBlocks: EmailBlock[]) => {
-    setBlocks(newBlocks);
-    // Notify parent of settings changes if callback provided
-    if (onSettingsChange) {
-      onSettingsChange({ blocks: newBlocks });
+    if (templates) {
+      templateLoader.saveAllTemplates(templates);
+      onSave(templates);
     }
   };
 
-  // Select template
-  const onTemplateChange = (template: any) => {
-    templateLoader.selectTemplate(template);
-    console.log('Template changed:', template);
-  };
-
-  // Add or remove template when choose language
+  // Update templates when changed from child components
   const onTemplatesUpdate = (newTemplates: Template[]) => {
+    setTemplates(newTemplates);
     templateLoader.updateTemplates(newTemplates);
   };
 
@@ -131,13 +117,7 @@ export function EmailTemplateEditor({
 
     return (
       <EmailEditorLayout
-        templates={templateLoader.templates}
-        onBlocksChange={handleBlocksChange}
-        selectedBlockId={selectedBlockId}
-        onSelectedBlockChange={setSelectedBlockId}
-        showVariables={showVariables}
-        setShowVariables={setShowVariables}
-        onTemplateChange={onTemplateChange}
+        templates={templates}
         onTemplatesUpdate={onTemplatesUpdate}
       />
     );
@@ -146,15 +126,15 @@ export function EmailTemplateEditor({
   // Determine modal title based on state
   const getModalTitle = () => {
     if (templateLoader.loading) {
-      return "Loading Template...";
+      return "Loading template...";
     }
     if (!templateLoader.loading && !templateLoader.error && !templateLoader.template && isTemplateLoaded) {
-      return "Create Email Template";
+      return "Create email template";
     }
     if (templateLoader.error) {
-      return "Error Loading Template";
+      return "Error loading template";
     }
-    return "Email Template Builder";
+    return "Email template editor";
   };
 
   // Determine title bar actions based on state
