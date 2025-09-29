@@ -1,13 +1,13 @@
 import { Box, BlockStack, InlineStack, Text, Button } from "@shopify/polaris";
 
 interface EmailEditorErrorStateProps {
-  handleTryAgain: (templateName: string) => void;
   templateName: string;
+  handleTryAgain: (templateName: string) => void;
 }
 
 export function EmailEditorErrorState({
+  templateName,
   handleTryAgain,
-  templateName
 }: EmailEditorErrorStateProps) {
 
   return (

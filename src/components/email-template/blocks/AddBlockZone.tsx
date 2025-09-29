@@ -13,9 +13,9 @@ import { BLOCK_TEMPLATES } from '../constants/block.constant';
 
 interface AddBlockZoneProps {
   position: number | 'top' | 'bottom';
-  onAddBlock: (type: EmailBlockType, index?: number) => void;
   isDragOver?: boolean;
   isDragging?: boolean;
+  onAddBlock: (type: EmailBlockType, index?: number) => void;
 }
 
 export function AddBlockZone({ position, onAddBlock, isDragOver = false, isDragging = false }: AddBlockZoneProps) {

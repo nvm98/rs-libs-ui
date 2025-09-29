@@ -2,13 +2,13 @@ import { Box, BlockStack, Text, Button } from "@shopify/polaris";
 import { PlusCircleIcon, EmailIcon } from "@shopify/polaris-icons";
 
 interface EmailEditorEmptyStateProps {
-  onCreateTemplate: () => void;
   templateName?: string;
+  onCreateTemplate: () => void;
 }
 
 export function EmailEditorEmptyState({ 
+  templateName, 
   onCreateTemplate, 
-  templateName 
 }: EmailEditorEmptyStateProps) {
   const getTemplateName = (name?: string) => {
     if (!name) return 'Email Template';

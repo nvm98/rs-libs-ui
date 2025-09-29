@@ -12,14 +12,14 @@ import {
 
 interface EmailBlockRendererProps {
   blocks: EmailBlock[];
-  replaceVariables: (text: string) => string;
   selectedBlockId?: string | null;
+  replaceVariables: (text: string) => string;
 }
 
 export function EmailBlockRenderer({
   blocks,
+  selectedBlockId = null,
   replaceVariables,
-  selectedBlockId = null
 }: EmailBlockRendererProps) {
   return (
     <div style={{

@@ -22,7 +22,6 @@ export function EmailTemplateEditor({
   onClose,
   onSave
 }: EmailTemplateEditorProps) {
-  // Templates management (danh sách templates theo locale)
   const templateLoader = useTemplateLoader();
   const [isTemplateLoaded, setIsTemplateLoaded] = useState(false);
 

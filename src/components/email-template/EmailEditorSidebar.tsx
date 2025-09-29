@@ -4,39 +4,37 @@ import { useState, useCallback, useMemo, useEffect } from 'react';
 import { Template } from './types';
 import { VariablePanel } from "./VariablePanel";
 import { EmailBlock } from "./interfaces/email-block.interface";
-import { initialBlocks } from "./constants/block.constant";
 import { AVAILABLE_LANGUAGES } from "./constants/languages";
-import { useBlockManager } from "./hooks/useBlockManager";
 
 interface EmailEditorSidebarProps {
   templates?: Template[];
-  onTemplatesUpdate?: (templates: Template[]) => void;
   selectedLanguage: string;
-  onLanguageChange: (language: string) => void;
   blocks: EmailBlock[];
   selectedBlockId: string | null;
+  showVariables: boolean;
+  onTemplatesUpdate?: (templates: Template[]) => void;
+  onLanguageChange: (language: string) => void;
   onSelectedBlockChange: (id: string | null) => void;
   onAddBlock: (type: any, index?: number) => void;
   onRemoveBlock: (id: string) => void;
   onUpdateBlock: (id: string, updates: Partial<EmailBlock>) => void;
   onMoveBlock: (fromIndex: number, toIndex: number) => void;
-  showVariables: boolean;
   setShowVariables: (show: boolean) => void;
 }
 
 export function EmailEditorSidebar({
   templates = [],
-  onTemplatesUpdate,
   selectedLanguage,
-  onLanguageChange,
   blocks,
   selectedBlockId,
+  showVariables,
+  onTemplatesUpdate,
+  onLanguageChange,
   onSelectedBlockChange,
   onAddBlock,
   onRemoveBlock,
   onUpdateBlock,
   onMoveBlock,
-  showVariables,
   setShowVariables
 }: EmailEditorSidebarProps) {
 
