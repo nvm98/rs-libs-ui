@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text } from '@shopify/polaris';
-import { WhatsAppBodyBlock } from '../types';
-
 interface BodyRendererProps {
-  block: WhatsAppBodyBlock;
+  block: {
+    text: string;
+  };
 }
 
 export const BodyRenderer: React.FC<BodyRendererProps> = ({ block }) => {

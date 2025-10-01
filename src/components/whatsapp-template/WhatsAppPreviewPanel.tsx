@@ -1,105 +1,130 @@
 import React from 'react';
 import {
-  Card,
-  Text,
-  ButtonGroup,
-  Button,
-  BlockStack,
-  InlineStack
+  BlockStack
 } from '@shopify/polaris';
-import { MobileIcon, DesktopIcon } from '@shopify/polaris-icons';
-import { WhatsAppTemplate, WhatsAppBlock, WhatsAppBlockType } from './types';
-import {
-  HeaderRenderer,
-  BodyRenderer,
-  FooterRenderer,
-  ButtonsRenderer,
-  MediaRenderer,
-  VariableRenderer
-} from './renderers';
+import { WhatsAppTemplateConfig } from './types';
+import { HeaderRenderer } from './renderers/HeaderRenderer';
+import { BodyRenderer } from './renderers/BodyRenderer';
+import { FooterRenderer } from './renderers/FooterRenderer';
+import { ButtonsRenderer } from './renderers/ButtonsRenderer';
 
 interface WhatsAppPreviewPanelProps {
-  template: WhatsAppTemplate;
-  blocks: WhatsAppBlock[];
-  previewMode: 'desktop' | 'mobile';
-  onPreviewModeChange: (mode: 'desktop' | 'mobile') => void;
+  template: WhatsAppTemplateConfig;
 }
 
 export const WhatsAppPreviewPanel: React.FC<WhatsAppPreviewPanelProps> = ({
-  template: _template,
-  blocks,
-  previewMode,
-  onPreviewModeChange
+  template
 }) => {
-  const renderBlock = (block: WhatsAppBlock) => {
-    switch (block.type) {
-      case WhatsAppBlockType.HEADER:
-        return <HeaderRenderer block={block as any} />;
-      case WhatsAppBlockType.BODY:
-        return <BodyRenderer block={block as any} />;
-      case WhatsAppBlockType.FOOTER:
-        return <FooterRenderer block={block as any} />;
-      case WhatsAppBlockType.BUTTONS:
-        return <ButtonsRenderer block={block as any} />;
-      case WhatsAppBlockType.MEDIA:
-        return <MediaRenderer block={block as any} />;
-      case WhatsAppBlockType.VARIABLE:
-        return <VariableRenderer block={block as any} />;
-      default:
-        return null;
-    }
+
+  // Main container styles
+  const containerStyles: React.CSSProperties = {
+    height: '100vh',
+    backgroundColor: '#f6f6f7',
+    display: 'flex',
+    flexDirection: 'column'
   };
 
-  const previewStyles: React.CSSProperties = {
-    backgroundColor: '#E5DDD5',
-    padding: '20px',
-    borderRadius: '8px',
-    width: previewMode === 'mobile' ? '320px' : '100%',
-    margin: '0 auto'
+  // Header styles
+  const headerStyles: React.CSSProperties = {
+    padding: '20px 24px',
+    backgroundColor: '#ffffff',
+    borderBottom: '1px solid #e1e3e5',
+    fontSize: '20px',
+    fontWeight: '600',
+    color: '#202223'
   };
 
-  const messageBubbleStyles: React.CSSProperties = {
-    backgroundColor: '#DCF8C6',
-    padding: '10px',
-    borderRadius: '8px',
-    maxWidth: '80%',
-    alignSelf: 'flex-end',
-    boxShadow: '0 1px 1px rgba(0,0,0,0.1)'
+  // Content area styles
+  const contentStyles: React.CSSProperties = {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '40px 24px'
+  };
+
+  // Message card styles
+  const messageCardStyles: React.CSSProperties = {
+    backgroundColor: '#ffffff',
+    padding: '24px',
+    borderRadius: '12px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+    maxWidth: '600px',
+    width: '100%',
+    border: '1px solid #e1e3e5'
+  };
+
+  // Email header styles
+  const emailHeaderStyles: React.CSSProperties = {
+    marginBottom: '24px',
+    paddingBottom: '16px',
+    borderBottom: '1px solid #e1e3e5',
+    fontSize: '14px',
+    color: '#6b7280'
+  };
+
+  const emailFieldStyles: React.CSSProperties = {
+    marginBottom: '8px'
   };
 
   return (
-    <Card padding="400">
-      <BlockStack gap="400">
-        <InlineStack align="space-between" blockAlign="center">
-          <Text as="h2" variant="headingMd">Preview</Text>
-          <ButtonGroup>
-            <Button
-              icon={MobileIcon}
-              pressed={previewMode === 'mobile'}
-              onClick={() => onPreviewModeChange('mobile')}
-            >
-              Mobile
-            </Button>
-            <Button
-              icon={DesktopIcon}
-              pressed={previewMode === 'desktop'}
-              onClick={() => onPreviewModeChange('desktop')}
-            >
-              Desktop
-            </Button>
-          </ButtonGroup>
-        </InlineStack>
-
-        <div style={previewStyles}>
-          <div style={messageBubbleStyles}>
-            <BlockStack gap="200">
-              {blocks.sort((a, b) => a.order - b.order).map(block => (
-                <div key={block.id}>{renderBlock(block)}</div>
-              ))}
-            </BlockStack>
+    <div style={containerStyles}>
+      <div style={headerStyles}>Preview</div>
+      <div style={contentStyles}>
+        <div style={messageCardStyles}>
+          {/* WhatsApp message header info */}
+          <div style={emailHeaderStyles}>
+            <div style={emailFieldStyles}>
+              <strong>From:</strong> My Awesome Store &lt;noreply@mystore.myshopify.com&gt;
+            </div>
+            <div style={emailFieldStyles}>
+              <strong>To:</strong> john@example.com
+            </div>
+            <div style={emailFieldStyles}>
+              <strong>Subject:</strong> Your order update
+            </div>
           </div>
+
+          {/* WhatsApp template content */}
+          <BlockStack gap="400">
+            {/* Header */}
+            {template.header && (
+              <HeaderRenderer
+                block={{
+                  format: template.header.type,
+                  text: template.header.text,
+                  media_url: template.header.media_url
+                }}
+              />
+            )}
+
+            {/* Body */}
+            <BodyRenderer
+              block={{
+                text: template.body.text
+              }}
+            />
+
+            {/* Footer */}
+            {template.footer && (
+              <FooterRenderer
+                block={{
+                  text: template.footer.text
+                }}
+              />
+            )}
+
+            {/* Buttons */}
+            {template.buttons && template.buttons.length > 0 && (
+              <ButtonsRenderer
+                block={{
+                  buttons: template.buttons
+                }}
+              />
+            )}
+          </BlockStack>
         </div>
-      </BlockStack>
-    </Card>
+      </div>
+    </div>
   );
 };

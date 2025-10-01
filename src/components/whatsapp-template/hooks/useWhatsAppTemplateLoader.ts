@@ -46,8 +46,9 @@ export function useWhatsAppTemplateLoader(): UseWhatsAppTemplateLoaderResult {
     setError(null);
     const searchParams = new URLSearchParams({
       name: templateName,
+      channel: 'whatsapp'
     });
-    const url = `/api/whatsapp-templates/search?${searchParams.toString()}`;
+    const url = `/api/templates/search?${searchParams.toString()}`;
     fetcher.load(url);
   }, [fetcher]);
 
@@ -64,7 +65,7 @@ export function useWhatsAppTemplateLoader(): UseWhatsAppTemplateLoaderResult {
       });
       fetcher.submit(formData, {
         method: 'POST',
-        action: '/api/whatsapp-templates'
+        action: '/api/templates'
       });
     });
   }, [fetcher]);

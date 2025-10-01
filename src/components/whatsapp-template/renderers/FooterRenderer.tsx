@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text } from '@shopify/polaris';
-import { WhatsAppFooterBlock } from '../types';
-
 interface FooterRendererProps {
-  block: WhatsAppFooterBlock;
+  block: {
+    text: string;
+  };
 }
 
 export const FooterRenderer: React.FC<FooterRendererProps> = ({ block }) => {

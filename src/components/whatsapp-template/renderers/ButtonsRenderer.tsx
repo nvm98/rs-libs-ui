@@ -1,9 +1,11 @@
 import React from 'react';
 import { InlineStack, Button } from '@shopify/polaris';
-import { WhatsAppButtonsBlock } from '../types';
+import { WhatsAppButton } from '../types';
 
 interface ButtonsRendererProps {
-  block: WhatsAppButtonsBlock;
+  block: {
+    buttons: WhatsAppButton[];
+  };
 }
 
 export const ButtonsRenderer: React.FC<ButtonsRendererProps> = ({ block }) => {

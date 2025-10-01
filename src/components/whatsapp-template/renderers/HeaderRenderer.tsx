@@ -1,9 +1,11 @@
 import React from 'react';
 import { BlockStack, Text } from '@shopify/polaris';
-import { WhatsAppHeaderBlock } from '../types';
-
 interface HeaderRendererProps {
-  block: WhatsAppHeaderBlock;
+  block: {
+    format: 'TEXT' | 'IMAGE' | 'VIDEO' | 'DOCUMENT';
+    text?: string;
+    media_url?: string;
+  };
 }
 
 export const HeaderRenderer: React.FC<HeaderRendererProps> = ({ block }) => {

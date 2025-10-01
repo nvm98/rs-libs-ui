@@ -46,6 +46,7 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
     setError(null);
     const searchParams = new URLSearchParams({
       name: templateName,
+      channel: 'email'
     });
     const url = `/api/templates/search?${searchParams.toString()}`;
     fetcher.load(url);

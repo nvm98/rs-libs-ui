@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Modal, TitleBar } from "@shopify/app-bridge-react";
 import { EmailEditorLayout } from './EmailEditorLayout';
 import { EmailEditorEmptyState } from './EmailEditorEmptyState';
-
 import { initialBlocks } from "./constants/block.constant";
 import { EmailEditorErrorState } from "./EmailEditorErrorState";
 import { Template } from "./types";
