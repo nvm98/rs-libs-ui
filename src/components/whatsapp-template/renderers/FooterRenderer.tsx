@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from '@shopify/polaris';
+
 interface FooterRendererProps {
   block: {
     text: string;
@@ -8,8 +8,13 @@ interface FooterRendererProps {
 
 export const FooterRenderer: React.FC<FooterRendererProps> = ({ block }) => {
   return (
-    <Text as="p" variant="bodySm" tone="subdued">
+    <div style={{
+      fontSize: '12px',
+      color: 'rgba(255,255,255,0.6)',
+      padding: '4px 8px',
+      lineHeight: '16px'
+    }}>
       {block.text || 'Footer text'}
-    </Text>
+    </div>
   );
 };

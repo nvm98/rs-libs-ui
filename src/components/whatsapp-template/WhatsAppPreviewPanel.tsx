@@ -1,128 +1,113 @@
 import React from 'react';
 import {
-  BlockStack
+  BlockStack,
+  Box,
+  Text
 } from '@shopify/polaris';
-import { WhatsAppTemplateConfig } from './types';
+import { WhatsAppTemplate, WhatsAppBlockType } from './types';
 import { HeaderRenderer } from './renderers/HeaderRenderer';
 import { BodyRenderer } from './renderers/BodyRenderer';
 import { FooterRenderer } from './renderers/FooterRenderer';
 import { ButtonsRenderer } from './renderers/ButtonsRenderer';
 
 interface WhatsAppPreviewPanelProps {
-  template: WhatsAppTemplateConfig;
+  template: WhatsAppTemplate;
 }
 
 export const WhatsAppPreviewPanel: React.FC<WhatsAppPreviewPanelProps> = ({
   template
 }) => {
+  const getBlockByType = (type: WhatsAppBlockType) => {
+    return template.blocks.find(block => block.type === type);
+  };
 
-  // Main container styles
+  const headerBlock = getBlockByType(WhatsAppBlockType.HEADER);
+  const bodyBlock = getBlockByType(WhatsAppBlockType.BODY);
+  const footerBlock = getBlockByType(WhatsAppBlockType.FOOTER);
+  const buttonsBlock = getBlockByType(WhatsAppBlockType.BUTTONS);
+
+  // Main container styles - Simple background
   const containerStyles: React.CSSProperties = {
     height: '100vh',
-    backgroundColor: '#f6f6f7',
-    display: 'flex',
-    flexDirection: 'column'
-  };
-
-  // Header styles
-  const headerStyles: React.CSSProperties = {
-    padding: '20px 24px',
-    backgroundColor: '#ffffff',
-    borderBottom: '1px solid #e1e3e5',
-    fontSize: '20px',
-    fontWeight: '600',
-    color: '#202223'
-  };
-
-  // Content area styles
-  const contentStyles: React.CSSProperties = {
-    flex: 1,
+    backgroundColor: '#f0f0f0',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '40px 24px'
+    padding: '20px'
   };
 
-  // Message card styles
+  // WhatsApp message bubble - Outgoing message style
   const messageCardStyles: React.CSSProperties = {
-    backgroundColor: '#ffffff',
-    padding: '24px',
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-    maxWidth: '600px',
-    width: '100%',
-    border: '1px solid #e1e3e5'
+    backgroundColor: 'rgb(36 38 38)',
+    padding: '0',
+    borderRadius: '7.5px',
+    borderBottomRightRadius: '2px',
+    maxWidth: '320px',
+    width: 'auto',
+    minWidth: '200px',
+    boxShadow: '0 1px 0.5px rgba(0,0,0,0.13)',
+    position: 'relative',
+    marginLeft: '60px'
   };
 
-  // Email header styles
-  const emailHeaderStyles: React.CSSProperties = {
-    marginBottom: '24px',
-    paddingBottom: '16px',
-    borderBottom: '1px solid #e1e3e5',
-    fontSize: '14px',
-    color: '#6b7280'
+  // Message content styles
+  const messageContentStyles: React.CSSProperties = {
+    color: '#ffffff',
+    fontSize: '14.2px',
+    lineHeight: '19px'
   };
 
-  const emailFieldStyles: React.CSSProperties = {
-    marginBottom: '8px'
+  // Time and status container
+  const timeStatusStyles: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: '3px',
+    paddingRight: '7px',
   };
+
+  // Time stamp styles
+  const timeStampStyles: React.CSSProperties = {
+    fontSize: '11px',
+    color: 'rgba(255,255,255,0.6)',
+    fontWeight: '400'
+  };
+
+  // Message status (double check)
+  const statusStyles: React.CSSProperties = {
+    fontSize: '16px',
+    color: '#53bdeb',
+    lineHeight: '1'
+  };
+
+
 
   return (
-    <div style={containerStyles}>
-      <div style={headerStyles}>Preview</div>
-      <div style={contentStyles}>
+    <div style={{
+      flex: 1
+    }}>
+      <div style={{
+        padding: '16px 20px',
+        borderBottom: '1px solid #e1e3e5',
+        backgroundColor: '#ffffff'
+      }}>
+        <Text as="h3" variant="headingSm" tone="subdued">WhatsApp Preview</Text>
+      </div>
+      <div style={containerStyles}>
         <div style={messageCardStyles}>
-          {/* WhatsApp message header info */}
-          <div style={emailHeaderStyles}>
-            <div style={emailFieldStyles}>
-              <strong>From:</strong> My Awesome Store &lt;noreply@mystore.myshopify.com&gt;
-            </div>
-            <div style={emailFieldStyles}>
-              <strong>To:</strong> john@example.com
-            </div>
-            <div style={emailFieldStyles}>
-              <strong>Subject:</strong> Your order update
-            </div>
-          </div>
-
           {/* WhatsApp template content */}
-          <BlockStack gap="400">
-            {/* Header */}
-            {template.header && (
-              <HeaderRenderer
-                block={{
-                  format: template.header.type,
-                  text: template.header.text,
-                  media_url: template.header.media_url
-                }}
-              />
-            )}
-
-            {/* Body */}
-            <BodyRenderer
-              block={{
-                text: template.body.text
-              }}
-            />
-
-            {/* Footer */}
-            {template.footer && (
-              <FooterRenderer
-                block={{
-                  text: template.footer.text
-                }}
-              />
-            )}
-
-            {/* Buttons */}
-            {template.buttons && template.buttons.length > 0 && (
-              <ButtonsRenderer
-                block={{
-                  buttons: template.buttons
-                }}
-              />
-            )}
-          </BlockStack>
+          <div style={messageContentStyles}>
+            <BlockStack gap="200">
+              {headerBlock && headerBlock.visible !== false && <HeaderRenderer block={headerBlock as any} />}
+              {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} />}
+              {footerBlock && footerBlock.visible !== false && <FooterRenderer block={footerBlock as any} />}
+              {/* Time and status */}
+              <div style={timeStatusStyles}>
+                <span style={timeStampStyles}>10:20 PM</span>
+              </div>
+              {buttonsBlock && buttonsBlock.visible !== false && <ButtonsRenderer block={buttonsBlock as any} />}
+            </BlockStack>
+          </div>
         </div>
       </div>
     </div>

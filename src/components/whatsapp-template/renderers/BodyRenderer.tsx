@@ -1,9 +1,8 @@
 import React from 'react';
-import { Text } from '@shopify/polaris';
+import { WhatsAppBodyBlock } from '../types';
+
 interface BodyRendererProps {
-  block: {
-    text: string;
-  };
+  block: WhatsAppBodyBlock;
 }
 
 export const BodyRenderer: React.FC<BodyRendererProps> = ({ block }) => {
@@ -11,15 +10,31 @@ export const BodyRenderer: React.FC<BodyRendererProps> = ({ block }) => {
     const parts = text.split(/(\{\{.*?\}\})/g);
     return parts.map((part, index) => {
       if (part.match(/(\{\{.*?\}\})/g)) {
-        return <b key={index}>{part}</b>;
+        return (
+          <span key={index} style={{
+            backgroundColor: 'rgba(255,255,255,0.2)',
+            padding: '1px 3px',
+            borderRadius: '3px',
+            fontWeight: '600'
+          }}>
+            {part}
+          </span>
+        );
       }
       return part;
     });
   };
 
   return (
-    <Text as="p" variant="bodyMd">
+    <div style={{
+      fontSize: '14.2px',
+      lineHeight: '19px',
+      color: '#ffffff',
+      wordWrap: 'break-word',
+      whiteSpace: 'pre-wrap',
+      padding: '4px 8px'
+    }}>
       {renderTextWithVariables(block.text || 'Body text with {{variables}}')}
-    </Text>
+    </div>
   );
 };

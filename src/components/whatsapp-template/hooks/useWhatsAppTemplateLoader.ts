@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
 import { WhatsAppTemplate } from '../types';
+import { WhatsAppBlockType } from '../types/whatsapp-block-type.type';
 
 // API Response types
 interface WhatsAppTemplateApiSuccessResponse {
@@ -27,6 +28,7 @@ export interface UseWhatsAppTemplateLoaderResult {
   loading: boolean;
   error: string | null;
   loadTemplate: (templateName: string) => void;
+  createDefaultTemplate: (templateName: string) => void;
   saveAllTemplates: (templatesData: Omit<WhatsAppTemplate, 'id' | 'shop' | 'created_at' | 'updated_at'>[]) => void;
   clearTemplate: () => void;
   updateTemplates: (newTemplates: WhatsAppTemplate[]) => void;
@@ -82,6 +84,59 @@ export function useWhatsAppTemplateLoader(): UseWhatsAppTemplateLoaderResult {
     setTemplates(newTemplates);
   }, []);
 
+  // create default template
+  const createDefaultTemplate = useCallback((templateName: string) => {
+    const defaultTemplate: WhatsAppTemplate = {
+      name: templateName,
+      content: '',
+      locale: 'en',
+      language: 'en',
+      type: 'whatsapp',
+      engine: 'liquid',
+      category: 'UTILITY',
+      status: 'PENDING',
+      is_active: true,
+      blocks: [
+        {
+          id: 'header-1',
+          type: WhatsAppBlockType.HEADER,
+          format: 'TEXT',
+          text: 'Hello {{customer.first_name}}!',
+        },
+        {
+          id: 'body-1',
+          type: WhatsAppBlockType.BODY,
+          text: 'Thank you for your interest in our products. We\'ll keep you updated!',
+          variables: []
+        },
+        {
+          id: 'footer-1',
+          type: WhatsAppBlockType.FOOTER,
+          text: 'Best regards, {{shop.name}}'
+        },
+        {
+          id: 'buttons-1',
+          type: WhatsAppBlockType.BUTTONS,
+          buttons: [
+            {
+              type: 'QUICK_REPLY',
+              text: 'Yes, notify me'
+            },
+            {
+              type: 'URL',
+              text: 'Visit Store',
+              url: 'https://{{shop.domain}}'
+            }
+          ]
+        }
+      ]
+    };
+
+    setTemplate(defaultTemplate);
+    setTemplates([defaultTemplate]);
+    setError(null);
+  }, []);
+
   // select template
   const selectTemplate = useCallback((template: WhatsAppTemplate) => {
     setTemplate(template);
@@ -116,6 +171,7 @@ export function useWhatsAppTemplateLoader(): UseWhatsAppTemplateLoaderResult {
     loading,
     error,
     loadTemplate,
+    createDefaultTemplate,
     saveAllTemplates,
     clearTemplate,
     updateTemplates,

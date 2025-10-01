@@ -42,7 +42,7 @@ export function WhatsAppTemplateEditor({
   // Handle creating default template
   const handleCreateDefaultTemplate = () => {
     if (templateName) {
-      templateLoader.loadTemplate(templateName);
+      templateLoader.createDefaultTemplate(templateName);
     }
   };
 
