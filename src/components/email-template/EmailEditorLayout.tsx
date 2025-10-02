@@ -1,26 +1,35 @@
 import { useCallback, useState, useEffect } from 'react';
 import { EmailEditorSidebar } from './EmailEditorSidebar';
 import { EmailPreviewPanel } from './EmailPreviewPanel';
+import { FloatingEditButton } from './FloatingEditButton';
 import { Template } from './types';
 import { VARIABLES } from './constants/variables.constant';
 import { EmailBlock } from './interfaces/email-block.interface';
 import { initialBlocks } from './constants/block.constant';
 import { useBlockManager } from './hooks/useBlockManager';
+import { useMediaQuery } from './hooks/useMediaQuery';
 
 interface EmailEditorLayoutProps {
   templates?: Template[] | undefined;
   onTemplatesUpdate?: (templates: Template[]) => void; // Callback cập nhật danh sách templates
+  onSave?: () => void;
+  showSaveButton?: boolean;
 }
 
 export function EmailEditorLayout({
   templates = [],
-  onTemplatesUpdate
+  onTemplatesUpdate,
+  onSave,
+  showSaveButton = false
 }: EmailEditorLayoutProps) {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [currentTemplate, setCurrentTemplate] = useState<Template | null>(null);
   const [blocks, setBlocks] = useState<EmailBlock[]>(initialBlocks);
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [showVariables, setShowVariables] = useState<boolean>(false);
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   // Find current template based on selected language
   useEffect(() => {
@@ -81,26 +90,35 @@ export function EmailEditorLayout({
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
-      <EmailEditorSidebar
-        templates={templates}
-        onTemplatesUpdate={onTemplatesUpdate}
-        selectedLanguage={selectedLanguage}
-        onLanguageChange={handleLanguageChange}
-        blocks={blocks}
-        selectedBlockId={selectedBlockId}
-        onSelectedBlockChange={setSelectedBlockId}
-        onAddBlock={addBlock}
-        onRemoveBlock={removeBlock}
-        onUpdateBlock={updateBlock}
-        onMoveBlock={moveBlock}
-        showVariables={showVariables}
-        setShowVariables={setShowVariables}
-      />
+      {(!isMobile || showSidebar) && (
+        <EmailEditorSidebar
+          templates={templates}
+          onTemplatesUpdate={onTemplatesUpdate}
+          selectedLanguage={selectedLanguage}
+          onLanguageChange={handleLanguageChange}
+          blocks={blocks}
+          selectedBlockId={selectedBlockId}
+          onSelectedBlockChange={setSelectedBlockId}
+          onAddBlock={addBlock}
+          onRemoveBlock={removeBlock}
+          onUpdateBlock={updateBlock}
+          onMoveBlock={moveBlock}
+          showVariables={showVariables}
+          setShowVariables={setShowVariables}
+          isMobile={isMobile}
+          onCloseSidebar={() => setShowSidebar(false)}
+        />
+      )}
       <EmailPreviewPanel
         blocks={blocks}
         selectedBlockId={selectedBlockId}
         replaceVariables={replaceVariables}
+        onSave={onSave}
+        showSaveButton={showSaveButton}
       />
+      {isMobile && !showSidebar && (
+        <FloatingEditButton onClick={() => setShowSidebar(true)} />
+      )}
     </div>
   );
 }

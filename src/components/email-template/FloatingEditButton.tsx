@@ -8,7 +8,7 @@ interface FloatingEditButtonProps {
 export function FloatingEditButton({ onClick }: FloatingEditButtonProps) {
   return (
     <div style={{
-        position: 'fixed',
+      position: 'fixed',
         bottom: '20px',
         right: '20px',
         color: 'white',
@@ -18,8 +18,12 @@ export function FloatingEditButton({ onClick }: FloatingEditButtonProps) {
         fontSize: '24px',
         zIndex: 40,
         transition: 'all 0.2s ease'
-      }}>
-        <Button onClick={onClick} icon={EditIcon} accessibilityLabel="Edit template" />
+    }}>
+      <Button
+        icon={EditIcon}
+        onClick={onClick}
+        accessibilityLabel="Edit template"
+      />
     </div>
   );
 }

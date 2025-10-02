@@ -1,15 +1,18 @@
 import { Box, BlockStack, Text, Button } from "@shopify/polaris";
 import { PlusCircleIcon, EmailIcon } from "@shopify/polaris-icons";
+import { useMediaQuery } from "./hooks/useMediaQuery";
 
 interface EmailEditorEmptyStateProps {
   templateName?: string;
   onCreateTemplate: () => void;
 }
 
-export function EmailEditorEmptyState({ 
-  templateName, 
-  onCreateTemplate, 
+export function EmailEditorEmptyState({
+  templateName,
+  onCreateTemplate,
 }: EmailEditorEmptyStateProps) {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
   const getTemplateName = (name?: string) => {
     if (!name) return 'Email Template';
     if (name.includes('back-to-stock')) return 'Back to Stock Email';
@@ -27,14 +30,17 @@ export function EmailEditorEmptyState({
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       {/* Left Sidebar - Empty */}
-      <div style={{
-        width: '320px',
-        borderRight: '1px solid #e1e3e5',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#ffffff',
-        position: 'relative'
-      }}>
+      {!isMobile && (
+        <div style={{
+          width: '400px',
+          minWidth: '400px',
+          maxWidth: '400px',
+          borderRight: '1px solid #e1e3e5',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: '#ffffff',
+          position: 'relative'
+        }}>
         {/* Settings Header */}
         <Box padding={'400'}>
           <Text as="h3" variant="headingSm" tone="subdued">Template Blocks</Text>
@@ -71,6 +77,7 @@ export function EmailEditorEmptyState({
           </BlockStack>
         </div>
       </div>
+      )}
 
       {/* Right Panel - Email Preview */}
       <div style={{

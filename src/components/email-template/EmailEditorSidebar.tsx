@@ -1,4 +1,5 @@
 import { Box, Text, Select, Button, InlineStack } from "@shopify/polaris";
+import { ChevronLeftIcon } from "@shopify/polaris-icons";
 import { BlockList } from './BlockList';
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { Template } from './types';
@@ -20,6 +21,8 @@ interface EmailEditorSidebarProps {
   onUpdateBlock: (id: string, updates: Partial<EmailBlock>) => void;
   onMoveBlock: (fromIndex: number, toIndex: number) => void;
   setShowVariables: (show: boolean) => void;
+  isMobile?: boolean;
+  onCloseSidebar?: () => void;
 }
 
 export function EmailEditorSidebar({
@@ -35,7 +38,9 @@ export function EmailEditorSidebar({
   onRemoveBlock,
   onUpdateBlock,
   onMoveBlock,
-  setShowVariables
+  setShowVariables,
+  isMobile = false,
+  onCloseSidebar
 }: EmailEditorSidebarProps) {
 
 
@@ -121,12 +126,18 @@ export function EmailEditorSidebar({
 
   return (
     <div style={{
-      width: '320px',
-      borderRight: '1px solid #e1e3e5',
+      width: isMobile ? '100vw' : '400px',
+      minWidth: isMobile ? '100vw' : '400px',
+      maxWidth: isMobile ? '100vw' : '400px',
+      height: isMobile ? '100vh' : 'auto',
+      borderRight: isMobile ? 'none' : '1px solid #e1e3e5',
       display: 'flex',
       flexDirection: 'column',
       backgroundColor: '#ffffff',
-      position: 'relative'
+      position: isMobile ? 'fixed' : 'relative',
+      top: isMobile ? 0 : 'auto',
+      left: isMobile ? 0 : 'auto',
+      zIndex: isMobile ? 1000 : 'auto'
     }}>
       {/* Template Structure Section */}
       <div style={{
@@ -137,17 +148,29 @@ export function EmailEditorSidebar({
         <Box padding={'400'} width="100%">
           <Box width="100%">
             <InlineStack align="space-between" blockAlign="center" gap={"200"}>
-              <Text as="h3" variant="headingSm">Settings</Text>
-              {/* Language selector với khả năng thêm ngôn ngữ mới */}
-              <div style={{ minWidth: '150px' }}>
-                <Select
-                  label=""
-                  options={languageOptions}
-                  value={selectedLanguage}
-                  onChange={handleLanguageSelectChange}
-                  placeholder="Select language"
-                />
-              </div>
+              <InlineStack gap={'200'}>
+                {isMobile && onCloseSidebar && (
+                  <Button
+                    variant="tertiary"
+                    icon={ChevronLeftIcon}
+                    onClick={onCloseSidebar}
+                    accessibilityLabel="Close sidebar"
+                  />
+                )}
+                <Text as="h3" variant="headingSm">Settings</Text>
+              </InlineStack>
+              <InlineStack gap="200" align="center">
+                {/* Language selector với khả năng thêm ngôn ngữ mới */}
+                <div style={{ minWidth: '150px' }}>
+                  <Select
+                    label=""
+                    options={languageOptions}
+                    value={selectedLanguage}
+                    onChange={handleLanguageSelectChange}
+                    placeholder="Select language"
+                  />
+                </div>
+              </InlineStack>
             </InlineStack>
           </Box>
 

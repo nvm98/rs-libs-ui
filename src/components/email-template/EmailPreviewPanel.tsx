@@ -1,4 +1,4 @@
-import { Text } from "@shopify/polaris";
+import { Text, Button, InlineStack } from "@shopify/polaris";
 import { EmailBlockRenderer} from './EmailBlockRenderer';
 import { EmailBlock } from "./interfaces/email-block.interface";
 
@@ -6,12 +6,16 @@ interface EmailPreviewPanelProps {
   blocks: EmailBlock[];
   selectedBlockId: string | null;
   replaceVariables: (text: string) => string;
+  onSave?: () => void;
+  showSaveButton?: boolean;
 }
 
 export function EmailPreviewPanel({
   blocks,
   selectedBlockId,
-  replaceVariables
+  replaceVariables,
+  onSave,
+  showSaveButton = false
 }: EmailPreviewPanelProps) {
   return (
     <div style={{
@@ -26,7 +30,14 @@ export function EmailPreviewPanel({
         borderBottom: '1px solid #e1e3e5',
         backgroundColor: '#ffffff'
       }}>
-        <Text as="h3" variant="headingSm">Preview</Text>
+        <InlineStack align="space-between" blockAlign="center">
+          <Text as="h3" variant="headingSm">Preview</Text>
+          {showSaveButton && onSave && (
+            <Button variant="primary" onClick={onSave}>
+              Save
+            </Button>
+          )}
+        </InlineStack>
       </div>
 
       {/* Preview Content */}

@@ -117,6 +117,8 @@ export function EmailTemplateEditor({
       <EmailEditorLayout
         templates={templates}
         onTemplatesUpdate={onTemplatesUpdate}
+        onSave={handleSave}
+        showSaveButton={true}
       />
     );
   };
@@ -135,22 +137,7 @@ export function EmailTemplateEditor({
     return "Email template editor";
   };
 
-  // Determine title bar actions based on state
-  const getTitleBarActions = () => {
-    if (!templateLoader.loading && !templateLoader.error &&
-        !(!templateLoader.template && isTemplateLoaded)) {
-      return {
-        primaryAction: {
-          content: 'Save',
-          onAction: handleSave,
-        }
-      };
-    }
-
-    return {};
-  };
-
-  const titleBarActions = getTitleBarActions();
+  // Title bar actions are no longer needed since save button is in preview panel
 
   return (
     <Modal
@@ -158,13 +145,7 @@ export function EmailTemplateEditor({
       variant="max"
       onHide={onClose}
     >
-      <TitleBar title={getModalTitle()}>
-        {titleBarActions.primaryAction && (
-          <button variant="primary" onClick={titleBarActions.primaryAction.onAction}>
-            {titleBarActions.primaryAction.content}
-          </button>
-        )}
-      </TitleBar>
+      <TitleBar title={getModalTitle()} />
       {getModalContent()}
     </Modal>
   );

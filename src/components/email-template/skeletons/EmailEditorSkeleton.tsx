@@ -1,21 +1,27 @@
 import { Box, BlockStack, InlineStack, SkeletonBodyText, SkeletonDisplayText } from "@shopify/polaris";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 
 interface EmailEditorSkeletonProps {
   showPreview?: boolean;
 }
 
 export function EmailEditorSkeleton({ showPreview: _showPreview = true }: EmailEditorSkeletonProps) {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       {/* Left Sidebar Skeleton */}
-      <div style={{
-        width: '320px',
-        borderRight: '1px solid #e1e3e5',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#ffffff',
-        position: 'relative'
-      }}>
+      {!isMobile && (
+        <div style={{
+          width: '400px',
+          minWidth: '400px',
+          maxWidth: '400px',
+          borderRight: '1px solid #e1e3e5',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: '#ffffff',
+          position: 'relative'
+        }}>
         {/* Settings Header */}
         <Box padding={'400'}>
           <div style={{
@@ -112,6 +118,7 @@ export function EmailEditorSkeleton({ showPreview: _showPreview = true }: EmailE
           </BlockStack>
         </div>
       </div>
+      )}
 
       {/* Right Panel - Email Preview */}
       <div style={{
