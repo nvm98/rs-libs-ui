@@ -5,4 +5,5 @@ export interface WebPushBlock {
   type: WebPushBlockType;
   content: string;
   visible?: boolean;
+  image?: string;
 }

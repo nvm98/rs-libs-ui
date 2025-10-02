@@ -54,7 +54,7 @@ export function EmailEditorEmptyState({
           alignItems: 'center', 
           justifyContent: 'center' 
         }}>
-          <BlockStack gap="300" align="center">
+          <BlockStack gap="300" align="center" inlineAlign="center">
             <div style={{
               width: '48px',
               height: '48px',

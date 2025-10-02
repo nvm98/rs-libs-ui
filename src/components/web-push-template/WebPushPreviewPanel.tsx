@@ -32,51 +32,42 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
   const titleBlock = getBlockByType('title');
   const bodyBlock = getBlockByType('body');
 
-  // Container styles - Different backgrounds for desktop and mobile
+  // Container styles - Clean background
   const containerStyles: React.CSSProperties = {
     height: 'calc(100vh - 65px)',
-    backgroundColor: previewMode === 'desktop' ? '#f8f9fa' : '#000000',
+    backgroundColor: '#ffffff',
     display: 'flex',
-    alignItems: previewMode === 'desktop' ? 'center' : 'flex-start',
-    justifyContent: previewMode === 'desktop' ? 'center' : 'flex-start',
-    padding: previewMode === 'desktop' ? '40px' : '0px',
-    position: 'relative'
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '40px'
   };
 
-  // Notification card styles - Different for desktop and mobile
+  // Notification card styles - Realistic notification appearance
   const notificationCardStyles: React.CSSProperties = {
     backgroundColor: '#ffffff',
-    padding: previewMode === 'desktop' ? '20px' : '16px',
-    borderRadius: previewMode === 'desktop' ? '12px' : '8px',
-    maxWidth: previewMode === 'desktop' ? '400px' : '320px',
+    padding: '16px',
+    borderRadius: '8px',
+    maxWidth: previewMode === 'desktop' ? '400px' : '350px',
     width: '100%',
-    boxShadow: previewMode === 'desktop'
-      ? '0 4px 16px rgba(0, 0, 0, 0.1)'
-      : '0 2px 8px rgba(0, 0, 0, 0.15)',
-    border: previewMode === 'desktop' ? '1px solid #e5e7eb' : 'none',
-    fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-    position: previewMode === 'mobile' ? 'relative' : 'static',
-    ...(previewMode === 'mobile' && {
-      marginTop: '20px',
-      marginLeft: '16px',
-      marginRight: '16px'
-    })
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+    border: '1px solid #e1e5e9',
+    fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
   };
 
-  // Notification content styles - Different for desktop and mobile
+  // Notification content styles - Adjust only text size for desktop/mobile
   const notificationContentStyles: React.CSSProperties = {
-    color: previewMode === 'desktop' ? '#333333' : '#ffffff',
-    fontSize: previewMode === 'desktop' ? '16px' : '14px',
-    lineHeight: '1.5'
+    color: '#333333',
+    fontSize: previewMode === 'desktop' ? '14px' : '13px',
+    lineHeight: '1.4'
   };
 
-  // Icon styles - Different sizes for desktop and mobile
+  // Icon styles - Slightly different sizes for desktop/mobile
   const iconStyles: React.CSSProperties = {
-    width: previewMode === 'desktop' ? '40px' : '32px',
-    height: previewMode === 'desktop' ? '40px' : '32px',
-    borderRadius: previewMode === 'desktop' ? '8px' : '6px',
+    width: previewMode === 'desktop' ? '36px' : '32px',
+    height: previewMode === 'desktop' ? '36px' : '32px',
+    borderRadius: '6px',
     backgroundColor: '#f0f0f0',
-    marginRight: previewMode === 'desktop' ? '16px' : '12px',
+    marginRight: '12px',
     flexShrink: 0,
     display: 'flex',
     alignItems: 'center',
@@ -119,63 +110,177 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
         </Box>
       </div>
       <div style={containerStyles}>
-        <div style={notificationCardStyles}>
-          {/* Simple notification content */}
-          <div style={notificationContentStyles}>
-            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-              {/* App Icon */}
-              <div style={iconStyles}>
-                {template.icon ? (
-                  <img
-                    src={template.icon}
-                    alt="App Icon"
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: '8px'
-                    }}
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const parent = target.parentElement;
-                      if (parent) {
-                        parent.innerHTML = '🔔';
-                        parent.style.fontSize = '20px';
-                      }
-                    }}
-                  />
-                ) : (
-                  <span style={{ fontSize: '20px' }}>🔔</span>
-                )}
+        {previewMode === 'mobile' ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%', maxWidth: '350px' }}>
+            {/* Initial State - Collapsed */}
+            <div>
+              <Text as="h4" variant="headingXs" tone="subdued" alignment="center">Initial State</Text>
+              <div style={{
+                ...notificationCardStyles,
+                marginTop: '8px'
+              }}>
+                <div style={notificationContentStyles}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                    {/* App Icon */}
+                    <div style={iconStyles}>
+                      {template.icon ? (
+                        <img
+                          src={template.icon}
+                          alt="App Icon"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '8px'
+                          }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent) {
+                              parent.innerHTML = '🔔';
+                              parent.style.fontSize = '20px';
+                            }
+                          }}
+                        />
+                      ) : (
+                        <span style={{ fontSize: '20px' }}>🔔</span>
+                      )}
+                    </div>
+
+                    {/* Notification Content */}
+                    <div style={{ flex: 1 }}>
+                      <BlockStack gap="200">
+                        {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} />}
+                        {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} />}
+                      </BlockStack>
+                    </div>
+
+                    {/* Small image on the right for collapsed state */}
+                    {bodyBlock && bodyBlock.image && (
+                      <div style={{
+                        width: '60px',
+                        height: '60px',
+                        backgroundColor: '#f8f9fa',
+                        borderRadius: '4px',
+                        overflow: 'hidden',
+                        marginLeft: '12px',
+                        flexShrink: 0
+                      }}>
+                        <img
+                          src={bodyBlock.image}
+                          alt="Notification Image"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
+            </div>
 
-              {/* Notification Content */}
-              <div style={{ flex: 1 }}>
-                <BlockStack gap="200">
-                  {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} />}
-                  {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} />}
-                </BlockStack>
+            {/* Expanded State */}
+            <div>
+              <Text as="h4" variant="headingXs" tone="subdued" alignment="center">Expanded State</Text>
+              <div style={{
+                ...notificationCardStyles,
+                marginTop: '8px'
+              }}>
+                <div style={notificationContentStyles}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                    {/* App Icon */}
+                    <div style={iconStyles}>
+                      {template.icon ? (
+                        <img
+                          src={template.icon}
+                          alt="App Icon"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '8px'
+                          }}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent) {
+                              parent.innerHTML = '🔔';
+                              parent.style.fontSize = '20px';
+                            }
+                          }}
+                        />
+                      ) : (
+                        <span style={{ fontSize: '20px' }}>🔔</span>
+                      )}
+                    </div>
 
-                {/* Large image if present */}
-                {template.image && (
-                  <div style={{
-                    marginTop: '16px',
-                    width: '100%',
-                    height: '160px',
-                    backgroundColor: '#f8f9fa',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
+                    {/* Notification Content */}
+                    <div style={{ flex: 1 }}>
+                      <BlockStack gap="200">
+                        {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} />}
+                        {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} />}
+                      </BlockStack>
+
+                      {/* Large image below for expanded state */}
+                      {bodyBlock && bodyBlock.image && (
+                        <div style={{
+                          marginTop: '12px',
+                          width: '100%',
+                          height: '120px',
+                          backgroundColor: '#f8f9fa',
+                          borderRadius: '6px',
+                          overflow: 'hidden',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}>
+                          <img
+                            src={bodyBlock.image}
+                            alt="Notification Image"
+                            style={{
+                              maxWidth: '100%',
+                              maxHeight: '100%',
+                              objectFit: 'cover',
+                              borderRadius: '6px'
+                            }}
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const parent = target.parentElement;
+                              if (parent) {
+                                parent.innerHTML = '<span style="color: #999; font-size: 12px;">Image not available</span>';
+                              }
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* Desktop view - single notification */
+          <div style={notificationCardStyles}>
+            <div style={notificationContentStyles}>
+              <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                {/* App Icon */}
+                <div style={iconStyles}>
+                  {template.icon ? (
                     <img
-                      src={template.image}
-                      alt="Notification"
+                      src={template.icon}
+                      alt="App Icon"
                       style={{
-                        maxWidth: '100%',
-                        maxHeight: '100%',
-                        objectFit: 'cover',
+                        width: '100%',
+                        height: '100%',
                         borderRadius: '8px'
                       }}
                       onError={(e) => {
@@ -183,16 +288,61 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
                         target.style.display = 'none';
                         const parent = target.parentElement;
                         if (parent) {
-                          parent.innerHTML = '<span style="color: #999; font-size: 14px;">Image Preview</span>';
+                          parent.innerHTML = '🔔';
+                          parent.style.fontSize = '20px';
                         }
                       }}
                     />
-                  </div>
-                )}
+                  ) : (
+                    <span style={{ fontSize: '20px' }}>🔔</span>
+                  )}
+                </div>
+
+                {/* Notification Content */}
+                <div style={{ flex: 1 }}>
+                  <BlockStack gap="200">
+                    {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} />}
+                    {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} />}
+                  </BlockStack>
+
+                  {/* Body block image if present */}
+                  {bodyBlock && bodyBlock.image && (
+                    <div style={{
+                      marginTop: '12px',
+                      width: '100%',
+                      height: '140px',
+                      backgroundColor: '#f8f9fa',
+                      borderRadius: '6px',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <img
+                        src={bodyBlock.image}
+                        alt="Notification Image"
+                        style={{
+                          maxWidth: '100%',
+                          maxHeight: '100%',
+                          objectFit: 'cover',
+                          borderRadius: '6px'
+                        }}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const parent = target.parentElement;
+                          if (parent) {
+                            parent.innerHTML = '<span style="color: #999; font-size: 12px;">Image not available</span>';
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
