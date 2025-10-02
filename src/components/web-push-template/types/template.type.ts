@@ -1,9 +1,11 @@
+import { WebPushBlock } from './web-push-block-type.type';
+
 export interface WebPushTemplate {
   id?: string;
   shop?: string;
   name: string;
   content: string;
-  blocks?: any;
+  blocks: WebPushBlock[];
   locale: string;
   type: 'web-push';
   engine: 'liquid' | 'handlebars' | 'mustache';
@@ -11,9 +13,10 @@ export interface WebPushTemplate {
   is_active: boolean;
   created_at?: string;
   updated_at?: string;
+  category?: string;
+  language?: string;
+  status?: 'PENDING' | 'APPROVED' | 'REJECTED';
   // Web Push specific fields
-  title: string;
-  body: string;
   icon?: string;
   badge?: string;
   image?: string;
@@ -21,16 +24,9 @@ export interface WebPushTemplate {
   requireInteraction?: boolean;
   silent?: boolean;
   timestamp?: number;
-  actions?: WebPushAction[];
   data?: Record<string, any>;
   dir?: 'auto' | 'ltr' | 'rtl';
   lang?: string;
   renotify?: boolean;
   vibrate?: number[];
-}
-
-export interface WebPushAction {
-  action: string;
-  title: string;
-  icon?: string;
 }
