@@ -1,53 +1,51 @@
-import { Box, Text, Select, Button, InlineStack } from "@shopify/polaris";
-import { ChevronLeftIcon } from "@shopify/polaris-icons";
-import { BlockList } from './BlockList';
-import { useState, useCallback, useMemo, useEffect } from 'react';
-import { Template } from './types';
-import { VariablePanel } from "./VariablePanel";
-import { EmailBlock } from "./interfaces/email-block.interface";
-import { AVAILABLE_LANGUAGES } from "./constants/languages";
+import React, { useState, useMemo, useCallback } from 'react';
+import {
+  Box,
+  Text,
+  Button,
+  Select,
+  InlineStack,
+  BlockStack,
+} from '@shopify/polaris';
+import { ChevronLeftIcon } from '@shopify/polaris-icons';
+import { SMSTemplate, SMSBlockType } from './types';
+import { useBlockManager } from './hooks/useBlockManager';
+import { BlockItem } from './blocks/BlockItem';
+import { AVAILABLE_LANGUAGES } from './constants/languages';
 
-interface EmailEditorSidebarProps {
-  templates?: Template[];
-  selectedLanguage: string;
-  blocks: EmailBlock[];
-  selectedBlockId: string | null;
-  showVariables: boolean;
-  onTemplatesUpdate?: (templates: Template[]) => void;
-  onLanguageChange: (language: string) => void;
-  onSelectedBlockChange: (id: string | null) => void;
-  onAddBlock: (type: any, index?: number) => void;
-  onRemoveBlock: (id: string) => void;
-  onUpdateBlock: (id: string, updates: Partial<EmailBlock>) => void;
-  onMoveBlock: (fromIndex: number, toIndex: number) => void;
-  setShowVariables: (show: boolean) => void;
-  isMobile?: boolean;
-  onCloseSidebar?: () => void;
+interface SMSEditorSidebarProps {
+  templates?: SMSTemplate[];
+  selectedLanguage?: string;
+  onLanguageChange?: (language: string) => void;
+  onTemplatesUpdate?: (templates: SMSTemplate[]) => void;
+  template: SMSTemplate;
+  onTemplateChange: (template: SMSTemplate) => void;
+  isFullScreen?: boolean;
+  onClose?: () => void;
+  selectedBlockType?: SMSBlockType | null;
+  onBlockTypeSelect?: (blockType: SMSBlockType | null) => void;
 }
 
-export function EmailEditorSidebar({
+export const SMSEditorSidebar: React.FC<SMSEditorSidebarProps> = ({
   templates = [],
-  selectedLanguage,
-  blocks,
-  selectedBlockId,
-  showVariables,
-  onTemplatesUpdate,
+  selectedLanguage = 'en',
   onLanguageChange,
-  onSelectedBlockChange,
-  onAddBlock,
-  onRemoveBlock,
-  onUpdateBlock,
-  onMoveBlock,
-  setShowVariables,
-  isMobile = false,
-  onCloseSidebar
-}: EmailEditorSidebarProps) {
-
-
-
-  
+  onTemplatesUpdate,
+  template,
+  onTemplateChange,
+  isFullScreen = false,
+  onClose,
+  selectedBlockType: externalSelectedBlockType,
+  onBlockTypeSelect
+}) => {
+  const [internalSelectedBlockType, setInternalSelectedBlockType] = useState<SMSBlockType | null>(null);
   const [showAddLanguageForm, setShowAddLanguageForm] = useState(false);
   const [selectedNewLanguage, setSelectedNewLanguage] = useState('');
+  const { updateBlock } = useBlockManager(template, onTemplateChange);
+
+  // Use external selectedBlockType if provided, otherwise use internal state
+  const selectedBlockType = externalSelectedBlockType !== undefined ? externalSelectedBlockType : internalSelectedBlockType;
+  const setSelectedBlockType = onBlockTypeSelect || setInternalSelectedBlockType;
 
   // Lấy danh sách ngôn ngữ có sẵn từ templates
   const availableLanguages = useMemo(() => {
@@ -61,11 +59,6 @@ export function EmailEditorSidebar({
     return filteredLanguages;
   }, [templates]);
 
-  // Reset selection when language changes
-  useEffect(() => {
-    onSelectedBlockChange(null);
-  }, [selectedLanguage, onSelectedBlockChange]);
-
   // Lấy danh sách ngôn ngữ chưa có template
   const getAvailableLanguagesForSelection = useCallback(() => {
     const existingLanguageCodes = availableLanguages.map(lang => lang.value);
@@ -73,32 +66,43 @@ export function EmailEditorSidebar({
   }, [availableLanguages]);
 
   const handleLanguageChange = useCallback((value: string) => {
-    onLanguageChange(value);
+    if (onLanguageChange) {
+      onLanguageChange(value);
+    }
   }, [onLanguageChange]);
 
   const handleAddLanguage = useCallback(() => {
-    if (selectedNewLanguage) {
+    if (selectedNewLanguage && onTemplatesUpdate) {
       const languageToAdd = AVAILABLE_LANGUAGES.find(lang => lang.value === selectedNewLanguage);
       if (languageToAdd) {
         const englishTemplate = templates.find(template => template.locale === 'en');
-        const newTemplate: Template = {
-          name: `Template ${languageToAdd.label}`,
+        const newTemplate: SMSTemplate = {
+          id: '',
+          shop: '',
+          name: `SMS Template ${languageToAdd.label}`,
           content: englishTemplate?.content || '',
           locale: languageToAdd.value,
-          type: 'email',
-          engine: 'liquid',
+          type: 'sms' as const,
+          engine: 'liquid' as const,
           is_active: true,
-          blocks: englishTemplate?.blocks ? [...englishTemplate.blocks] : undefined
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          blocks: englishTemplate?.blocks ? [...englishTemplate.blocks] : [
+            {
+              id: 'body',
+              type: 'body',
+              content: '',
+              visible: true
+            }
+          ]
         };
         const updatedTemplates = [...templates, newTemplate];
 
-        // Cập nhật templates ngay lập tức để availableLanguages được tính toán lại
-        if (onTemplatesUpdate) {
-          onTemplatesUpdate(updatedTemplates);
-        }
+        onTemplatesUpdate(updatedTemplates);
 
-        // Chuyển sang ngôn ngữ vừa thêm
-        onLanguageChange(languageToAdd.value);
+        if (onLanguageChange) {
+          onLanguageChange(languageToAdd.value);
+        }
         setSelectedNewLanguage('');
         setShowAddLanguageForm(false);
       }
@@ -124,43 +128,41 @@ export function EmailEditorSidebar({
     setSelectedNewLanguage('');
   }, []);
 
+
+
+  const sidebarStyles: React.CSSProperties = isFullScreen
+    ? {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 50,
+        backgroundColor: '#ffffff',
+        display: 'flex',
+        flexDirection: 'column',
+      }
+    : {
+        width: '319px',
+        borderRight: '1px solid #e1e3e5',
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: '#ffffff',
+      };
+
   return (
-    <div style={{
-      width: isMobile ? '100vw' : '319px',
-      minWidth: isMobile ? '100vw' : '319px',
-      maxWidth: isMobile ? '100vw' : '319px',
-      height: isMobile ? '100vh' : 'auto',
-      borderRight: isMobile ? 'none' : '1px solid #e1e3e5',
-      display: 'flex',
-      flexDirection: 'column',
-      backgroundColor: '#ffffff',
-      position: isMobile ? 'fixed' : 'relative',
-      top: isMobile ? 0 : 'auto',
-      left: isMobile ? 0 : 'auto',
-      zIndex: isMobile ? 1000 : 'auto'
-    }}>
-      {/* Template Structure Section */}
-      <div style={{
-        flex: 1,
-        paddingBottom: '60px',
-        overflowY: 'auto'
-      }}>
-        <Box padding={'400'} width="100%">
-          <Box width="100%">
+    <div style={sidebarStyles}>
+      <div style={{ flex: 1, overflowY: 'auto' }}>
+        <Box width="100%">
+          <Box padding={'200'} width="100%">
             <InlineStack align="space-between" blockAlign="center" gap={"200"}>
               <InlineStack gap={'200'}>
-                {isMobile && onCloseSidebar && (
-                  <Button
-                    variant="tertiary"
-                    icon={ChevronLeftIcon}
-                    onClick={onCloseSidebar}
-                    accessibilityLabel="Close sidebar"
-                  />
+                {isFullScreen && onClose && (
+                  <Button onClick={onClose} icon={ChevronLeftIcon} accessibilityLabel="Close editor" />
                 )}
-                <Text as="h3" variant="headingSm">Settings</Text>
+                <Text as="h3" variant="headingSm">SMS Settings</Text>
               </InlineStack>
-              <InlineStack gap="200" align="center">
-                {/* Language selector với khả năng thêm ngôn ngữ mới */}
+              <InlineStack gap="200" blockAlign="center">
                 <div style={{ minWidth: '150px' }}>
                   <Select
                     label=""
@@ -213,23 +215,24 @@ export function EmailEditorSidebar({
               </div>
             </div>
           )}
-        </Box>
-        <BlockList
-          blocks={blocks}
-          selectedBlockId={selectedBlockId}
-          onSelectedBlockChange={onSelectedBlockChange}
-          onAddBlock={onAddBlock}
-          onRemoveBlock={onRemoveBlock}
-          onUpdateBlock={onUpdateBlock}
-          onMoveBlock={onMoveBlock}
-        />
-      </div>
 
-      {/* Variable Suggestions Panel - Fixed at bottom */}
-      <VariablePanel
-        showVariables={showVariables}
-        setShowVariables={setShowVariables}
-      />
+          <BlockStack gap="100">
+            {/* Existing Blocks */}
+            {template.blocks.map(block => (
+              <BlockItem
+                key={block.id}
+                block={block}
+                isSelected={selectedBlockType === block.type}
+                onSelect={() => setSelectedBlockType(
+                  selectedBlockType === block.type ? null : block.type
+                )}
+                onToggleVisibility={() => updateBlock(block.type, { visible: block.visible !== false ? false : true })}
+                onUpdate={(updates) => updateBlock(block.type, updates)}
+              />
+            ))}
+          </BlockStack>
+        </Box>
+      </div>
     </div>
   );
-}
+};

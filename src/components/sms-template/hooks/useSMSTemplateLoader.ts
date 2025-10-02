@@ -1,46 +1,45 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
-import { Template } from '../types';
-import { initialBlocks } from '../constants/block.constant';
+import { SMSTemplate } from '../types';
 
 // API Response types
-interface TemplateApiSuccessResponse {
+interface SMSTemplateApiSuccessResponse {
   success: true;
-  data: Template[];
+  data: SMSTemplate[];
 }
 
-interface TemplateApiErrorResponse {
+interface SMSTemplateApiErrorResponse {
   success: false;
   data: null;
   error: string;
 }
 
-interface TemplateCreateSuccessResponse {
+interface SMSTemplateCreateSuccessResponse {
   success: true;
-  data: Template;
+  data: SMSTemplate;
 }
 
-type TemplateApiResponse = TemplateApiSuccessResponse | TemplateApiErrorResponse | TemplateCreateSuccessResponse;
+type SMSTemplateApiResponse = SMSTemplateApiSuccessResponse | SMSTemplateApiErrorResponse | SMSTemplateCreateSuccessResponse;
 
-export interface UseTemplateLoaderResult {
-  templates?: Template[],
-  template: Template | null;
+export interface UseSMSTemplateLoaderResult {
+  templates?: SMSTemplate[],
+  template: SMSTemplate | null;
   loading: boolean;
   error: string | null;
   loadTemplate: (templateName: string) => void;
   createDefaultTemplate: (templateName: string) => void;
-  saveAllTemplates: (templatesData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>[]) => void;
+  saveAllTemplates: (templatesData: Omit<SMSTemplate, 'id' | 'shop' | 'created_at' | 'updated_at'>[]) => void;
   clearTemplate: () => void;
-  updateTemplates: (newTemplates: Template[]) => void;
-  selectTemplate: (template: Template) => void;
+  updateTemplates: (newTemplates: SMSTemplate[]) => void;
+  selectTemplate: (template: SMSTemplate) => void;
 }
 
-export function useTemplateLoader(): UseTemplateLoaderResult {
-  const [templates, setTemplates] = useState<Template[] | undefined>();
-  const [template, setTemplate] = useState<Template | null>(null);
+export function useSMSTemplateLoader(): UseSMSTemplateLoaderResult {
+  const [templates, setTemplates] = useState<SMSTemplate[] | undefined>();
+  const [template, setTemplate] = useState<SMSTemplate | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const fetcher = useFetcher<TemplateApiResponse>();
+  const fetcher = useFetcher<SMSTemplateApiResponse>();
 
   // load template
   const loadTemplate = useCallback((templateName: string) => {
@@ -48,14 +47,14 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
     setError(null);
     const searchParams = new URLSearchParams({
       name: templateName,
-      channel: 'email'
+      channel: 'sms'
     });
     const url = `/api/templates/search?${searchParams.toString()}`;
     fetcher.load(url);
   }, [fetcher]);
 
   //save all templates (all locales for a templateName)
-  const saveAllTemplates = useCallback((templatesData: Template[]) => {
+  const saveAllTemplates = useCallback((templatesData: SMSTemplate[]) => {
     setLoading(true);
     setError(null);
 
@@ -80,32 +79,36 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
   }, []);
 
   // update templates manually
-  const updateTemplates = useCallback((newTemplates: Template[]) => {
+  const updateTemplates = useCallback((newTemplates: SMSTemplate[]) => {
     setTemplates(newTemplates);
-  }, []);
-
-  // select tempalte
-  const selectTemplate = useCallback((template: Template) => {
-    setTemplate(template);
   }, []);
 
   // create default template
   const createDefaultTemplate = useCallback((templateName: string) => {
-    const defaultTemplate: Template = {
-      id: '',
-      shop: '',
+    const defaultTemplate: SMSTemplate = {
       name: templateName,
       content: '',
-      blocks: initialBlocks,
       locale: 'en',
-      type: 'email' as const,
-      engine: 'liquid' as const,
+      type: 'sms',
+      engine: 'liquid',
       is_active: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      blocks: [
+        {
+          id: 'body-1',
+          type: 'body',
+          content: 'Hello {{customer.first_name}}! Thank you for your interest in our products. We\'ll keep you updated! - {{shop.name}}'
+        }
+      ]
     };
-    setTemplates([defaultTemplate]);
+
     setTemplate(defaultTemplate);
+    setTemplates([defaultTemplate]);
+    setError(null);
+  }, []);
+
+  // select template
+  const selectTemplate = useCallback((template: SMSTemplate) => {
+    setTemplate(template);
   }, []);
 
   // Handle fetcher state changes

@@ -42,22 +42,8 @@ export function EmailTemplateEditor({
 
   // Handle creating default template
   const handleCreateDefaultTemplate = () => {
-    // Create default template with initial blocks
     if (templateName) {
-      const defaultTemplate: Template = {
-        id: '',
-        shop: '',
-        name: templateName,
-        content: '',
-        blocks: initialBlocks,
-        locale: 'en',
-        type: 'email' as const,
-        engine: 'liquid' as const,
-        is_active: true,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-      templateLoader.updateTemplates([defaultTemplate]);
+      templateLoader.createDefaultTemplate(templateName);
     }
   };
 

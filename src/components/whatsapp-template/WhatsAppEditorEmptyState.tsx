@@ -1,4 +1,4 @@
-import { Box, BlockStack, Text, Button } from "@shopify/polaris";
+import { Box, BlockStack, Text, Button, EmptyState } from "@shopify/polaris";
 import { useMediaQuery } from "./hooks";
 import { PlusCircleIcon, ChatIcon } from "@shopify/polaris-icons";
 
@@ -32,9 +32,9 @@ export function WhatsAppEditorEmptyState({
       {/* Left Sidebar - Empty */}
       {!isMobile && (
         <div style={{
-          width: '400px',
-          minWidth: '400px',
-          maxWidth: '400px',
+          width: '319px',
+          minWidth: '319px',
+          maxWidth: '319px',
           borderRight: '1px solid #e1e3e5',
           display: 'flex',
           flexDirection: 'column',
@@ -54,7 +54,7 @@ export function WhatsAppEditorEmptyState({
           alignItems: 'center', 
           justifyContent: 'center' 
         }}>
-          <BlockStack gap="300" align="center">
+          <BlockStack gap="300" align="center" inlineAlign="center">
             <div style={{
               width: '48px',
               height: '48px',
@@ -104,39 +104,23 @@ export function WhatsAppEditorEmptyState({
           padding: '24px'
         }}>
           <div style={{
-            backgroundColor: '#ffffff',
             borderRadius: '12px',
-            padding: '48px',
             textAlign: 'center',
-            maxWidth: '500px',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+            maxWidth: '500px'
           }}>
-            <BlockStack gap="500" align="center">
-              {/* Icon */}
-              <div style={{
-                width: '80px',
-                height: '80px',
-                borderRadius: '50%',
-                backgroundColor: '#e8f5e8',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '2px solid #25d366'
-              }}>
-                <div style={{ fontSize: '32px', color: '#25d366' }}>
-                  <ChatIcon />
-                </div>
-              </div>
-
-              {/* Content */}
-              <BlockStack gap="300" align="center">
-                <Text as="h2" variant="headingLg">
-                  {getTemplateName(templateName)}
-                </Text>
-                <Text as="p" variant="bodyMd" tone="subdued" alignment="center">
+            <BlockStack gap="200" align="center">
+              <EmptyState
+                heading={getTemplateName(templateName)}
+                action={{
+                  content: 'Create template',
+                  onAction: onCreateTemplate,
+                }}
+                image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
+              >
+                <p>
                   {getTemplateDescription(templateName)}
-                </Text>
-              </BlockStack>
+                </p>
+              </EmptyState>
 
               {/* Features */}
               <div style={{ width: '100%' }}>
@@ -177,16 +161,6 @@ export function WhatsAppEditorEmptyState({
                   </div>
                 </BlockStack>
               </div>
-
-              {/* Action Button */}
-              <Button
-                variant="primary"
-                size="large"
-                icon={PlusCircleIcon}
-                onClick={onCreateTemplate}
-              >
-                Create Template
-              </Button>
 
               {/* Help Text */}
               <Text as="p" variant="bodySm" tone="subdued" alignment="center">

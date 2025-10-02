@@ -27,4 +27,15 @@ export * from './components/whatsapp-template';
 export * from './components/web-push-template';
 
 // SMS Template Components
-export * from './components/sms-template';
+export { SMSTemplateEditor } from './components/sms-template/SMSTemplateEditor';
+export { SMSEditorLayout } from './components/sms-template/SMSEditorLayout';
+export { SMSEditorSidebar } from './components/sms-template/SMSEditorSidebar';
+export { SMSPreviewPanel } from './components/sms-template/SMSPreviewPanel';
+export { SMSEditorEmptyState } from './components/sms-template/SMSEditorEmptyState';
+export { SMSEditorErrorState } from './components/sms-template/SMSEditorErrorState';
+export { SMSEditorSkeleton } from './components/sms-template/SMSEditorSkeleton';
+export * from './components/sms-template/types';
+export * from './components/sms-template/constants';
+export { useBlockManager as useSMSBlockManager } from './components/sms-template/hooks/useBlockManager';
+export { useSMSTemplateLoader } from './components/sms-template/hooks/useSMSTemplateLoader';
+export type { UseSMSTemplateLoaderResult } from './components/sms-template/hooks/useSMSTemplateLoader';

@@ -13,9 +13,9 @@ export function EmailEditorSkeleton({ showPreview: _showPreview = true }: EmailE
       {/* Left Sidebar Skeleton */}
       {!isMobile && (
         <div style={{
-          width: '400px',
-          minWidth: '400px',
-          maxWidth: '400px',
+          width: '319px',
+          minWidth: '319px',
+          maxWidth: '319px',
           borderRight: '1px solid #e1e3e5',
           display: 'flex',
           flexDirection: 'column',

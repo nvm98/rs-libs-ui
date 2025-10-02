@@ -1,6 +1,10 @@
 export { SMSTemplateEditor } from './SMSTemplateEditor';
-export { SMSBlockRenderer } from './SMSBlockRenderer';
+export { SMSEditorLayout } from './SMSEditorLayout';
+export { SMSEditorSidebar } from './SMSEditorSidebar';
 export { SMSPreviewPanel } from './SMSPreviewPanel';
-export { SMSBlockSettings } from './SMSBlockSettings';
+export { SMSEditorEmptyState } from './SMSEditorEmptyState';
+export { SMSEditorErrorState } from './SMSEditorErrorState';
+export { SMSEditorSkeleton } from './SMSEditorSkeleton';
 export * from './types';
 export * from './constants';
+export * from './hooks';
