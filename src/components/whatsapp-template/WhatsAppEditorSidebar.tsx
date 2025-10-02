@@ -7,7 +7,7 @@ import {
   Select,
   InlineStack,
 } from '@shopify/polaris';
-import { ChevronLeftIcon, PlusIcon } from '@shopify/polaris-icons';
+import { ChevronLeftIcon } from '@shopify/polaris-icons';
 import { WhatsAppTemplate, WhatsAppBlockType } from './types';
 import { useBlockManager } from './hooks/useBlockManager';
 import { BlockItem } from './blocks/BlockItem';
@@ -64,39 +64,18 @@ export const WhatsAppEditorSidebar: React.FC<WhatsAppEditorSidebarProps> = ({
       bottom: isFullScreen ? 0 : 'auto',
       zIndex: isFullScreen ? 50 : 'auto'
     }}>
-      {/* Header for full-screen mode */}
-      {/* {isFullScreen && (
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '12px 16px',
-          borderBottom: '1px solid #e5e7eb',
-          backgroundColor: 'white',
-          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Button onClick={onClose} variant='plain' icon={ChevronLeftIcon} accessibilityLabel="Back" />
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Text as='p' variant='headingMd'>{selectedBlockType ? getBlockTitle(selectedBlockType) : 'Settings'}</Text>
-            </div>
-          </div>
-          <Button onClick={onClose}>
-            Done
-          </Button>
-        </div>
-      )} */}
-
       <div style={{
         flex: 1,
         paddingBottom: isFullScreen ? '16px' : '60px',
         overflowY: 'auto'
       }}>
         <Box width="100%">
-          <Box padding={'400'} width="100%">
+          <Box padding={'200'} width="100%">
             <InlineStack align="space-between" blockAlign="center" gap={"200"}>
               <InlineStack gap={"200"}>
-                <Button onClick={onClose} variant='plain' icon={ChevronLeftIcon} accessibilityLabel="Back" />
+                {isFullScreen && (
+                  <Button onClick={onClose} variant='plain' icon={ChevronLeftIcon} accessibilityLabel="Back" />
+                )}
                 <Text as="h3" variant="headingSm">{ !selectedBlockType || !isFullScreen ? 'Settings' : getBlockTitle(selectedBlockType)}</Text>
               </InlineStack>
               <div style={{ minWidth: '150px' }}>
@@ -131,7 +110,7 @@ export const WhatsAppEditorSidebar: React.FC<WhatsAppEditorSidebarProps> = ({
           </BlockStack>
         </Box>
       </div>
-      
+
       <VariablePanel
         showVariables={showVariables}
         setShowVariables={setShowVariables}

@@ -90,18 +90,19 @@ export const WhatsAppPreviewPanel: React.FC<WhatsAppPreviewPanelProps> = ({
       flex: 1
     }}>
       <div style={{
-        padding: '12px 20px',
         borderBottom: '1px solid #e1e3e5',
         backgroundColor: '#ffffff'
       }}>
-        <InlineStack align="space-between" blockAlign="center">
-          <Text as="h3" variant="headingSm" tone="subdued">WhatsApp Preview</Text>
-          {onSave && (
-            <Button variant="primary" onClick={onSave}>
-              Save
-            </Button>
-          )}
-        </InlineStack>
+        <Box padding={'300'}>
+          <InlineStack align="space-between" blockAlign="center">
+            <Text as="h3" variant="headingSm" tone="subdued">WhatsApp Preview</Text>
+            {onSave && (
+              <Button variant="primary" onClick={onSave}>
+                Save
+              </Button>
+            )}
+          </InlineStack>
+        </Box>
       </div>
       <div style={containerStyles}>
         <div style={messageCardStyles}>

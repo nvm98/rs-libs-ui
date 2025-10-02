@@ -1,4 +1,5 @@
 import { Box, BlockStack, Text, Button } from "@shopify/polaris";
+import { useMediaQuery } from "./hooks";
 import { PlusCircleIcon, ChatIcon } from "@shopify/polaris-icons";
 
 interface WhatsAppEditorEmptyStateProps {
@@ -6,10 +7,12 @@ interface WhatsAppEditorEmptyStateProps {
   onCreateTemplate: () => void;
 }
 
-export function WhatsAppEditorEmptyState({ 
-  templateName, 
-  onCreateTemplate, 
+export function WhatsAppEditorEmptyState({
+  templateName,
+  onCreateTemplate,
 }: WhatsAppEditorEmptyStateProps) {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
   const getTemplateName = (name?: string) => {
     if (!name) return 'WhatsApp Template';
     if (name.includes('back-to-stock')) return 'Back to Stock WhatsApp';
@@ -27,17 +30,20 @@ export function WhatsAppEditorEmptyState({
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       {/* Left Sidebar - Empty */}
-      <div style={{
-        width: '320px',
-        borderRight: '1px solid #e1e3e5',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: '#ffffff',
-        position: 'relative'
-      }}>
+      {!isMobile && (
+        <div style={{
+          width: '400px',
+          minWidth: '400px',
+          maxWidth: '400px',
+          borderRight: '1px solid #e1e3e5',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: '#ffffff',
+          position: 'relative'
+        }}>
         {/* Settings Header */}
         <Box padding={'400'}>
-          <Text as="h3" variant="headingSm" tone="subdued">Template Blocks</Text>
+          <Text as="h3" variant="headingSm" tone="subdued">Settings</Text>
         </Box>
 
         {/* Empty blocks list */}
@@ -71,6 +77,7 @@ export function WhatsAppEditorEmptyState({
           </BlockStack>
         </div>
       </div>
+      )}
 
       {/* Right Panel - WhatsApp Preview */}
       <div style={{
