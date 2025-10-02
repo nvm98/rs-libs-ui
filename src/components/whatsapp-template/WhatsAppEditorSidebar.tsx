@@ -5,9 +5,9 @@ import {
   Button,
   BlockStack,
   Select,
-  InlineStack
+  InlineStack,
 } from '@shopify/polaris';
-import { PlusIcon } from '@shopify/polaris-icons';
+import { ChevronLeftIcon, PlusIcon } from '@shopify/polaris-icons';
 import { WhatsAppTemplate, WhatsAppBlockType } from './types';
 import { useBlockManager } from './hooks/useBlockManager';
 import { BlockItem } from './blocks/BlockItem';
@@ -16,61 +16,89 @@ import { VariablePanel } from './VariablePanel';
 interface WhatsAppEditorSidebarProps {
   template: WhatsAppTemplate;
   onTemplateChange: (template: WhatsAppTemplate) => void;
+  // Mobile full-screen mode props
+  isFullScreen?: boolean;
+  onClose?: () => void;
+  selectedBlockType?: WhatsAppBlockType | null;
+  onBlockTypeSelect?: (blockType: WhatsAppBlockType | null) => void;
 }
 
 export const WhatsAppEditorSidebar: React.FC<WhatsAppEditorSidebarProps> = ({
   template,
-  onTemplateChange
+  onTemplateChange,
+  isFullScreen = false,
+  onClose,
+  selectedBlockType: externalSelectedBlockType,
+  onBlockTypeSelect
 }) => {
-  const [selectedBlockType, setSelectedBlockType] = useState<WhatsAppBlockType | null>(null);
+  const [internalSelectedBlockType, setInternalSelectedBlockType] = useState<WhatsAppBlockType | null>(null);
   const [showVariables, setShowVariables] = useState(false);
-  const { getBlock, addBlock, removeBlock, updateBlock } = useBlockManager(template, onTemplateChange);
+  const { updateBlock } = useBlockManager(template, onTemplateChange);
 
-  const blockConfigs = [
-    {
-      type: WhatsAppBlockType.HEADER,
-      title: 'Header',
-      description: 'Optional header with text or media',
-      required: false
-    },
-    {
-      type: WhatsAppBlockType.BODY,
-      title: 'Body',
-      description: 'Main message content (required)',
-      required: true
-    },
-    {
-      type: WhatsAppBlockType.FOOTER,
-      title: 'Footer',
-      description: 'Optional footer text',
-      required: false
-    },
-    {
-      type: WhatsAppBlockType.BUTTONS,
-      title: 'Buttons',
-      description: 'Optional action buttons',
-      required: false
-    }
-  ];
+  // Use external selectedBlockType if provided (for full-screen mode), otherwise use internal state
+  const selectedBlockType = externalSelectedBlockType !== undefined ? externalSelectedBlockType : internalSelectedBlockType;
+  const setSelectedBlockType = onBlockTypeSelect || setInternalSelectedBlockType;
+
+  const getBlockTitle = (type: WhatsAppBlockType) => {
+    const titles = {
+      header: 'Header Settings',
+      body: 'Body Settings',
+      footer: 'Footer Settings',
+      buttons: 'Buttons Settings'
+    };
+    return titles[type] || 'Block Settings';
+  };
 
   return (
     <div style={{
-      width: '320px',
-      borderRight: '1px solid #e1e3e5',
+      width: isFullScreen ? '100%' : '320px',
+      height: isFullScreen ? '100vh' : 'auto',
+      borderRight: isFullScreen ? 'none' : '1px solid #e1e3e5',
       display: 'flex',
       flexDirection: 'column',
       backgroundColor: '#ffffff',
-      position: 'relative'
+      position: isFullScreen ? 'fixed' : 'relative',
+      top: isFullScreen ? 0 : 'auto',
+      left: isFullScreen ? 0 : 'auto',
+      right: isFullScreen ? 0 : 'auto',
+      bottom: isFullScreen ? 0 : 'auto',
+      zIndex: isFullScreen ? 50 : 'auto'
     }}>
+      {/* Header for full-screen mode */}
+      {/* {isFullScreen && (
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '12px 16px',
+          borderBottom: '1px solid #e5e7eb',
+          backgroundColor: 'white',
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Button onClick={onClose} variant='plain' icon={ChevronLeftIcon} accessibilityLabel="Back" />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Text as='p' variant='headingMd'>{selectedBlockType ? getBlockTitle(selectedBlockType) : 'Settings'}</Text>
+            </div>
+          </div>
+          <Button onClick={onClose}>
+            Done
+          </Button>
+        </div>
+      )} */}
+
       <div style={{
         flex: 1,
-        paddingBottom: '60px',
+        paddingBottom: isFullScreen ? '16px' : '60px',
         overflowY: 'auto'
       }}>
         <Box width="100%">
           <Box padding={'400'} width="100%">
             <InlineStack align="space-between" blockAlign="center" gap={"200"}>
-              <Text as="h3" variant="headingSm">Settings</Text>
+              <InlineStack gap={"200"}>
+                <Button onClick={onClose} variant='plain' icon={ChevronLeftIcon} accessibilityLabel="Back" />
+                <Text as="h3" variant="headingSm">{ !selectedBlockType || !isFullScreen ? 'Settings' : getBlockTitle(selectedBlockType)}</Text>
+              </InlineStack>
               <div style={{ minWidth: '150px' }}>
                 <Select
                   label=""
@@ -103,8 +131,7 @@ export const WhatsAppEditorSidebar: React.FC<WhatsAppEditorSidebarProps> = ({
           </BlockStack>
         </Box>
       </div>
-
-      {/* Variables Panel - positioned at bottom of sidebar */}
+      
       <VariablePanel
         showVariables={showVariables}
         setShowVariables={setShowVariables}

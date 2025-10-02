@@ -2,7 +2,9 @@ import React from 'react';
 import {
   BlockStack,
   Box,
-  Text
+  Text,
+  Button,
+  InlineStack
 } from '@shopify/polaris';
 import { WhatsAppTemplate, WhatsAppBlockType } from './types';
 import { HeaderRenderer } from './renderers/HeaderRenderer';
@@ -12,10 +14,12 @@ import { ButtonsRenderer } from './renderers/ButtonsRenderer';
 
 interface WhatsAppPreviewPanelProps {
   template: WhatsAppTemplate;
+  onSave?: () => void;
 }
 
 export const WhatsAppPreviewPanel: React.FC<WhatsAppPreviewPanelProps> = ({
-  template
+  template,
+  onSave
 }) => {
   const getBlockByType = (type: WhatsAppBlockType) => {
     return template.blocks.find(block => block.type === type);
@@ -28,7 +32,7 @@ export const WhatsAppPreviewPanel: React.FC<WhatsAppPreviewPanelProps> = ({
 
   // Main container styles - Simple background
   const containerStyles: React.CSSProperties = {
-    height: '100vh',
+    height: 'calc(100vh - 65px)',
     backgroundColor: '#f0f0f0',
     display: 'flex',
     alignItems: 'center',
@@ -46,8 +50,7 @@ export const WhatsAppPreviewPanel: React.FC<WhatsAppPreviewPanelProps> = ({
     width: 'auto',
     minWidth: '200px',
     boxShadow: '0 1px 0.5px rgba(0,0,0,0.13)',
-    position: 'relative',
-    marginLeft: '60px'
+    position: 'relative'
   };
 
   // Message content styles
@@ -87,11 +90,18 @@ export const WhatsAppPreviewPanel: React.FC<WhatsAppPreviewPanelProps> = ({
       flex: 1
     }}>
       <div style={{
-        padding: '16px 20px',
+        padding: '12px 20px',
         borderBottom: '1px solid #e1e3e5',
         backgroundColor: '#ffffff'
       }}>
-        <Text as="h3" variant="headingSm" tone="subdued">WhatsApp Preview</Text>
+        <InlineStack align="space-between" blockAlign="center">
+          <Text as="h3" variant="headingSm" tone="subdued">WhatsApp Preview</Text>
+          {onSave && (
+            <Button variant="primary" onClick={onSave}>
+              Save
+            </Button>
+          )}
+        </InlineStack>
       </div>
       <div style={containerStyles}>
         <div style={messageCardStyles}>

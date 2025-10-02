@@ -100,6 +100,7 @@ export function WhatsAppTemplateEditor({
       <WhatsAppEditorLayout
         templates={templates}
         onTemplatesUpdate={onTemplatesUpdate}
+        onSave={handleSave}
       />
     );
   };
@@ -118,22 +119,7 @@ export function WhatsAppTemplateEditor({
     return "WhatsApp template editor";
   };
 
-  // Determine title bar actions based on state
-  const getTitleBarActions = () => {
-    if (!templateLoader.loading && !templateLoader.error &&
-        !(!templateLoader.template && isTemplateLoaded)) {
-      return {
-        primaryAction: {
-          content: 'Save',
-          onAction: handleSave,
-        }
-      };
-    }
 
-    return {};
-  };
-
-  const titleBarActions = getTitleBarActions();
 
   return (
     <Modal
@@ -141,13 +127,7 @@ export function WhatsAppTemplateEditor({
       variant="max"
       onHide={onClose}
     >
-      <TitleBar title={getModalTitle()}>
-        {titleBarActions.primaryAction && (
-          <button variant="primary" onClick={titleBarActions.primaryAction.onAction}>
-            {titleBarActions.primaryAction.content}
-          </button>
-        )}
-      </TitleBar>
+      <TitleBar title={getModalTitle()} />
       {getModalContent()}
     </Modal>
   );
