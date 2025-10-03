@@ -240,6 +240,7 @@ export const SMSEditorSidebar: React.FC<SMSEditorSidebarProps> = ({
           </BlockStack>
         </Box>
       </div>
+
       <VariablePanel
         variables={VARIABLES}
         showVariables={showVariables}
