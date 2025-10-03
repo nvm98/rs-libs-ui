@@ -1,4 +1,6 @@
-export const AVAILABLE_LANGUAGES = [
+import { Language } from "../interfaces/language.interface";
+
+export const LANGUAGES: Language[] = [
   { value: 'en', label: 'English' },
   { value: 'es', label: 'Spanish' },
   { value: 'fr', label: 'French' },

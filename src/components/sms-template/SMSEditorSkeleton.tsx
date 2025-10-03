@@ -1,5 +1,5 @@
 import { SkeletonBodyText, SkeletonDisplayText, BlockStack, Box, InlineStack } from '@shopify/polaris';
-import { useMediaQuery } from './hooks';
+import { useMediaQuery } from '../shared/hooks/useMediaQuery';
 
 interface SMSEditorSkeletonProps {}
 

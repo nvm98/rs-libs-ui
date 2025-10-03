@@ -1,4 +1,4 @@
-export const WHATSAPP_VARIABLES = [
+export const VARIABLES = [
   {
     variable: '{{customer_first_name}}',
     example: 'John',

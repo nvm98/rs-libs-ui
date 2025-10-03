@@ -1,4 +1,4 @@
-export const WEB_PUSH_VARIABLES = [
+export const VARIABLES = [
   {
     variable: '{{customer.first_name}}',
     example: 'John',

@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
-import { AVAILABLE_LANGUAGES } from '../constants';
 import { Language } from '../../shared/interfaces/language.interface';
+import { LANGUAGES } from '../../shared/constants/language.constant';
 
 export interface UseLocaleReturn {
   currentLocale: string;
@@ -14,23 +14,23 @@ export const useLocale = (initialLocale: string = 'en'): UseLocaleReturn => {
   const [currentLocale, setCurrentLocale] = useState<string>(initialLocale);
 
   const setLocale = useCallback((locale: string) => {
-    if (AVAILABLE_LANGUAGES.some(lang => lang.value === locale)) {
+    if (LANGUAGES.some(lang => lang.value === locale)) {
       setCurrentLocale(locale);
     }
   }, []);
 
   const getLanguageLabel = useCallback((locale: string): string => {
-    const language = AVAILABLE_LANGUAGES.find(lang => lang.value === locale);
+    const language = LANGUAGES.find(lang => lang.value === locale);
     return language?.label || locale;
   }, []);
 
   const isValidLocale = useCallback((locale: string): boolean => {
-    return AVAILABLE_LANGUAGES.some(lang => lang.value === locale);
+    return LANGUAGES.some(lang => lang.value === locale);
   }, []);
 
   return {
     currentLocale,
-    availableLanguages: AVAILABLE_LANGUAGES,
+    availableLanguages: LANGUAGES,
     setLocale,
     getLanguageLabel,
     isValidLocale

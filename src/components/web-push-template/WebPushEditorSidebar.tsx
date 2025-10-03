@@ -6,13 +6,15 @@ import {
   BlockStack,
   Select,
   InlineStack,
+  Divider,
 } from '@shopify/polaris';
 import { ChevronLeftIcon } from '@shopify/polaris-icons';
 import { WebPushTemplate, WebPushBlockType } from './types';
 import { useBlockManager } from './hooks/useBlockManager';
 import { BlockItem } from './blocks/BlockItem';
-import { AVAILABLE_LANGUAGES } from './constants';
-import { VariablePanel } from './VariablePanel';
+import { VARIABLES } from './constants';
+import { VariablePanel } from '../shared/components/VariablePanel';
+import { LANGUAGES } from '../shared/constants/language.constant';
 
 interface WebPushEditorSidebarProps {
   templates?: WebPushTemplate[];
@@ -49,7 +51,7 @@ export const WebPushEditorSidebar: React.FC<WebPushEditorSidebarProps> = ({
   // Lấy danh sách ngôn ngữ có sẵn từ templates
   const availableLanguages = useMemo(() => {
     const templateLocales = new Set(templates.map(template => template.locale));
-    const filteredLanguages = AVAILABLE_LANGUAGES.filter((lang: { value: string; label: string }) =>
+    const filteredLanguages = LANGUAGES.filter((lang: { value: string; label: string }) =>
       templateLocales.has(lang.value)
     );
     if (!templateLocales.has('en')) {
@@ -61,7 +63,7 @@ export const WebPushEditorSidebar: React.FC<WebPushEditorSidebarProps> = ({
   // Lấy danh sách ngôn ngữ chưa có template
   const getAvailableLanguagesForSelection = useCallback(() => {
     const existingLanguageCodes = availableLanguages.map((lang: { value: string; label: string }) => lang.value);
-    return AVAILABLE_LANGUAGES.filter((lang: { value: string; label: string }) => !existingLanguageCodes.includes(lang.value));
+    return LANGUAGES.filter((lang: { value: string; label: string }) => !existingLanguageCodes.includes(lang.value));
   }, [availableLanguages]);
 
   const handleLanguageChange = useCallback((value: string) => {
@@ -72,7 +74,7 @@ export const WebPushEditorSidebar: React.FC<WebPushEditorSidebarProps> = ({
 
   const handleAddLanguage = useCallback(() => {
     if (selectedNewLanguage && onTemplatesUpdate) {
-      const languageToAdd = AVAILABLE_LANGUAGES.find((lang: { value: string; label: string }) => lang.value === selectedNewLanguage);
+      const languageToAdd = LANGUAGES.find((lang: { value: string; label: string }) => lang.value === selectedNewLanguage);
       if (languageToAdd) {
         const englishTemplate = templates.find(template => template.locale === 'en');
         const newTemplate: WebPushTemplate = {
@@ -221,22 +223,26 @@ export const WebPushEditorSidebar: React.FC<WebPushEditorSidebarProps> = ({
           <BlockStack gap="100">
             {/* Existing Blocks */}
             {template.blocks.map(block => (
-                <BlockItem
-                  key={block.id}
-                  block={block}
-                  isSelected={selectedBlockType === block.type}
-                  onSelect={() => setSelectedBlockType(
-                    selectedBlockType === block.type ? null : block.type
-                  )}
-                  onToggleVisibility={() => updateBlock(block.type, { visible: block.visible !== false ? false : true })}
-                  onUpdate={(updates) => updateBlock(block.type, updates)}
-                />
+                <BlockStack>
+                  <BlockItem
+                    key={block.id}
+                    block={block}
+                    isSelected={selectedBlockType === block.type}
+                    onSelect={() => setSelectedBlockType(
+                      selectedBlockType === block.type ? null : block.type
+                    )}
+                    onToggleVisibility={() => updateBlock(block.type, { visible: block.visible !== false ? false : true })}
+                    onUpdate={(updates) => updateBlock(block.type, updates)}
+                  />
+                  <Divider borderWidth='0165' />
+                </BlockStack>
               ))}
           </BlockStack>
         </Box>
       </div>
 
       <VariablePanel
+        variables={VARIABLES}
         showVariables={showVariables}
         setShowVariables={setShowVariables}
       />

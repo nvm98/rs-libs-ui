@@ -1,5 +1,5 @@
 import { Box, BlockStack, InlineStack, SkeletonBodyText, SkeletonDisplayText } from "@shopify/polaris";
-import { useMediaQuery } from "../hooks/useMediaQuery";
+import { useMediaQuery } from "../../shared/hooks/useMediaQuery";
 
 interface EmailEditorSkeletonProps {
   showPreview?: boolean;

@@ -1,6 +1,6 @@
 import { Box, BlockStack, Text, EmptyState } from "@shopify/polaris";
-import { useWebPushMediaQuery } from "./hooks";
 import { NotificationIcon } from "@shopify/polaris-icons";
+import { useMediaQuery } from "../shared/hooks/useMediaQuery";
 
 interface WebPushEditorEmptyStateProps {
   templateName?: string;
@@ -11,7 +11,7 @@ export function WebPushEditorEmptyState({
   templateName,
   onCreateTemplate,
 }: WebPushEditorEmptyStateProps) {
-  const isMobile = useWebPushMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const getTemplateName = (name?: string) => {
     if (!name) return 'Web Push Template';

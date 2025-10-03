@@ -6,12 +6,15 @@ import {
   Select,
   InlineStack,
   BlockStack,
+  Divider,
 } from '@shopify/polaris';
 import { ChevronLeftIcon } from '@shopify/polaris-icons';
 import { SMSTemplate, SMSBlockType } from './types';
 import { useBlockManager } from './hooks/useBlockManager';
 import { BlockItem } from './blocks/BlockItem';
-import { AVAILABLE_LANGUAGES } from './constants/languages';
+import { VariablePanel } from '../shared/components/VariablePanel';
+import { VARIABLES } from './constants/variables.constant';
+import { LANGUAGES } from '../shared/constants/language.constant';
 
 interface SMSEditorSidebarProps {
   templates?: SMSTemplate[];
@@ -39,6 +42,7 @@ export const SMSEditorSidebar: React.FC<SMSEditorSidebarProps> = ({
   onBlockTypeSelect
 }) => {
   const [internalSelectedBlockType, setInternalSelectedBlockType] = useState<SMSBlockType | null>(null);
+  const [showVariables, setShowVariables] = useState(false);
   const [showAddLanguageForm, setShowAddLanguageForm] = useState(false);
   const [selectedNewLanguage, setSelectedNewLanguage] = useState('');
   const { updateBlock } = useBlockManager(template, onTemplateChange);
@@ -50,7 +54,7 @@ export const SMSEditorSidebar: React.FC<SMSEditorSidebarProps> = ({
   // Lấy danh sách ngôn ngữ có sẵn từ templates
   const availableLanguages = useMemo(() => {
     const templateLocales = new Set(templates.map(template => template.locale));
-    const filteredLanguages = AVAILABLE_LANGUAGES.filter(lang =>
+    const filteredLanguages = LANGUAGES.filter(lang =>
       templateLocales.has(lang.value)
     );
     if (!templateLocales.has('en')) {
@@ -62,7 +66,7 @@ export const SMSEditorSidebar: React.FC<SMSEditorSidebarProps> = ({
   // Lấy danh sách ngôn ngữ chưa có template
   const getAvailableLanguagesForSelection = useCallback(() => {
     const existingLanguageCodes = availableLanguages.map(lang => lang.value);
-    return AVAILABLE_LANGUAGES.filter(lang => !existingLanguageCodes.includes(lang.value));
+    return LANGUAGES.filter(lang => !existingLanguageCodes.includes(lang.value));
   }, [availableLanguages]);
 
   const handleLanguageChange = useCallback((value: string) => {
@@ -73,7 +77,7 @@ export const SMSEditorSidebar: React.FC<SMSEditorSidebarProps> = ({
 
   const handleAddLanguage = useCallback(() => {
     if (selectedNewLanguage && onTemplatesUpdate) {
-      const languageToAdd = AVAILABLE_LANGUAGES.find(lang => lang.value === selectedNewLanguage);
+      const languageToAdd = LANGUAGES.find(lang => lang.value === selectedNewLanguage);
       if (languageToAdd) {
         const englishTemplate = templates.find(template => template.locale === 'en');
         const newTemplate: SMSTemplate = {
@@ -158,7 +162,7 @@ export const SMSEditorSidebar: React.FC<SMSEditorSidebarProps> = ({
             <InlineStack align="space-between" blockAlign="center" gap={"200"}>
               <InlineStack gap={'200'}>
                 {isFullScreen && onClose && (
-                  <Button onClick={onClose} icon={ChevronLeftIcon} accessibilityLabel="Close editor" />
+                  <Button onClick={onClose} variant='plain' icon={ChevronLeftIcon} accessibilityLabel="Close editor" />
                 )}
                 <Text as="h3" variant="headingSm">SMS Settings</Text>
               </InlineStack>
@@ -219,20 +223,28 @@ export const SMSEditorSidebar: React.FC<SMSEditorSidebarProps> = ({
           <BlockStack gap="100">
             {/* Existing Blocks */}
             {template.blocks.map(block => (
-              <BlockItem
-                key={block.id}
-                block={block}
-                isSelected={selectedBlockType === block.type}
-                onSelect={() => setSelectedBlockType(
-                  selectedBlockType === block.type ? null : block.type
-                )}
-                onToggleVisibility={() => updateBlock(block.type, { visible: block.visible !== false ? false : true })}
-                onUpdate={(updates) => updateBlock(block.type, updates)}
-              />
+              <BlockStack>
+                <BlockItem
+                  key={block.id}
+                  block={block}
+                  isSelected={selectedBlockType === block.type}
+                  onSelect={() => setSelectedBlockType(
+                    selectedBlockType === block.type ? null : block.type
+                  )}
+                  onToggleVisibility={() => updateBlock(block.type, { visible: block.visible !== false ? false : true })}
+                  onUpdate={(updates) => updateBlock(block.type, updates)}
+                />
+                <Divider borderWidth='0165' />
+              </BlockStack>
             ))}
           </BlockStack>
         </Box>
       </div>
+      <VariablePanel
+        variables={VARIABLES}
+        showVariables={showVariables}
+        setShowVariables={setShowVariables}
+      />
     </div>
   );
 };

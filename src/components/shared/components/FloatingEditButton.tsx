@@ -11,6 +11,7 @@ export function FloatingEditButton({ onClick }: FloatingEditButtonProps) {
         position: 'fixed',
         bottom: '20px',
         right: '20px',
+        left: '20px',
         color: 'white',
         display: 'flex',
         alignItems: 'center',
@@ -19,7 +20,11 @@ export function FloatingEditButton({ onClick }: FloatingEditButtonProps) {
         zIndex: 40,
         transition: 'all 0.2s ease'
       }}>
-        <Button onClick={onClick} icon={EditIcon} accessibilityLabel="Edit SMS template" />
+        <div style={{
+          maxWidth: '200px',
+        }}>
+          <Button fullWidth onClick={onClick} icon={EditIcon} accessibilityLabel="Edit template">Edit template</Button>
+        </div>
     </div>
   );
 }

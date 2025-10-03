@@ -1,6 +1,6 @@
-import { Box, BlockStack, Text, Button, EmptyState } from "@shopify/polaris";
+import { Box, BlockStack, Text, EmptyState } from "@shopify/polaris";
 import { EmailIcon } from "@shopify/polaris-icons";
-import { useMediaQuery } from "./hooks/useMediaQuery";
+import { useMediaQuery } from "../shared/hooks/useMediaQuery";
 
 interface EmailEditorEmptyStateProps {
   templateName?: string;

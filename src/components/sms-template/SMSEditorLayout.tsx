@@ -2,9 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { SMSTemplate } from './types';
 import { SMSPreviewPanel } from './SMSPreviewPanel';
 import { SMSEditorSidebar } from './SMSEditorSidebar';
-import { VariablePanel } from './VariablePanel';
-import { useMediaQuery } from './hooks';
-import { FloatingEditButton } from './FloatingEditButton';
+import { FloatingEditButton } from '../shared/components/FloatingEditButton';
+import { useMediaQuery } from '../shared/hooks/useMediaQuery';
 
 interface SMSEditorLayoutProps {
   templates?: SMSTemplate[] | undefined;
@@ -19,7 +18,6 @@ export function SMSEditorLayout({
 }: SMSEditorLayoutProps) {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [currentTemplate, setCurrentTemplate] = useState<SMSTemplate | null>(null);
-  const [showVariables, setShowVariables] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [isEditorOpen, setIsEditorOpen] = useState(false);
 
@@ -71,10 +69,6 @@ export function SMSEditorLayout({
           onTemplateChange={handleTemplateChange}
         />
         <SMSPreviewPanel template={currentTemplate} onSave={onSave} />
-        <VariablePanel
-          showVariables={showVariables}
-          setShowVariables={setShowVariables}
-        />
       </div>
     );
   }

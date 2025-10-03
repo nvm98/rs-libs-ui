@@ -1,13 +1,13 @@
 import { useCallback, useState, useEffect } from 'react';
 import { EmailEditorSidebar } from './EmailEditorSidebar';
 import { EmailPreviewPanel } from './EmailPreviewPanel';
-import { FloatingEditButton } from './FloatingEditButton';
 import { Template } from './types';
 import { VARIABLES } from './constants/variables.constant';
 import { EmailBlock } from './interfaces/email-block.interface';
 import { initialBlocks } from './constants/block.constant';
 import { useBlockManager } from './hooks/useBlockManager';
-import { useMediaQuery } from './hooks/useMediaQuery';
+import { useMediaQuery } from "../shared/hooks/useMediaQuery";
+import { FloatingEditButton } from '../shared/components/FloatingEditButton';
 
 interface EmailEditorLayoutProps {
   templates?: Template[] | undefined;

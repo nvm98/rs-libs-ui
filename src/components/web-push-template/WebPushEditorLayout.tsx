@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { WebPushPreviewPanel } from './WebPushPreviewPanel';
 import { WebPushTemplate, WebPushBlockType } from './types';
 import { WebPushEditorSidebar } from './WebPushEditorSidebar';
-import { useWebPushMediaQuery } from './hooks';
-import { FloatingEditButton } from './FloatingEditButton';
+import { FloatingEditButton } from '../shared/components/FloatingEditButton';
+import { useMediaQuery } from '../shared/hooks/useMediaQuery';
 
 interface WebPushEditorLayoutProps {
   templates?: WebPushTemplate[] | undefined;
@@ -18,7 +18,7 @@ export function WebPushEditorLayout({
 }: WebPushEditorLayoutProps) {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [currentTemplate, setCurrentTemplate] = useState<WebPushTemplate | null>(null);
-  const isMobile = useWebPushMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery('(max-width: 768px)');
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [selectedBlockType, setSelectedBlockType] = useState<WebPushBlockType | null>(null);
 

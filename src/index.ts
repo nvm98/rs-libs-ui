@@ -8,7 +8,7 @@ export { EmailPreviewPanel } from './components/email-template/EmailPreviewPanel
 export { EmailEditorEmptyState } from './components/email-template/EmailEditorEmptyState';
 export { EmailEditorErrorState } from './components/email-template/EmailEditorErrorState';
 export { BlockList } from './components/email-template/BlockList';
-export { VariablePanel } from './components/email-template/VariablePanel';
+export { VariablePanel } from './components/shared/components/VariablePanel';
 export * from './components/email-template/blocks';
 export * from './components/email-template/renderers';
 export * from './components/email-template/types';

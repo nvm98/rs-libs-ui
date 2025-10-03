@@ -1,6 +1,6 @@
 import { Box, BlockStack, Text, Button, EmptyState } from "@shopify/polaris";
-import { useMediaQuery } from "./hooks";
-import { PlusCircleIcon, ChatIcon } from "@shopify/polaris-icons";
+import { ChatIcon } from "@shopify/polaris-icons";
+import { useMediaQuery } from "../shared/hooks/useMediaQuery";
 
 interface WhatsAppEditorEmptyStateProps {
   templateName?: string;

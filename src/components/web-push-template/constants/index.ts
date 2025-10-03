@@ -1,6 +1,4 @@
 import { WebPushBlock } from '../types';
-
-export * from './languages';
 export * from './variables';
 
 // Default blocks for web push template (fixed title and body)

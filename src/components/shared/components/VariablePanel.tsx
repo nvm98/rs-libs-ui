@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { Text } from "@shopify/polaris";
-import { WEB_PUSH_VARIABLES } from "./constants/variables";
+import { Variable } from "../types/variable.type";
 
 interface VariablePanelProps {
   showVariables: boolean;
+  variables: Variable[];
   setShowVariables: (show: boolean) => void;
 }
 
-export function VariablePanel({ showVariables, setShowVariables }: VariablePanelProps) {
+export function VariablePanel({ showVariables, variables, setShowVariables }: VariablePanelProps) {
   const [hoveredVariable, setHoveredVariable] = useState<string | null>(null);
 
   return (
-    <div style={{
+    <div style={{ 
       position: 'absolute',
       bottom: '0',
       left: '0',
@@ -21,8 +22,8 @@ export function VariablePanel({ showVariables, setShowVariables }: VariablePanel
       zIndex: 1000
     }}>
       {/* Toggle Button */}
-      <div
-        style={{
+      <div 
+        style={{ 
           padding: '12px 16px',
           cursor: 'pointer',
           display: 'flex',
@@ -34,7 +35,7 @@ export function VariablePanel({ showVariables, setShowVariables }: VariablePanel
         onClick={() => setShowVariables(!showVariables)}
       >
         <Text as="span" variant="bodySm" fontWeight="medium">Available Variables</Text>
-        <div style={{
+        <div style={{ 
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -46,21 +47,21 @@ export function VariablePanel({ showVariables, setShowVariables }: VariablePanel
           </svg>
         </div>
       </div>
-
+      
       {/* Variable List - Collapsible */}
       {showVariables && (
-        <div style={{
+        <div style={{ 
           padding: '12px 16px',
           backgroundColor: '#ffffff',
           maxHeight: '200px',
           overflowY: 'auto'
         }}>
           <div style={{ fontSize: '12px', color: '#6b7280', lineHeight: '1.4', backgroundColor: '#ffffff' }}>
-            {WEB_PUSH_VARIABLES.map((item, index) => (
+            {variables.map((item, index) => (
               <div
                 key={item.variable}
                 style={{
-                  marginBottom: index === WEB_PUSH_VARIABLES.length - 1 ? '0' : '8px'
+                  marginBottom: index === variables.length - 1 ? '0' : '8px'
                 }}
               >
                 <div style={{

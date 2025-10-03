@@ -22,5 +22,3 @@ export const WHATSAPP_HEADER_FORMATS = [
   { value: 'VIDEO', label: 'Video' },
   { value: 'DOCUMENT', label: 'Document' }
 ];
-
-export { AVAILABLE_LANGUAGES } from './languages';

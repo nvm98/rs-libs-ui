@@ -2,10 +2,11 @@ import { Box, Text, Select, Button, InlineStack } from "@shopify/polaris";
 import { ChevronLeftIcon } from "@shopify/polaris-icons";
 import { BlockList } from './BlockList';
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { Template } from './types';
-import { VariablePanel } from "./VariablePanel";
+import { VariablePanel } from "../shared/components/VariablePanel";
 import { EmailBlock } from "./interfaces/email-block.interface";
 import { AVAILABLE_LANGUAGES } from "./constants/languages";
+import { VARIABLES } from "./constants/variables.constant";
+import { Template } from "../shared/types/template.type";
 
 interface EmailEditorSidebarProps {
   templates?: Template[];
@@ -227,6 +228,7 @@ export function EmailEditorSidebar({
 
       {/* Variable Suggestions Panel - Fixed at bottom */}
       <VariablePanel
+        variables={VARIABLES}
         showVariables={showVariables}
         setShowVariables={setShowVariables}
       />

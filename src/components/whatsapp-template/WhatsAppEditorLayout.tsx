@@ -2,8 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { WhatsAppPreviewPanel } from './WhatsAppPreviewPanel';
 import { WhatsAppTemplate, WhatsAppBlockType } from './types';
 import { WhatsAppEditorSidebar } from './WhatsAppEditorSidebar';
-import { useMediaQuery } from './hooks';
-import { FloatingEditButton } from './FloatingEditButton';
+import { FloatingEditButton } from '../shared/components/FloatingEditButton';
+import { useMediaQuery } from '../shared/hooks/useMediaQuery';
 
 interface WhatsAppEditorLayoutProps {
   templates?: WhatsAppTemplate[] | undefined;
@@ -51,7 +51,7 @@ export function WhatsAppEditorLayout({
   // Handle language change
   const handleLanguageChange = useCallback((language: string) => {
     setSelectedLanguage(language);
-    setSelectedBlockType(null); // Reset selection when changing language
+    setSelectedBlockType(null);
   }, []);
 
   // Mobile handlers
