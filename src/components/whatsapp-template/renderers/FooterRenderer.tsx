@@ -4,9 +4,10 @@ interface FooterRendererProps {
   block: {
     text: string;
   };
+  replaceVariables: (text: string) => string;
 }
 
-export const FooterRenderer: React.FC<FooterRendererProps> = ({ block }) => {
+export const FooterRenderer: React.FC<FooterRendererProps> = ({ block, replaceVariables }) => {
   return (
     <div style={{
       fontSize: '12px',
@@ -14,7 +15,7 @@ export const FooterRenderer: React.FC<FooterRendererProps> = ({ block }) => {
       padding: '4px 8px',
       lineHeight: '16px'
     }}>
-      {block.text || 'Footer text'}
+      {replaceVariables(block.text || 'Footer text')}
     </div>
   );
 };

@@ -10,15 +10,17 @@ import { SMSTemplate } from './types';
 
 interface SMSPreviewPanelProps {
   template: SMSTemplate;
+  replaceVariables: (text: string) => string;
   onSave?: () => void;
 }
 
 export const SMSPreviewPanel: React.FC<SMSPreviewPanelProps> = ({
   template,
+  replaceVariables,
   onSave
 }) => {
   const bodyBlock = template.blocks.find(block => block.type === 'body');
-  const previewMessage = bodyBlock?.content || '';
+  const previewMessage = replaceVariables(bodyBlock?.content || '');
 
   // Main container styles - Similar to WhatsApp
   const containerStyles: React.CSSProperties = {

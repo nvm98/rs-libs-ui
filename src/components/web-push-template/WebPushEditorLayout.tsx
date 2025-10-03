@@ -4,6 +4,7 @@ import { WebPushTemplate, WebPushBlockType } from './types';
 import { WebPushEditorSidebar } from './WebPushEditorSidebar';
 import { FloatingEditButton } from '../shared/components/FloatingEditButton';
 import { useMediaQuery } from '../shared/hooks/useMediaQuery';
+import { VARIABLES } from './constants/variables';
 
 interface WebPushEditorLayoutProps {
   templates?: WebPushTemplate[] | undefined;
@@ -54,6 +55,13 @@ export function WebPushEditorLayout({
     setSelectedBlockType(null); // Reset selection when changing language
   }, []);
 
+  const replaceVariables = useCallback((text: string) => {
+    return VARIABLES.reduce((acc, { variable, example }) => {
+      const regex = new RegExp(variable.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
+      return acc.replace(regex, example);
+    }, text);
+  }, []);
+
   // Mobile handlers
   const handleOpenEditor = () => {
     setIsEditorOpen(true);
@@ -81,7 +89,7 @@ export function WebPushEditorLayout({
           selectedBlockType={selectedBlockType}
           onBlockTypeSelect={setSelectedBlockType}
         />
-        <WebPushPreviewPanel template={currentTemplate} onSave={onSave} />
+        <WebPushPreviewPanel template={currentTemplate} onSave={onSave} replaceVariables={replaceVariables} />
       </div>
     );
   }
@@ -90,7 +98,7 @@ export function WebPushEditorLayout({
   return (
     <div style={{ position: 'relative', height: '100%' }}>
       {/* Full-screen preview for mobile */}
-      <WebPushPreviewPanel template={currentTemplate} onSave={onSave} />
+      <WebPushPreviewPanel template={currentTemplate} onSave={onSave} replaceVariables={replaceVariables} />
 
       {/* Floating Edit Button */}
       <FloatingEditButton onClick={handleOpenEditor} />

@@ -6,9 +6,10 @@ interface HeaderRendererProps {
     text?: string;
     media_url?: string;
   };
+  replaceVariables: (text: string) => string;
 }
 
-export const HeaderRenderer: React.FC<HeaderRendererProps> = ({ block }) => {
+export const HeaderRenderer: React.FC<HeaderRendererProps> = ({ block, replaceVariables }) => {
   if (block.format === 'TEXT') {
     return (
       <div style={{
@@ -18,7 +19,7 @@ export const HeaderRenderer: React.FC<HeaderRendererProps> = ({ block }) => {
         fontWeight: '700',
         padding: '4px 8px'
       }}>
-        {block.text || 'Header Text'}
+        {replaceVariables(block.text || 'Header Text')}
       </div>
     );
   }

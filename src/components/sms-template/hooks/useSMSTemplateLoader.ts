@@ -96,7 +96,7 @@ export function useSMSTemplateLoader(): UseSMSTemplateLoaderResult {
         {
           id: 'body-1',
           type: 'body',
-          content: 'Hello {{customer.first_name}}! Thank you for your interest in our products. We\'ll keep you updated! - {{shop.name}}'
+          content: 'Hello {{customer_first_name}}! Thank you for your interest in our products. We\'ll keep you updated! - {{shop_name}}'
         }
       ]
     };

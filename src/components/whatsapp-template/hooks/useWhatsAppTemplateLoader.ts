@@ -101,7 +101,7 @@ export function useWhatsAppTemplateLoader(): UseWhatsAppTemplateLoaderResult {
           id: 'header-1',
           type: WhatsAppBlockType.HEADER,
           format: 'TEXT',
-          text: 'Hello {{customer.first_name}}!',
+          text: 'Hello {{customer_first_name}}!',
         },
         {
           id: 'body-1',
@@ -112,7 +112,7 @@ export function useWhatsAppTemplateLoader(): UseWhatsAppTemplateLoaderResult {
         {
           id: 'footer-1',
           type: WhatsAppBlockType.FOOTER,
-          text: 'Best regards, {{shop.name}}'
+          text: 'Best regards, {{shop_name}}'
         },
         {
           id: 'buttons-1',
@@ -125,7 +125,7 @@ export function useWhatsAppTemplateLoader(): UseWhatsAppTemplateLoaderResult {
             {
               type: 'URL',
               text: 'Visit Store',
-              url: 'https://{{shop.domain}}'
+              url: 'https://{{shop_url}}'
             }
           ]
         }

@@ -4,6 +4,7 @@ import { SMSPreviewPanel } from './SMSPreviewPanel';
 import { SMSEditorSidebar } from './SMSEditorSidebar';
 import { FloatingEditButton } from '../shared/components/FloatingEditButton';
 import { useMediaQuery } from '../shared/hooks/useMediaQuery';
+import { VARIABLES } from './constants/variables.constant';
 
 interface SMSEditorLayoutProps {
   templates?: SMSTemplate[] | undefined;
@@ -43,6 +44,13 @@ export function SMSEditorLayout({
     setSelectedLanguage(language);
   }, []);
 
+  const replaceVariables = useCallback((text: string) => {
+    return VARIABLES.reduce((acc, { variable, example }) => {
+      const regex = new RegExp(variable.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
+      return acc.replace(regex, example);
+    }, text);
+  }, []);
+
   // Mobile handlers
   const handleOpenEditor = () => {
     setIsEditorOpen(true);
@@ -68,7 +76,7 @@ export function SMSEditorLayout({
           template={currentTemplate}
           onTemplateChange={handleTemplateChange}
         />
-        <SMSPreviewPanel template={currentTemplate} onSave={onSave} />
+        <SMSPreviewPanel template={currentTemplate} onSave={onSave} replaceVariables={replaceVariables} />
       </div>
     );
   }
@@ -76,7 +84,7 @@ export function SMSEditorLayout({
   // Mobile layout
   return (
     <div style={{ position: 'relative', height: '100%' }}>
-      <SMSPreviewPanel template={currentTemplate} onSave={onSave} />
+      <SMSPreviewPanel template={currentTemplate} onSave={onSave} replaceVariables={replaceVariables} />
       <FloatingEditButton onClick={handleOpenEditor} />
       {isEditorOpen && (
         <SMSEditorSidebar

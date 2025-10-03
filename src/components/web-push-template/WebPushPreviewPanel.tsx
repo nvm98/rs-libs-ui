@@ -14,6 +14,7 @@ import { BodyRenderer } from './renderers/BodyRenderer';
 
 interface WebPushPreviewPanelProps {
   template: WebPushTemplate;
+  replaceVariables: (text: string) => string;
   onSave?: () => void;
 }
 
@@ -21,6 +22,7 @@ type PreviewMode = 'desktop' | 'mobile';
 
 export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
   template,
+  replaceVariables,
   onSave
 }) => {
   const [previewMode, setPreviewMode] = useState<PreviewMode>('desktop');
@@ -150,8 +152,8 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
                     {/* Notification Content */}
                     <div style={{ flex: 1 }}>
                       <BlockStack gap="200">
-                        {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} />}
-                        {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} />}
+                        {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} replaceVariables={replaceVariables} />}
+                        {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} replaceVariables={replaceVariables} />}
                       </BlockStack>
                     </div>
 
@@ -224,8 +226,8 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
                     {/* Notification Content */}
                     <div style={{ flex: 1 }}>
                       <BlockStack gap="200">
-                        {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} />}
-                        {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} />}
+                        {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} replaceVariables={replaceVariables} />}
+                        {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} replaceVariables={replaceVariables} />}
                       </BlockStack>
 
                       {/* Large image below for expanded state */}
@@ -301,8 +303,8 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
                 {/* Notification Content */}
                 <div style={{ flex: 1 }}>
                   <BlockStack gap="200">
-                    {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} />}
-                    {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} />}
+                    {titleBlock && titleBlock.visible !== false && <TitleRenderer block={titleBlock as any} replaceVariables={replaceVariables} />}
+                    {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} replaceVariables={replaceVariables} />}
                   </BlockStack>
 
                   {/* Body block image if present */}

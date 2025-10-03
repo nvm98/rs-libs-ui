@@ -14,11 +14,13 @@ import { ButtonsRenderer } from './renderers/ButtonsRenderer';
 
 interface WhatsAppPreviewPanelProps {
   template: WhatsAppTemplate;
+  replaceVariables: (text: string) => string;
   onSave?: () => void;
 }
 
 export const WhatsAppPreviewPanel: React.FC<WhatsAppPreviewPanelProps> = ({
   template,
+  replaceVariables,
   onSave
 }) => {
   const getBlockByType = (type: WhatsAppBlockType) => {
@@ -109,9 +111,9 @@ export const WhatsAppPreviewPanel: React.FC<WhatsAppPreviewPanelProps> = ({
           {/* WhatsApp template content */}
           <div style={messageContentStyles}>
             <BlockStack gap="200">
-              {headerBlock && headerBlock.visible !== false && <HeaderRenderer block={headerBlock as any} />}
-              {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} />}
-              {footerBlock && footerBlock.visible !== false && <FooterRenderer block={footerBlock as any} />}
+              {headerBlock && headerBlock.visible !== false && <HeaderRenderer block={headerBlock as any} replaceVariables={replaceVariables} />}
+              {bodyBlock && bodyBlock.visible !== false && <BodyRenderer block={bodyBlock as any} replaceVariables={replaceVariables} />}
+              {footerBlock && footerBlock.visible !== false && <FooterRenderer block={footerBlock as any} replaceVariables={replaceVariables} />}
               {/* Time and status */}
               <div style={timeStatusStyles}>
                 <span style={timeStampStyles}>10:20 PM</span>

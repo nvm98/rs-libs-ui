@@ -4,6 +4,7 @@ import { WhatsAppTemplate, WhatsAppBlockType } from './types';
 import { WhatsAppEditorSidebar } from './WhatsAppEditorSidebar';
 import { FloatingEditButton } from '../shared/components/FloatingEditButton';
 import { useMediaQuery } from '../shared/hooks/useMediaQuery';
+import { VARIABLES } from './constants/variables.constant';
 
 interface WhatsAppEditorLayoutProps {
   templates?: WhatsAppTemplate[] | undefined;
@@ -54,6 +55,13 @@ export function WhatsAppEditorLayout({
     setSelectedBlockType(null);
   }, []);
 
+  const replaceVariables = useCallback((text: string) => {
+    return VARIABLES.reduce((acc, { variable, example }) => {
+      const regex = new RegExp(variable.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
+      return acc.replace(regex, example);
+    }, text);
+  }, []);
+
   // Mobile handlers
   const handleOpenEditor = () => {
     setIsEditorOpen(true);
@@ -79,7 +87,7 @@ export function WhatsAppEditorLayout({
           template={currentTemplate}
           onTemplateChange={handleTemplateChange}
         />
-        <WhatsAppPreviewPanel template={currentTemplate} onSave={onSave} />
+        <WhatsAppPreviewPanel template={currentTemplate} onSave={onSave} replaceVariables={replaceVariables} />
       </div>
     );
   }
@@ -88,7 +96,7 @@ export function WhatsAppEditorLayout({
   return (
     <div style={{ position: 'relative', height: '100%' }}>
       {/* Full-screen preview for mobile */}
-      <WhatsAppPreviewPanel template={currentTemplate} onSave={onSave} />
+      <WhatsAppPreviewPanel template={currentTemplate} onSave={onSave} replaceVariables={replaceVariables} />
 
       {/* Floating Edit Button */}
       <FloatingEditButton onClick={handleOpenEditor} />

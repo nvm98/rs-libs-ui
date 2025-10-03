@@ -3,23 +3,16 @@ import { WebPushBlock } from '../types';
 
 interface BodyRendererProps {
   block: WebPushBlock;
-  variables?: Record<string, string>;
+  replaceVariables: (text: string) => string;
 }
 
 export const BodyRenderer: React.FC<BodyRendererProps> = ({
   block,
-  variables = {}
+  replaceVariables
 }) => {
   if (block.type !== 'body') {
     return <span>Invalid block type</span>;
   }
 
-  // Replace variables in content
-  let content = block.content;
-  Object.entries(variables).forEach(([key, value]) => {
-    const regex = new RegExp(`{{\\s*${key}\\s*}}`, 'g');
-    content = content.replace(regex, value);
-  });
-
-  return <span>{content}</span>;
+  return <span>{replaceVariables(block.content)}</span>;
 };
