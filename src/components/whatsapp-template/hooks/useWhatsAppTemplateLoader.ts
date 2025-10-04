@@ -47,7 +47,7 @@ export function useWhatsAppTemplateLoader(): UseWhatsAppTemplateLoaderResult {
     setLoading(true);
     setError(null);
     const searchParams = new URLSearchParams({
-      name: templateName,
+      type: templateName,
       channel: 'whatsapp'
     });
     const url = `/api/templates/search?${searchParams.toString()}`;

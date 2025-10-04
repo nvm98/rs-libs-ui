@@ -47,7 +47,7 @@ export function useWebPushTemplateLoader(): UseWebPushTemplateLoaderResult {
     setLoading(true);
     setError(null);
     const searchParams = new URLSearchParams({
-      name: templateName,
+      type: templateName,
       channel: 'web-push'
     });
     const url = `/api/templates/search?${searchParams.toString()}`;

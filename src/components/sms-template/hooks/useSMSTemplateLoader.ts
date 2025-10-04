@@ -46,7 +46,7 @@ export function useSMSTemplateLoader(): UseSMSTemplateLoaderResult {
     setLoading(true);
     setError(null);
     const searchParams = new URLSearchParams({
-      name: templateName,
+      type: templateName,
       channel: 'sms'
     });
     const url = `/api/templates/search?${searchParams.toString()}`;
