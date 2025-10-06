@@ -15,12 +15,7 @@ interface TemplateApiErrorResponse {
   error: string;
 }
 
-interface TemplateCreateSuccessResponse {
-  success: true;
-  data: Template;
-}
-
-type TemplateApiResponse = TemplateApiSuccessResponse | TemplateApiErrorResponse | TemplateCreateSuccessResponse;
+type TemplateApiResponse = TemplateApiSuccessResponse | TemplateApiErrorResponse;
 
 export interface UseTemplateLoaderResult {
   templates?: Template[],
@@ -29,7 +24,7 @@ export interface UseTemplateLoaderResult {
   error: string | null;
   loadTemplate: (templateName: string) => void;
   createDefaultTemplate: (templateName: string) => void;
-  saveAllTemplates: (templatesData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>[]) => void;
+
   clearTemplate: () => void;
   updateTemplates: (newTemplates: Template[]) => void;
   selectTemplate: (template: Template) => void;
@@ -54,23 +49,7 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
     fetcher.load(url);
   }, [fetcher]);
 
-  //save all templates (all locales for a templateName)
-  const saveAllTemplates = useCallback((templatesData: Template[]) => {
-    setLoading(true);
-    setError(null);
 
-    // Save each template individually
-    templatesData.forEach(templateData => {
-      const formData = new FormData();
-      Object.entries(templateData).forEach(([key, value]) => {
-        formData.append(key, String(value));
-      });
-      fetcher.submit(formData, {
-        method: 'POST',
-        action: '/api/templates'
-      });
-    });
-  }, [fetcher]);
 
   // clear template
   const clearTemplate = useCallback(() => {
@@ -138,7 +117,7 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
     error,
     loadTemplate,
     createDefaultTemplate,
-    saveAllTemplates,
+
     clearTemplate,
     updateTemplates,
     selectTemplate

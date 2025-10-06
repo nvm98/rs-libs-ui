@@ -13,10 +13,12 @@ export function EmailEditorErrorState({
   return (
     <Box paddingBlockStart={'800'}>
       <BlockStack gap={'400'}>
-        <BlockStack gap={'200'}>
-          <Text as="h2" alignment="center" variant="headingLg">Template not found</Text>
-          <Text as="p" alignment="center" variant="bodyLg">We couldn't load the template you're looking for. This might be due to a temporary issue or the template may no longer be available.</Text>
-        </BlockStack>
+        <Box padding={'200'}>
+          <BlockStack gap={'200'}>
+            <Text as="h2" alignment="center" variant="headingLg">Template not found</Text>
+            <Text as="p" alignment="center" variant="bodyLg">We couldn't load the template you're looking for. This might be due to a temporary issue or the template may no longer be available.</Text>
+          </BlockStack>
+        </Box>
         <InlineStack align="center">
           <Button
             variant="primary"
