@@ -4,7 +4,7 @@ import { WebPushBlockType } from './types';
 import { WebPushEditorSidebar } from './WebPushEditorSidebar';
 import { FloatingEditButton } from '../shared/components/FloatingEditButton';
 import { useMediaQuery } from '../shared/hooks/useMediaQuery';
-import { VARIABLES } from './constants/variables';
+import { VARIABLES } from './constants/variables.constant';
 import { Template } from '../shared/types';
 
 interface WebPushEditorLayoutProps {

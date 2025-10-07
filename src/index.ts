@@ -13,7 +13,7 @@ export * from './components/email-template/blocks';
 export * from './components/email-template/renderers';
 export * from './components/email-template/types';
 export * from './components/email-template/interfaces';
-export { initialBlocks as emailInitialBlocks, BLOCK_TEMPLATES } from './components/email-template/constants/block.constant';
+export { INITIAL_BLOCKS as emailInitialBlocks, BLOCK_TEMPLATES } from './components/email-template/constants/blocks.constant';
 export * from './components/email-template/constants/template.constant';
 export * from './components/email-template/constants/variables.constant';
 export * from './components/email-template/hooks/useBlockManager';
@@ -29,7 +29,7 @@ export * from './components/web-push-template/types';
 export * from './components/web-push-template/hooks';
 export * from './components/web-push-template/blocks';
 export * from './components/web-push-template/renderers';
-export { initialBlocks as webPushInitialBlocks, MAX_TITLE_LENGTH, MAX_BODY_LENGTH, COMMON_ICONS, VIBRATION_PATTERNS } from './components/web-push-template/constants';
+export { INITIAL_BLOCKS as webPushInitialBlocks, MAX_TITLE_LENGTH, MAX_BODY_LENGTH, COMMON_ICONS, VIBRATION_PATTERNS } from './components/web-push-template/constants';
 
 // SMS Template Components
 export { SMSTemplateEditor } from './components/sms-template/SMSTemplateEditor';
@@ -40,5 +40,4 @@ export { SMSEditorEmptyState } from './components/sms-template/SMSEditorEmptySta
 export { SMSEditorErrorState } from './components/sms-template/SMSEditorErrorState';
 export { SMSEditorSkeleton } from './components/sms-template/SMSEditorSkeleton';
 export * from './components/sms-template/types';
-export * from './components/sms-template/constants';
 export { useBlockManager as useSMSBlockManager } from './components/sms-template/hooks/useBlockManager';

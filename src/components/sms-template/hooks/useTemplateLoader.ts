@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
 import { Template, TemplateApiResponse } from '@shared/types';
 import { UseTemplateLoaderResult } from '@shared/interfaces';
+import { INITIAL_BLOCKS } from '@sms-template/constants';
 
 export function useSMSTemplateLoader(): UseTemplateLoaderResult {
   const [templates, setTemplates] = useState<Template[] | undefined>();
@@ -43,13 +44,7 @@ export function useSMSTemplateLoader(): UseTemplateLoaderResult {
       engine: 'handlebars',
       channel: 'sms',
       isActive: true,
-      blocks: [
-        {
-          id: 'body-1',
-          type: 'body',
-          content: 'Hello {{customer_first_name}}! Thank you for your interest in our products. We\'ll keep you updated! - {{shop_name}}'
-        }
-      ]
+      blocks: INITIAL_BLOCKS
     };
 
     setTemplate(defaultTemplate);

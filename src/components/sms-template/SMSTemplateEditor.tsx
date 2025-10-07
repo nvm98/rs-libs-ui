@@ -64,20 +64,8 @@ export function SMSTemplateEditor({
   // Handle save
   const handleSave = () => {
     if (templates) {
-      // Convert SMSTemplate to Template format for the action hook
-      const templatesData = templates.map(template => ({
-        content: template.content,
-        blocks: template.blocks,
-        locale: template.locale,
-        channel: 'sms' as const,
-        type: template.type,
-        engine: template.engine,
-        description: template.description,
-        isActive: template.isActive,
-      }));
-
       templateAction.saveAllTemplates(
-        templatesData,
+        templates,
         () => {
           // Success callback
           onSave(templates);

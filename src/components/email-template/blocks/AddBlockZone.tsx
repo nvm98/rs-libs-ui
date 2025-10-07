@@ -9,7 +9,7 @@ import {
   PlusCircleIcon
 } from "@shopify/polaris-icons";
 import { EmailBlockType } from '../types/email-block-type.type';
-import { BLOCK_TEMPLATES } from '../constants/block.constant';
+import { BLOCK_TEMPLATES } from '../constants/blocks.constant';
 
 interface AddBlockZoneProps {
   position: number | 'top' | 'bottom';

@@ -13,7 +13,7 @@ export function useWebPushTemplateAction(): UseTemplateActionResult {
   const fetcher = useFetcher<TemplateActionApiResponse>();
 
   // Save all templates (all locales for a templateName)
-  const saveAllTemplates = useCallback((templatesData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>[], onSuccess?: () => void, onError?: (error: string) => void) => {
+  const saveAllTemplates = useCallback((templatesData: Omit<Template, 'id' | 'created_at' | 'updated_at'>[], onSuccess?: () => void, onError?: (error: string) => void) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
@@ -26,7 +26,7 @@ export function useWebPushTemplateAction(): UseTemplateActionResult {
     // Send all templates in a single request as JSON payload
     fetcher.submit(templatesData, {
       method: 'POST',
-      action: '/api/webpush-templates',
+      action: '/api/templates',
       encType: 'application/json'
     });
   }, [fetcher]);

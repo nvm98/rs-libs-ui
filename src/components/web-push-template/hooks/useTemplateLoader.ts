@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
-import { initialBlocks } from '../constants';
+import { INITIAL_BLOCKS } from '../constants';
 import { UseTemplateLoaderResult } from '@shared/interfaces';
 import { Template, TemplateApiResponse } from '@shared/types';
 
@@ -17,7 +17,7 @@ export function useWebPushTemplateLoader(): UseTemplateLoaderResult {
     setError(null);
     const searchParams = new URLSearchParams({
       type: templateName,
-      channel: 'web-push'
+      channel: 'webpush'
     });
     const url = `/api/templates/search?${searchParams.toString()}`;
     fetcher.load(url);
@@ -46,7 +46,7 @@ export function useWebPushTemplateLoader(): UseTemplateLoaderResult {
       id: '',
       type: templateName,
       content: '',
-      blocks: initialBlocks,
+      blocks: INITIAL_BLOCKS,
       locale: 'en',
       channel: 'webpush',
       engine: 'handlebars',

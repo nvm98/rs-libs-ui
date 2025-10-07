@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
 import { Template } from '../types';
-import { initialBlocks } from '../constants/block.constant';
+import { INITIAL_BLOCKS } from '../constants/blocks.constant';
 import { UseTemplateLoaderResult } from '@shared/interfaces';
 import { TemplateApiResponse } from '@shared/types';
 
@@ -48,7 +48,7 @@ export function useEmailTemplateLoader(): UseTemplateLoaderResult {
     const defaultTemplate: Template = {
       type: templateName,
       content: '',
-      blocks: initialBlocks,
+      blocks: INITIAL_BLOCKS,
       locale: 'en',
       channel: 'email',
       engine: 'handlebars',

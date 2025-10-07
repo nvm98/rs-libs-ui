@@ -1,21 +1,5 @@
-import { WebPushBlock } from '../types';
-export * from './variables';
-
-// Default blocks for web push template (fixed title and body)
-export const initialBlocks: WebPushBlock[] = [
-  {
-    id: 'title-1',
-    type: 'title',
-    content: 'Hi {{customer.first_name}}!',
-    visible: true
-  },
-  {
-    id: 'body-1',
-    type: 'body',
-    content: 'Your order is ready for pickup. Click to view details.',
-    visible: true
-  }
-];
+export * from './variables.constant';
+export * from './blocks.constant';
 
 // Web Push specific constants
 export const MAX_TITLE_LENGTH = 50;

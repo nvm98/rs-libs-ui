@@ -1,10 +1,10 @@
 import { EmailBlock } from "../interfaces/email-block.interface";
 import { EmailBlockType } from "../types";
 
-export const initialBlocks: EmailBlock[] = [
+export const INITIAL_BLOCKS: EmailBlock[] = [
     { 
       id: '1', 
-      type: 'header', 
+      type: EmailBlockType.HEADER, 
       content: { 
         logoUrl: '{{shop_logo_url}}', 
         shopName: '{{shop_name}}', 
@@ -19,7 +19,7 @@ export const initialBlocks: EmailBlock[] = [
     },
     { 
       id: '2', 
-      type: 'text', 
+      type: EmailBlockType.TEXT, 
       content: { 
         text: 'Hi {{customer_first_name}}, your order is ready!', 
         variables: true 
@@ -33,7 +33,7 @@ export const initialBlocks: EmailBlock[] = [
     },
     { 
       id: '3', 
-      type: 'product', 
+      type: EmailBlockType.PRODUCT, 
       content: { 
         showImage: true, 
         showPrice: true, 
@@ -49,7 +49,7 @@ export const initialBlocks: EmailBlock[] = [
     },
     { 
       id: '4', 
-      type: 'button', 
+      type: EmailBlockType.BUTTON, 
       content: { 
         text: 'Shop Now', 
         link: '{{shop_url}}', 
@@ -66,7 +66,7 @@ export const initialBlocks: EmailBlock[] = [
     },
     { 
       id: '5', 
-      type: 'footer', 
+      type: EmailBlockType.FOOTER, 
       content: { 
         text: '© 2024 {{shop_name}}. All rights reserved.', 
         unsubscribeText: 'Unsubscribe from these notifications', 
@@ -84,7 +84,7 @@ export const initialBlocks: EmailBlock[] = [
 
   export const BLOCK_TEMPLATES: Record<EmailBlockType, Omit<EmailBlock, 'id'>> = {
   header: {
-    type: 'header',
+    type: EmailBlockType.HEADER,
     content: {
       logoUrl: '{{shop_logo_url}}',
       shopName: '{{shop_name}}',
@@ -98,7 +98,7 @@ export const initialBlocks: EmailBlock[] = [
     }
   },
   text: {
-    type: 'text',
+    type: EmailBlockType.TEXT,
     content: {
       text: 'Your text content here...',
       variables: true
@@ -111,7 +111,7 @@ export const initialBlocks: EmailBlock[] = [
     }
   },
   image: {
-    type: 'image',
+    type: EmailBlockType.IMAGE,
     content: {
       src: 'https://via.placeholder.com/600x200',
       alt: 'Image',
@@ -125,7 +125,7 @@ export const initialBlocks: EmailBlock[] = [
     }
   },
   button: {
-    type: 'button',
+    type: EmailBlockType.BUTTON,
     content: {
       text: 'Click Here',
       link: '#',
@@ -141,7 +141,7 @@ export const initialBlocks: EmailBlock[] = [
     }
   },
   product: {
-    type: 'product',
+    type: EmailBlockType.PRODUCT,
     content: {
       showImage: true,
       showPrice: true,
@@ -156,7 +156,7 @@ export const initialBlocks: EmailBlock[] = [
     }
   },
   divider: {
-    type: 'divider',
+    type: EmailBlockType.DIVIDER,
     content: {},
     styles: {
       borderColor: '#e1e3e5',
@@ -164,14 +164,14 @@ export const initialBlocks: EmailBlock[] = [
     }
   },
   spacer: {
-    type: 'spacer',
+    type: EmailBlockType.SPACER,
     content: {},
     styles: {
       height: '32px'
     }
   },
   footer: {
-    type: 'footer',
+    type: EmailBlockType.FOOTER,
     content: {
       text: '© 2024 {{shop_name}}. All rights reserved.',
       unsubscribeText: 'Unsubscribe from these notifications',

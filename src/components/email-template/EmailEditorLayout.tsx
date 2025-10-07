@@ -2,9 +2,8 @@ import { useCallback, useState, useEffect } from 'react';
 import { EmailEditorSidebar } from './EmailEditorSidebar';
 import { EmailPreviewPanel } from './EmailPreviewPanel';
 import { Template } from './types';
-import { VARIABLES } from './constants/variables.constant';
+import { VARIABLES, INITIAL_BLOCKS } from './constants';
 import { EmailBlock } from './interfaces/email-block.interface';
-import { initialBlocks } from './constants/block.constant';
 import { useBlockManager } from './hooks/useBlockManager';
 import { useMediaQuery } from "../shared/hooks/useMediaQuery";
 import { FloatingEditButton } from '../shared/components/FloatingEditButton';
@@ -30,7 +29,7 @@ export function EmailEditorLayout({
 }: EmailEditorLayoutProps) {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [currentTemplate, setCurrentTemplate] = useState<Template | null>(null);
-  const [blocks, setBlocks] = useState<EmailBlock[]>(initialBlocks);
+  const [blocks, setBlocks] = useState<EmailBlock[]>(INITIAL_BLOCKS);
   const [selectedBlockId, setSelectedBlockId] = useState<string | null>(null);
   const [showVariables, setShowVariables] = useState<boolean>(false);
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
@@ -42,11 +41,11 @@ export function EmailEditorLayout({
     const template = templates.find(t => t.locale === selectedLanguage);
     if (template) {
       setCurrentTemplate(template);
-      setBlocks(template.blocks || initialBlocks);
+      setBlocks(template.blocks || INITIAL_BLOCKS);
     } else if (templates.length > 0) {
       // Fallback to first template if selected language not found
       setCurrentTemplate(templates[0]);
-      setBlocks(templates[0].blocks || initialBlocks);
+      setBlocks(templates[0].blocks || INITIAL_BLOCKS);
       setSelectedLanguage(templates[0].locale);
     }
   }, [templates, selectedLanguage]);

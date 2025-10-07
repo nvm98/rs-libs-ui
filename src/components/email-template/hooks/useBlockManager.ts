@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from 'react';
 import { EmailBlock } from '../interfaces/email-block.interface';
 import { EmailBlockType } from '../types/email-block-type.type';
-import { BLOCK_TEMPLATES } from '../constants/block.constant';
+import { BLOCK_TEMPLATES } from '../constants/blocks.constant';
 
 export function useBlockManager(
   initialBlocks: EmailBlock[] | undefined,

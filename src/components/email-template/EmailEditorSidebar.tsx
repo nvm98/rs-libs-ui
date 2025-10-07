@@ -4,9 +4,9 @@ import { BlockList } from './BlockList';
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { VariablePanel } from "../shared/components/VariablePanel";
 import { EmailBlock } from "./interfaces/email-block.interface";
-import { AVAILABLE_LANGUAGES } from "./constants/languages";
-import { VARIABLES } from "./constants/variables.constant";
+import { VARIABLES } from "./constants";
 import { Template } from "../shared/types/template.type";
+import { LANGUAGES } from "@shared/constants";
 
 interface EmailEditorSidebarProps {
   templateName: string,
@@ -51,7 +51,7 @@ export function EmailEditorSidebar({
   // Lấy danh sách ngôn ngữ có sẵn từ templates
   const availableLanguages = useMemo(() => {
     const templateLocales = new Set(templates.map(template => template.locale));
-    const filteredLanguages = AVAILABLE_LANGUAGES.filter(lang =>
+    const filteredLanguages = LANGUAGES.filter(lang =>
       templateLocales.has(lang.value)
     );
     if (!templateLocales.has('en')) {
@@ -68,7 +68,7 @@ export function EmailEditorSidebar({
   // Lấy danh sách ngôn ngữ chưa có template
   const getAvailableLanguagesForSelection = useCallback(() => {
     const existingLanguageCodes = availableLanguages.map(lang => lang.value);
-    return AVAILABLE_LANGUAGES.filter(lang => !existingLanguageCodes.includes(lang.value));
+    return LANGUAGES.filter(lang => !existingLanguageCodes.includes(lang.value));
   }, [availableLanguages]);
 
   const handleLanguageChange = useCallback((value: string) => {
@@ -77,7 +77,7 @@ export function EmailEditorSidebar({
 
   const handleAddLanguage = useCallback(() => {
     if (selectedNewLanguage) {
-      const languageToAdd = AVAILABLE_LANGUAGES.find(lang => lang.value === selectedNewLanguage);
+      const languageToAdd = LANGUAGES.find(lang => lang.value === selectedNewLanguage);
       if (languageToAdd) {
         const englishTemplate = templates.find(template => template.locale === 'en');
         const newTemplate: Template = {
