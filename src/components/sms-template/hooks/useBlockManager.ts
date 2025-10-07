@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
-import { SMSTemplate, SMSBlock } from '../types';
+import { SMSBlock } from '../types';
+import { Template } from '@shared/types';
 
 export function useBlockManager (
-  template: SMSTemplate,
-  onTemplateChange: (template: SMSTemplate) => void
+  template: Template,
+  onTemplateChange: (template: Template) => void
 ) {
   const updateBlock = useCallback((blockType: string, updates: Partial<SMSBlock>) => {
     const updatedBlocks = template.blocks.map(block =>

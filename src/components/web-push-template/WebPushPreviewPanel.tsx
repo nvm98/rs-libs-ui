@@ -8,12 +8,13 @@ import {
   InlineStack
 } from '@shopify/polaris';
 import { MobileIcon, DesktopIcon } from '@shopify/polaris-icons';
-import { WebPushTemplate, WebPushBlockType } from './types';
+import { WebPushBlockType } from './types';
 import { TitleRenderer } from './renderers/TitleRenderer';
 import { BodyRenderer } from './renderers/BodyRenderer';
+import { Template } from '../shared/types';
 
 interface WebPushPreviewPanelProps {
-  template: WebPushTemplate;
+  template: Template;
   replaceVariables: (text: string) => string;
   onSave?: () => void;
 }
@@ -124,7 +125,7 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
                 <div style={notificationContentStyles}>
                   <div style={{ display: 'flex', alignItems: 'flex-start' }}>
                     {/* App Icon */}
-                    <div style={iconStyles}>
+                    {/* <div style={iconStyles}>
                       {template.icon ? (
                         <img
                           src={template.icon}
@@ -147,7 +148,7 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
                       ) : (
                         <span style={{ fontSize: '20px' }}>🔔</span>
                       )}
-                    </div>
+                    </div> */}
 
                     {/* Notification Content */}
                     <div style={{ flex: 1 }}>
@@ -198,7 +199,7 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
                 <div style={notificationContentStyles}>
                   <div style={{ display: 'flex', alignItems: 'flex-start' }}>
                     {/* App Icon */}
-                    <div style={iconStyles}>
+                    {/* <div style={iconStyles}>
                       {template.icon ? (
                         <img
                           src={template.icon}
@@ -221,7 +222,7 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
                       ) : (
                         <span style={{ fontSize: '20px' }}>🔔</span>
                       )}
-                    </div>
+                    </div> */}
 
                     {/* Notification Content */}
                     <div style={{ flex: 1 }}>
@@ -275,7 +276,7 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
             <div style={notificationContentStyles}>
               <div style={{ display: 'flex', alignItems: 'flex-start' }}>
                 {/* App Icon */}
-                <div style={iconStyles}>
+                {/* <div style={iconStyles}>
                   {template.icon ? (
                     <img
                       src={template.icon}
@@ -298,7 +299,7 @@ export const WebPushPreviewPanel: React.FC<WebPushPreviewPanelProps> = ({
                   ) : (
                     <span style={{ fontSize: '20px' }}>🔔</span>
                   )}
-                </div>
+                </div> */}
 
                 {/* Notification Content */}
                 <div style={{ flex: 1 }}>

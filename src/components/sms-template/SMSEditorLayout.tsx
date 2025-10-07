@@ -1,24 +1,26 @@
 import { useState, useEffect, useCallback } from 'react';
-import { SMSTemplate } from './types';
 import { SMSPreviewPanel } from './SMSPreviewPanel';
 import { SMSEditorSidebar } from './SMSEditorSidebar';
 import { FloatingEditButton } from '../shared/components/FloatingEditButton';
 import { useMediaQuery } from '../shared/hooks/useMediaQuery';
 import { VARIABLES } from './constants/variables.constant';
+import { Template } from '../shared/types';
 
 interface SMSEditorLayoutProps {
-  templates?: SMSTemplate[] | undefined;
-  onTemplatesUpdate?: (templates: SMSTemplate[]) => void;
+  templateType: string;
+  templates?: Template[] | undefined;
+  onTemplatesUpdate?: (templates: Template[]) => void;
   onSave?: () => void;
 }
 
 export function SMSEditorLayout({
+  templateType,
   templates = [],
   onTemplatesUpdate,
   onSave
 }: SMSEditorLayoutProps) {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const [currentTemplate, setCurrentTemplate] = useState<SMSTemplate | null>(null);
+  const [currentTemplate, setCurrentTemplate] = useState<Template | null>(null);
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [isEditorOpen, setIsEditorOpen] = useState(false);
 
@@ -32,7 +34,7 @@ export function SMSEditorLayout({
     }
   }, [templates, selectedLanguage]);
 
-  const handleTemplateChange = (updatedTemplate: SMSTemplate) => {
+  const handleTemplateChange = (updatedTemplate: Template) => {
     setCurrentTemplate(updatedTemplate);
     if (onTemplatesUpdate) {
       const updatedTemplates = templates.map(t => t.locale === updatedTemplate.locale ? updatedTemplate : t);
@@ -69,6 +71,7 @@ export function SMSEditorLayout({
     return (
       <div style={{ display: 'flex', height: '100vh' }}>
         <SMSEditorSidebar
+          templateType={templateType}
           templates={templates}
           selectedLanguage={selectedLanguage}
           onLanguageChange={handleLanguageChange}
@@ -88,6 +91,7 @@ export function SMSEditorLayout({
       <FloatingEditButton onClick={handleOpenEditor} />
       {isEditorOpen && (
         <SMSEditorSidebar
+          templateType={templateType}
           templates={templates}
           selectedLanguage={selectedLanguage}
           onLanguageChange={handleLanguageChange}

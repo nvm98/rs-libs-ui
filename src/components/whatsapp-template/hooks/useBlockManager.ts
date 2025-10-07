@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
-import { WhatsAppTemplate, WhatsAppBlock, WhatsAppBlockType } from '../types';
+import { WhatsAppBlock, WhatsAppBlockType } from '../types';
+import { Template } from '@shared/types';
 
 export function useBlockManager(
-  template: WhatsAppTemplate,
-  onTemplateChange: (template: WhatsAppTemplate) => void
+  template: Template,
+  onTemplateChange: (template: Template) => void
 ) {
   // Get block by type
   const getBlock = useCallback((type: WhatsAppBlockType): WhatsAppBlock | undefined => {

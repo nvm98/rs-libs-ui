@@ -1,24 +1,27 @@
 import { useState, useEffect, useCallback } from 'react';
 import { WhatsAppPreviewPanel } from './WhatsAppPreviewPanel';
-import { WhatsAppTemplate, WhatsAppBlockType } from './types';
+import { WhatsAppBlockType } from './types';
 import { WhatsAppEditorSidebar } from './WhatsAppEditorSidebar';
 import { FloatingEditButton } from '../shared/components/FloatingEditButton';
 import { useMediaQuery } from '../shared/hooks/useMediaQuery';
 import { VARIABLES } from './constants/variables.constant';
+import { Template } from '../shared/types';
 
 interface WhatsAppEditorLayoutProps {
-  templates?: WhatsAppTemplate[] | undefined;
-  onTemplatesUpdate?: (templates: WhatsAppTemplate[]) => void;
+  templateType: string,
+  templates?: Template[] | undefined;
+  onTemplatesUpdate?: (templates: Template[]) => void;
   onSave?: () => void;
 }
 
 export function WhatsAppEditorLayout({
+  templateType,
   templates = [],
   onTemplatesUpdate,
   onSave
 }: WhatsAppEditorLayoutProps) {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const [currentTemplate, setCurrentTemplate] = useState<WhatsAppTemplate | null>(null);
+  const [currentTemplate, setCurrentTemplate] = useState<Template | null>(null);
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [selectedBlockType, setSelectedBlockType] = useState<WhatsAppBlockType | null>(null);
@@ -35,7 +38,7 @@ export function WhatsAppEditorLayout({
     }
   }, [templates, selectedLanguage]);
 
-  const handleTemplateChange = (updatedTemplate: WhatsAppTemplate) => {
+  const handleTemplateChange = (updatedTemplate: Template) => {
     setCurrentTemplate(updatedTemplate);
 
     // Update templates array
@@ -80,6 +83,7 @@ export function WhatsAppEditorLayout({
     return (
       <div style={{ display: 'flex', height: '100vh' }}>
         <WhatsAppEditorSidebar
+          templateType={templateType}
           templates={templates}
           selectedLanguage={selectedLanguage}
           onLanguageChange={handleLanguageChange}
@@ -104,6 +108,7 @@ export function WhatsAppEditorLayout({
       {/* Full-screen editor sidebar for mobile */}
       {isEditorOpen && (
         <WhatsAppEditorSidebar
+          templateType={templateType}
           templates={templates}
           selectedLanguage={selectedLanguage}
           onLanguageChange={handleLanguageChange}

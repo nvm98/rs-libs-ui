@@ -9,20 +9,21 @@ import {
   Divider,
 } from '@shopify/polaris';
 import { ChevronLeftIcon } from '@shopify/polaris-icons';
-import { WebPushTemplate, WebPushBlockType } from './types';
+import { WebPushBlockType } from './types';
 import { useBlockManager } from './hooks/useBlockManager';
 import { BlockItem } from './blocks/BlockItem';
 import { VARIABLES } from './constants';
 import { VariablePanel } from '../shared/components/VariablePanel';
 import { LANGUAGES } from '../shared/constants/language.constant';
+import { Template } from '../shared/types';
 
 interface WebPushEditorSidebarProps {
-  templates?: WebPushTemplate[];
+  templates?: Template[];
   selectedLanguage?: string;
   onLanguageChange?: (language: string) => void;
-  onTemplatesUpdate?: (templates: WebPushTemplate[]) => void;
-  template: WebPushTemplate;
-  onTemplateChange: (template: WebPushTemplate) => void;
+  onTemplatesUpdate?: (templates: Template[]) => void;
+  template: Template;
+  onTemplateChange: (template: Template) => void;
   // Mobile full-screen mode props
   isFullScreen?: boolean;
   onClose?: () => void;
@@ -77,21 +78,17 @@ export const WebPushEditorSidebar: React.FC<WebPushEditorSidebarProps> = ({
       const languageToAdd = LANGUAGES.find((lang: { value: string; label: string }) => lang.value === selectedNewLanguage);
       if (languageToAdd) {
         const englishTemplate = templates.find(template => template.locale === 'en');
-        const newTemplate: WebPushTemplate = {
+        const newTemplate: Template = {
           id: '',
-          shop: '',
-          name: `Web Push Template ${languageToAdd.label}`,
           content: englishTemplate?.content || '',
           locale: languageToAdd.value,
-          type: 'web-push' as const,
-          engine: 'liquid' as const,
-          is_active: true,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
+          type: 'web-push',
+          engine: 'handlebars',
+          isActive: true,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
           blocks: englishTemplate?.blocks ? [...englishTemplate.blocks] : [],
-          category: englishTemplate?.category || 'MARKETING',
-          language: languageToAdd.value,
-          status: 'PENDING' as const
+          channel: 'webpush'
         };
         const updatedTemplates = [...templates, newTemplate];
 

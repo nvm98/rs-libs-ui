@@ -6,14 +6,15 @@ import {
   Button,
   InlineStack
 } from '@shopify/polaris';
-import { WhatsAppTemplate, WhatsAppBlockType } from './types';
+import { WhatsAppBlockType } from './types';
 import { HeaderRenderer } from './renderers/HeaderRenderer';
 import { BodyRenderer } from './renderers/BodyRenderer';
 import { FooterRenderer } from './renderers/FooterRenderer';
 import { ButtonsRenderer } from './renderers/ButtonsRenderer';
+import { Template } from '../shared/types';
 
 interface WhatsAppPreviewPanelProps {
-  template: WhatsAppTemplate;
+  template: Template;
   replaceVariables: (text: string) => string;
   onSave?: () => void;
 }

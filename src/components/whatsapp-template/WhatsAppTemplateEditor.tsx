@@ -3,15 +3,15 @@ import { Modal, TitleBar } from "@shopify/app-bridge-react";
 import { WhatsAppEditorLayout } from './WhatsAppEditorLayout';
 import { WhatsAppEditorEmptyState } from './WhatsAppEditorEmptyState';
 import { WhatsAppEditorErrorState } from "./WhatsAppEditorErrorState";
-import { WhatsAppTemplate } from "./types";
 import { WhatsAppEditorSkeleton } from "./skeletons/WhatsAppEditorSkeleton";
-import { useWhatsAppTemplateLoader } from "./hooks/useWhatsAppTemplateLoader";
+import { useWhatsAppTemplateLoader, useWhatsAppTemplateAction } from "./hooks";
+import { Template } from "../shared/types";
 
 interface WhatsAppTemplateEditorProps {
   isOpen: boolean;
   templateName?: string;
   onClose: () => void;
-  onSave: (templates: WhatsAppTemplate[]) => void;
+  onSave: (templates: Template[]) => void;
 }
 
 export function WhatsAppTemplateEditor({
@@ -21,6 +21,7 @@ export function WhatsAppTemplateEditor({
   onSave
 }: WhatsAppTemplateEditorProps) {
   const templateLoader = useWhatsAppTemplateLoader();
+  const templateAction = useWhatsAppTemplateAction();
   const [isTemplateLoaded, setIsTemplateLoaded] = useState(false);
 
   // Load template when modal opens
@@ -51,7 +52,7 @@ export function WhatsAppTemplateEditor({
   };
 
   // State for templates
-  const [templates, setTemplates] = useState<WhatsAppTemplate[] | undefined>();
+  const [templates, setTemplates] = useState<Template[] | undefined>();
 
   // Update state when templates are loaded
   useEffect(() => {
@@ -63,12 +64,36 @@ export function WhatsAppTemplateEditor({
   // Handle save
   const handleSave = () => {
     if (templates) {
-      onSave(templates);
+      // Convert WhatsAppTemplate to Template format for the action hook
+      const templatesData = templates.map(template => ({
+        content: template.content,
+        blocks: template.blocks,
+        locale: template.locale,
+        channel: template.channel,
+        type: template.type,
+        engine: template.engine,
+        description: template.description,
+        isActive: template.isActive,
+        metadata: {}
+      }));
+
+      templateAction.saveAllTemplates(
+        templatesData,
+        () => {
+          // Success callback
+          onSave(templates);
+          onClose();
+        },
+        (error) => {
+          // Error callback - could show toast or handle error
+          console.error('Failed to save templates:', error);
+        }
+      );
     }
   };
 
   // Update templates when changed from child components
-  const onTemplatesUpdate = (newTemplates: WhatsAppTemplate[]) => {
+  const onTemplatesUpdate = (newTemplates: Template[]) => {
     setTemplates(newTemplates);
   };
 
@@ -98,6 +123,7 @@ export function WhatsAppTemplateEditor({
 
     return (
       <WhatsAppEditorLayout
+        templateType={templateName || ''}
         templates={templates}
         onTemplatesUpdate={onTemplatesUpdate}
         onSave={handleSave}

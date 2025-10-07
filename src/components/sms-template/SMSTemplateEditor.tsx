@@ -3,15 +3,15 @@ import { Modal, TitleBar } from "@shopify/app-bridge-react";
 import { SMSEditorLayout } from './SMSEditorLayout';
 import { SMSEditorEmptyState } from './SMSEditorEmptyState';
 import { SMSEditorErrorState } from "./SMSEditorErrorState";
-import { SMSTemplate } from "./types";
 import { SMSEditorSkeleton } from "./SMSEditorSkeleton";
-import { useSMSTemplateLoader } from "./hooks/useSMSTemplateLoader";
+import { useSMSTemplateLoader, useSMSTemplateAction } from "./hooks";
+import { Template } from "../shared/types";
 
 interface SMSTemplateEditorProps {
   isOpen: boolean;
   templateName?: string;
   onClose: () => void;
-  onSave: (templates: SMSTemplate[]) => void;
+  onSave: (templates: Template[]) => void;
 }
 
 export function SMSTemplateEditor({
@@ -21,6 +21,7 @@ export function SMSTemplateEditor({
   onSave
 }: SMSTemplateEditorProps) {
   const templateLoader = useSMSTemplateLoader();
+  const templateAction = useSMSTemplateAction();
   const [isTemplateLoaded, setIsTemplateLoaded] = useState(false);
 
   // Load template when modal opens
@@ -51,7 +52,7 @@ export function SMSTemplateEditor({
   };
 
   // State for templates
-  const [templates, setTemplates] = useState<SMSTemplate[] | undefined>();
+  const [templates, setTemplates] = useState<Template[] | undefined>();
 
   // Update state when templates are loaded
   useEffect(() => {
@@ -63,12 +64,35 @@ export function SMSTemplateEditor({
   // Handle save
   const handleSave = () => {
     if (templates) {
-      onSave(templates);
+      // Convert SMSTemplate to Template format for the action hook
+      const templatesData = templates.map(template => ({
+        content: template.content,
+        blocks: template.blocks,
+        locale: template.locale,
+        channel: 'sms' as const,
+        type: template.type,
+        engine: template.engine,
+        description: template.description,
+        isActive: template.isActive,
+      }));
+
+      templateAction.saveAllTemplates(
+        templatesData,
+        () => {
+          // Success callback
+          onSave(templates);
+          onClose();
+        },
+        (error) => {
+          // Error callback - could show toast or handle error
+          console.error('Failed to save templates:', error);
+        }
+      );
     }
   };
 
   // Update templates when changed from child components
-  const onTemplatesUpdate = (newTemplates: SMSTemplate[]) => {
+  const onTemplatesUpdate = (newTemplates: Template[]) => {
     setTemplates(newTemplates);
   };
 
@@ -98,6 +122,7 @@ export function SMSTemplateEditor({
 
     return (
       <SMSEditorLayout
+        templateType={templateName || ''}
         templates={templates}
         onTemplatesUpdate={onTemplatesUpdate}
         onSave={handleSave}

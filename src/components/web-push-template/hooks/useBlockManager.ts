@@ -1,13 +1,14 @@
 import { useCallback } from 'react';
-import { WebPushTemplate, WebPushBlock, WebPushBlockType } from '../types';
+import { WebPushBlock, WebPushBlockType } from '../types';
+import { Template } from '@shared/types';
 
 export interface UseBlockManagerResult {
   updateBlock: (blockType: WebPushBlockType, updates: Partial<WebPushBlock>) => void;
 }
 
 export function useBlockManager(
-  template: WebPushTemplate,
-  onTemplateChange: (template: WebPushTemplate) => void
+  template: Template,
+  onTemplateChange: (template: Template) => void
 ): UseBlockManagerResult {
   const updateBlock = useCallback((blockType: WebPushBlockType, updates: Partial<WebPushBlock>) => {
     const updatedBlocks = template.blocks.map(block =>

@@ -3,15 +3,15 @@ import { Modal, TitleBar } from "@shopify/app-bridge-react";
 import { WebPushEditorLayout } from './WebPushEditorLayout';
 import { WebPushEditorEmptyState } from './WebPushEditorEmptyState';
 import { WebPushEditorErrorState } from "./WebPushEditorErrorState";
-import { WebPushTemplate } from "./types";
 import { WebPushEditorSkeleton } from "./skeletons/WebPushEditorSkeleton";
-import { useWebPushTemplateLoader } from "./hooks/useWebPushTemplateLoader";
+import { useWebPushTemplateLoader, useWebPushTemplateAction } from "./hooks";
+import { Template } from "../shared/types";
 
 interface WebPushTemplateEditorProps {
   isOpen: boolean;
   templateName?: string;
   onClose: () => void;
-  onSave: (templates: WebPushTemplate[]) => void;
+  onSave: (templates: Template[]) => void;
 }
 
 export function WebPushTemplateEditor({
@@ -21,6 +21,7 @@ export function WebPushTemplateEditor({
   onSave
 }: WebPushTemplateEditorProps) {
   const templateLoader = useWebPushTemplateLoader();
+  const templateAction = useWebPushTemplateAction();
   const [isTemplateLoaded, setIsTemplateLoaded] = useState(false);
 
   // Load template when modal opens
@@ -51,11 +52,35 @@ export function WebPushTemplateEditor({
   };
 
   // State for templates
-  const [templates, setTemplates] = useState<WebPushTemplate[] | undefined>();
+  const [templates, setTemplates] = useState<Template[] | undefined>();
 
   const handleSave = () => {
     if (templates) {
-      onSave(templates);
+      // Convert WebPushTemplate to Template format for the action hook
+      const templatesData = templates.map(template => ({
+        content: template.content,
+        blocks: template.blocks,
+        locale: template.locale,
+        channel: 'webpush' as const,
+        type: template.type,
+        engine: template.engine,
+        description: template.description,
+        isActive: template.isActive,
+        metadata: {}
+      }));
+
+      templateAction.saveAllTemplates(
+        templatesData,
+        () => {
+          // Success callback
+          onSave(templates);
+          onClose();
+        },
+        (error) => {
+          // Error callback - could show toast or handle error
+          console.error('Failed to save templates:', error);
+        }
+      );
     }
   };
 
@@ -69,7 +94,7 @@ export function WebPushTemplateEditor({
   }, [templateLoader.template]);
 
   // Update templates when changed from child components
-  const onTemplatesUpdate = (newTemplates: WebPushTemplate[]) => {
+  const onTemplatesUpdate = (newTemplates: Template[]) => {
     setTemplates(newTemplates);
   };
 

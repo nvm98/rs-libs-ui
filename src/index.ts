@@ -42,5 +42,3 @@ export { SMSEditorSkeleton } from './components/sms-template/SMSEditorSkeleton';
 export * from './components/sms-template/types';
 export * from './components/sms-template/constants';
 export { useBlockManager as useSMSBlockManager } from './components/sms-template/hooks/useBlockManager';
-export { useSMSTemplateLoader } from './components/sms-template/hooks/useSMSTemplateLoader';
-export type { UseSMSTemplateLoaderResult } from './components/sms-template/hooks/useSMSTemplateLoader';

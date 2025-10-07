@@ -6,8 +6,7 @@ import { EmailEditorEmptyState } from './EmailEditorEmptyState';
 import { EmailEditorErrorState } from "./EmailEditorErrorState";
 import { Template } from "./types";
 import { EmailEditorSkeleton } from "./skeletons/EmailEditorSkeleton";
-import { useTemplateLoader } from "./hooks/useTemplateLoader";
-import { useTemplateAction } from "./hooks/useTemplateAction";
+import { useEmailTemplateLoader, useEmailTemplateAction } from "./hooks";
 
 interface EmailTemplateEditorProps {
   isOpen: boolean;
@@ -22,8 +21,8 @@ export function EmailTemplateEditor({
   onClose,
   onSave
 }: EmailTemplateEditorProps) {
-  const templateLoader = useTemplateLoader();
-  const templateAction = useTemplateAction();
+  const templateLoader = useEmailTemplateLoader();
+  const templateAction = useEmailTemplateAction();
   const [isTemplateLoaded, setIsTemplateLoaded] = useState(false);
 
   // Load template when modal opens

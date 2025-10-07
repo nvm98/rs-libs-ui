@@ -1,56 +1,54 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
-import { Template } from '../types';
-import { initialBlocks } from '../constants/block.constant';
+import { initialBlocks } from '../constants';
 import { UseTemplateLoaderResult } from '@shared/interfaces';
-import { TemplateApiResponse } from '@shared/types';
+import { Template, TemplateApiResponse } from '@shared/types';
 
-export function useEmailTemplateLoader(): UseTemplateLoaderResult {
+export function useWebPushTemplateLoader(): UseTemplateLoaderResult {
   const [templates, setTemplates] = useState<Template[] | undefined>();
   const [template, setTemplate] = useState<Template | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fetcher = useFetcher<TemplateApiResponse>();
 
-  // load template
+  // Load template
   const loadTemplate = useCallback((templateName: string) => {
     setLoading(true);
     setError(null);
     const searchParams = new URLSearchParams({
       type: templateName,
-      channel: 'email'
+      channel: 'web-push'
     });
     const url = `/api/templates/search?${searchParams.toString()}`;
     fetcher.load(url);
   }, [fetcher]);
 
-
-
-  // clear template
+  // Clear template
   const clearTemplate = useCallback(() => {
     setTemplate(null);
     setError(null);
     setLoading(false);
   }, []);
 
-  // update templates manually
+  // Update templates manually
   const updateTemplates = useCallback((newTemplates: Template[]) => {
     setTemplates(newTemplates);
   }, []);
 
-  // select tempalte
+  // Select template
   const selectTemplate = useCallback((template: Template) => {
     setTemplate(template);
   }, []);
 
-  // create default template
+  // Create default template
   const createDefaultTemplate = useCallback((templateName: string) => {
     const defaultTemplate: Template = {
+      id: '',
       type: templateName,
       content: '',
       blocks: initialBlocks,
       locale: 'en',
-      channel: 'email',
+      channel: 'webpush',
       engine: 'handlebars',
       isActive: true,
       createdAt: new Date().toISOString(),
@@ -64,16 +62,23 @@ export function useEmailTemplateLoader(): UseTemplateLoaderResult {
   useEffect(() => {
     if (fetcher.state === 'loading') {
       setLoading(true);
-    } 
+    }
+    
     if (fetcher.state === 'idle') {
       setLoading(false);
       const response = fetcher.data;
-      if(!response) {return}
-      if(!response.success) {
-        setError(response.error);
+      
+      if (!response) {
+        return;
       }
+      
+      if (!response.success) {
+        setError(response.error);
+        return;
+      }
+      
       if (response && Array.isArray(response.data) && response.data.length > 0) {
-        let templates = response.data;
+        const templates = response.data;
         setTemplates(templates);
         setTemplate(templates[0]);
       } else {

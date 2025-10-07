@@ -1,2 +1,2 @@
-export { useSMSTemplateLoader } from './useSMSTemplateLoader';
-export type { UseSMSTemplateLoaderResult } from './useSMSTemplateLoader';
+export { useSMSTemplateLoader } from './useTemplateLoader';
+export { useSMSTemplateAction } from './useTemplateAction';

@@ -21,7 +21,14 @@
     "jsx": "react-jsx",
     "declaration": true,
     "declarationMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@email-template/*": ["./src/components/email-template/*"],
+      "@sms-template/*": ["./src/components/sms-template/*"],
+      "@web-push-template/*": ["./src/components/web-push-template/*"],
+      "@whatsapp-template/*": ["./src/components/whatsapp-template/*"],
+      "@shared/*": ["./src/components/shared/*"]
+    }
   },
   "include": [
     "src"

@@ -2,8 +2,14 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import babel from '@rollup/plugin-babel';
+import alias from '@rollup/plugin-alias';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import { dts } from 'rollup-plugin-dts';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 
 export default [
@@ -24,6 +30,15 @@ export default [
     ],
     plugins: [
       peerDepsExternal(),
+      alias({
+        entries: [
+          { find: '@email-template', replacement: path.resolve(__dirname, 'src/components/email-template') },
+          { find: '@sms-template', replacement: path.resolve(__dirname, 'src/components/sms-template') },
+          { find: '@web-push-template', replacement: path.resolve(__dirname, 'src/components/web-push-template') },
+          { find: '@whatsapp-template', replacement: path.resolve(__dirname, 'src/components/whatsapp-template') },
+          { find: '@shared', replacement: path.resolve(__dirname, 'src/components/shared') },
+        ]
+      }),
       resolve({
         browser: true,
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -50,7 +65,18 @@ export default [
   {
     input: 'dist/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-    plugins: [dts()],
+    plugins: [
+      alias({
+        entries: [
+          { find: '@email-template', replacement: path.resolve(__dirname, 'src/components/email-template') },
+          { find: '@sms-template', replacement: path.resolve(__dirname, 'src/components/sms-template') },
+          { find: '@web-push-template', replacement: path.resolve(__dirname, 'src/components/web-push-template') },
+          { find: '@whatsapp-template', replacement: path.resolve(__dirname, 'src/components/whatsapp-template') },
+          { find: '@shared', replacement: path.resolve(__dirname, 'src/components/shared') },
+        ]
+      }),
+      dts()
+    ],
     external: [/\.css$/],
   },
 ];

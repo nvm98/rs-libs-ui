@@ -6,10 +6,10 @@ import {
   Box,
   Button
 } from '@shopify/polaris';
-import { SMSTemplate } from './types';
+import { Template } from '../shared/types';
 
 interface SMSPreviewPanelProps {
-  template: SMSTemplate;
+  template: Template;
   replaceVariables: (text: string) => string;
   onSave?: () => void;
 }
@@ -90,7 +90,7 @@ export const SMSPreviewPanel: React.FC<SMSPreviewPanelProps> = ({
           {/* SMS Message Bubble */}
           <div style={messageCardStyles}>
             <div style={senderInfoStyles}>
-              {template.sender_id || 'SENDER'}
+              {'SENDER'}
             </div>
             <div>
               {previewMessage || 'Your SMS message will appear here...'}

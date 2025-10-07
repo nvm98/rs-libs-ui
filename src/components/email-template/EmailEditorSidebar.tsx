@@ -86,8 +86,8 @@ export function EmailEditorSidebar({
           locale: languageToAdd.value,
           channel: 'email',
           engine: 'handlebars',
-          is_active: true,
-          blocks: englishTemplate?.blocks ? [...englishTemplate.blocks] : undefined
+          isActive: true,
+          blocks: englishTemplate?.blocks ? [...englishTemplate.blocks] : []
         };
         const updatedTemplates = [...templates, newTemplate];
 

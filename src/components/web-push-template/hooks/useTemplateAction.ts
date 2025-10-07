@@ -3,7 +3,7 @@ import { useFetcher } from '@remix-run/react';
 import { Template, TemplateActionApiResponse } from '@shared/types';
 import { UseTemplateActionResult } from '@shared/interfaces';
 
-export function useEmailTemplateAction(): UseTemplateActionResult {
+export function useWebPushTemplateAction(): UseTemplateActionResult {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -26,7 +26,7 @@ export function useEmailTemplateAction(): UseTemplateActionResult {
     // Send all templates in a single request as JSON payload
     fetcher.submit(templatesData, {
       method: 'POST',
-      action: '/api/templates',
+      action: '/api/webpush-templates',
       encType: 'application/json'
     });
   }, [fetcher]);

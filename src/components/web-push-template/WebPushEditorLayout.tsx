@@ -1,14 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { WebPushPreviewPanel } from './WebPushPreviewPanel';
-import { WebPushTemplate, WebPushBlockType } from './types';
+import { WebPushBlockType } from './types';
 import { WebPushEditorSidebar } from './WebPushEditorSidebar';
 import { FloatingEditButton } from '../shared/components/FloatingEditButton';
 import { useMediaQuery } from '../shared/hooks/useMediaQuery';
 import { VARIABLES } from './constants/variables';
+import { Template } from '../shared/types';
 
 interface WebPushEditorLayoutProps {
-  templates?: WebPushTemplate[] | undefined;
-  onTemplatesUpdate?: (templates: WebPushTemplate[]) => void;
+  templates?: Template[] | undefined;
+  onTemplatesUpdate?: (templates: Template[]) => void;
   onSave?: () => void;
 }
 
@@ -18,7 +19,7 @@ export function WebPushEditorLayout({
   onSave
 }: WebPushEditorLayoutProps) {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
-  const [currentTemplate, setCurrentTemplate] = useState<WebPushTemplate | null>(null);
+  const [currentTemplate, setCurrentTemplate] = useState<Template | null>(null);
   const isMobile = useMediaQuery('(max-width: 768px)');
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [selectedBlockType, setSelectedBlockType] = useState<WebPushBlockType | null>(null);
@@ -35,7 +36,7 @@ export function WebPushEditorLayout({
     }
   }, [templates, selectedLanguage]);
 
-  const handleTemplateChange = (updatedTemplate: WebPushTemplate) => {
+  const handleTemplateChange = (updatedTemplate: Template) => {
     setCurrentTemplate(updatedTemplate);
 
     // Update templates array

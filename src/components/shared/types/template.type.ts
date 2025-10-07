@@ -3,14 +3,14 @@ import { TemplateEngine, Channel } from "./common.type";
 export interface Template {
   id?: string;
   content: string;
-  blocks?: any;
+  blocks: any[];
   locale: string,
   channel: Channel,
   type: string;
   engine: TemplateEngine;
   description?: string;
-  is_active: boolean;
-  created_at?: string;
-  updated_at?: string;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
   metadata?: any;
 }

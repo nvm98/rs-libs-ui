@@ -9,20 +9,22 @@ import {
   Divider,
 } from '@shopify/polaris';
 import { ChevronLeftIcon } from '@shopify/polaris-icons';
-import { WhatsAppTemplate, WhatsAppBlockType } from './types';
+import { WhatsAppBlockType } from './types';
 import { useBlockManager } from './hooks/useBlockManager';
 import { BlockItem } from './blocks/BlockItem';
 import { VariablePanel } from '../shared/components/VariablePanel';
 import { VARIABLES } from './constants/variables.constant';
 import { LANGUAGES } from '../shared/constants/language.constant';
+import { Template } from '../shared/types';
 
 interface WhatsAppEditorSidebarProps {
-  templates?: WhatsAppTemplate[];
+  templateType: string;
+  templates?: Template[];
   selectedLanguage?: string;
   onLanguageChange?: (language: string) => void;
-  onTemplatesUpdate?: (templates: WhatsAppTemplate[]) => void;
-  template: WhatsAppTemplate;
-  onTemplateChange: (template: WhatsAppTemplate) => void;
+  onTemplatesUpdate?: (templates: Template[]) => void;
+  template: Template;
+  onTemplateChange: (template: Template) => void;
   // Mobile full-screen mode props
   isFullScreen?: boolean;
   onClose?: () => void;
@@ -31,6 +33,7 @@ interface WhatsAppEditorSidebarProps {
 }
 
 export const WhatsAppEditorSidebar: React.FC<WhatsAppEditorSidebarProps> = ({
+  templateType,
   templates = [],
   selectedLanguage = 'en',
   onLanguageChange,
@@ -77,21 +80,17 @@ export const WhatsAppEditorSidebar: React.FC<WhatsAppEditorSidebarProps> = ({
       const languageToAdd = LANGUAGES.find(lang => lang.value === selectedNewLanguage);
       if (languageToAdd) {
         const englishTemplate = templates.find(template => template.locale === 'en');
-        const newTemplate: WhatsAppTemplate = {
+        const newTemplate: Template = {
           id: '',
-          shop: '',
-          name: `WhatsApp Template ${languageToAdd.label}`,
           content: englishTemplate?.content || '',
           locale: languageToAdd.value,
-          type: 'whatsapp' as const,
-          engine: 'liquid' as const,
-          is_active: true,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
+          channel: 'whatsapp',
+          engine: 'handlebars',
+          isActive: true,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
           blocks: englishTemplate?.blocks ? [...englishTemplate.blocks] : [],
-          category: englishTemplate?.category || 'MARKETING',
-          language: languageToAdd.value,
-          status: 'PENDING' as const
+          type: templateType
         };
         const updatedTemplates = [...templates, newTemplate];
 

@@ -1,9 +1,17 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
 import { Template, TemplateActionApiResponse } from '@shared/types';
-import { UseTemplateActionResult } from '@shared/interfaces';
 
-export function useEmailTemplateAction(): UseTemplateActionResult {
+export interface UseWhatsAppTemplateActionResult {
+  loading: boolean;
+  error: string | null;
+  success: boolean;
+  savedTemplate: Template | null;
+  saveAllTemplates: (templatesData: Omit<Template, 'id' | 'created_at' | 'updated_at'>[], onSuccess?: () => void, onError?: (error: string) => void) => void;
+  clearActionState: () => void;
+}
+
+export function useWhatsAppTemplateAction(): UseWhatsAppTemplateActionResult {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -26,7 +34,7 @@ export function useEmailTemplateAction(): UseTemplateActionResult {
     // Send all templates in a single request as JSON payload
     fetcher.submit(templatesData, {
       method: 'POST',
-      action: '/api/templates',
+      action: '/api/whatsapp-templates',
       encType: 'application/json'
     });
   }, [fetcher]);
