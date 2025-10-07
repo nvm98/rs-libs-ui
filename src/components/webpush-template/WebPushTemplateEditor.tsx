@@ -56,21 +56,8 @@ export function WebPushTemplateEditor({
 
   const handleSave = () => {
     if (templates) {
-      // Convert WebPushTemplate to Template format for the action hook
-      const templatesData = templates.map(template => ({
-        content: template.content,
-        blocks: template.blocks,
-        locale: template.locale,
-        channel: 'webpush' as const,
-        type: template.type,
-        engine: template.engine,
-        description: template.description,
-        isActive: template.isActive,
-        metadata: {}
-      }));
-
       templateAction.saveAllTemplates(
-        templatesData,
+        templates,
         () => {
           // Success callback
           onSave(templates);

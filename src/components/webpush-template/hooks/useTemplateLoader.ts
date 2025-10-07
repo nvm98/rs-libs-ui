@@ -51,8 +51,6 @@ export function useWebPushTemplateLoader(): UseTemplateLoaderResult {
       channel: 'webpush',
       engine: 'handlebars',
       isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
     };
     setTemplates([defaultTemplate]);
     setTemplate(defaultTemplate);
