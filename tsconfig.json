@@ -19,14 +19,16 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist",
     "paths": {
+      "@email-template": ["./src/components/email-template"],
       "@email-template/*": ["./src/components/email-template/*"],
+      "@sms-template": ["./src/components/sms-template"],
       "@sms-template/*": ["./src/components/sms-template/*"],
-      "@web-push-template/*": ["./src/components/web-push-template/*"],
+      "@webpush-template": ["./src/components/webpush-template"],
+      "@webpush-template/*": ["./src/components/webpush-template/*"],
+      "@whatsapp-template": ["./src/components/whatsapp-template"],
       "@whatsapp-template/*": ["./src/components/whatsapp-template/*"],
+      "@shared": ["./src/components/shared"],
       "@shared/*": ["./src/components/shared/*"]
     }
   },

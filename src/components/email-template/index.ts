@@ -6,5 +6,5 @@ export { EmailEditorEmptyState } from './EmailEditorEmptyState';
 export { EmailEditorErrorState } from './EmailEditorErrorState';
 export { EmailEditorSkeleton } from './skeletons/EmailEditorSkeleton';
 export type { EmailBlock } from './interfaces/email-block.interface';
-export { INITIAL_BLOCKS } from './constants/blocks.constant';
+export { INITIAL_BLOCKS as EMAIL_INITIAL_BLOCKS } from './constants/blocks.constant';
 export { useEmailTemplateLoader, useEmailTemplateAction } from './hooks';

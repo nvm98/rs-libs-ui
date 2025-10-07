@@ -34,7 +34,7 @@ export default [
         entries: [
           { find: '@email-template', replacement: path.resolve(__dirname, 'src/components/email-template') },
           { find: '@sms-template', replacement: path.resolve(__dirname, 'src/components/sms-template') },
-          { find: '@web-push-template', replacement: path.resolve(__dirname, 'src/components/web-push-template') },
+          { find: '@webpush-template', replacement: path.resolve(__dirname, 'src/components/webpush-template') },
           { find: '@whatsapp-template', replacement: path.resolve(__dirname, 'src/components/whatsapp-template') },
           { find: '@shared', replacement: path.resolve(__dirname, 'src/components/shared') },
         ]
@@ -51,9 +51,7 @@ export default [
       }),
       typescript({
         tsconfig: './tsconfig.build.json',
-        declaration: true,
-        declarationDir: 'dist',
-        rootDir: 'src',
+        declaration: false,
         exclude: ['**/*.test.tsx', '**/*.test.ts', '**/*.stories.ts'],
       }),
       commonjs({
@@ -63,14 +61,14 @@ export default [
     external: ['react', 'react-dom'],
   },
   {
-    input: 'dist/index.d.ts',
+    input: 'src/index.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
     plugins: [
       alias({
         entries: [
           { find: '@email-template', replacement: path.resolve(__dirname, 'src/components/email-template') },
           { find: '@sms-template', replacement: path.resolve(__dirname, 'src/components/sms-template') },
-          { find: '@web-push-template', replacement: path.resolve(__dirname, 'src/components/web-push-template') },
+          { find: '@webpush-template', replacement: path.resolve(__dirname, 'src/components/webpush-template') },
           { find: '@whatsapp-template', replacement: path.resolve(__dirname, 'src/components/whatsapp-template') },
           { find: '@shared', replacement: path.resolve(__dirname, 'src/components/shared') },
         ]

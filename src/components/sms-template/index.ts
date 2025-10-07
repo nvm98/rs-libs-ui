@@ -6,5 +6,5 @@ export { SMSEditorEmptyState } from './SMSEditorEmptyState';
 export { SMSEditorErrorState } from './SMSEditorErrorState';
 export { SMSEditorSkeleton } from './SMSEditorSkeleton';
 export * from './types';
-export * from './constants';
+export { INITIAL_BLOCKS as SMS_INITIAL_BLOCKS} from './constants';
 export * from './hooks';

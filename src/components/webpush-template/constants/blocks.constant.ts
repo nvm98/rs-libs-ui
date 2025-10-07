@@ -1,4 +1,4 @@
-import { WebPushBlock } from "@web-push-template/types";
+import { WebPushBlock } from "../types";
 
 export const INITIAL_BLOCKS: WebPushBlock[] = [
   {

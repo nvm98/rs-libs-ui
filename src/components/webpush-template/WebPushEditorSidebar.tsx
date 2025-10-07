@@ -9,13 +9,13 @@ import {
   Divider,
 } from '@shopify/polaris';
 import { ChevronLeftIcon } from '@shopify/polaris-icons';
-import { WebPushBlockType } from './types';
 import { useBlockManager } from './hooks/useBlockManager';
 import { BlockItem } from './blocks/BlockItem';
 import { VARIABLES } from './constants';
 import { VariablePanel } from '../shared/components/VariablePanel';
 import { LANGUAGES } from '../shared/constants/language.constant';
 import { Template } from '../shared/types';
+import { WebPushBlockType } from './types';
 
 interface WebPushEditorSidebarProps {
   templates?: Template[];
@@ -82,7 +82,7 @@ export const WebPushEditorSidebar: React.FC<WebPushEditorSidebarProps> = ({
           id: '',
           content: englishTemplate?.content || '',
           locale: languageToAdd.value,
-          type: 'web-push',
+          type: 'webpush',
           engine: 'handlebars',
           isActive: true,
           createdAt: new Date().toISOString(),

@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
 import { UseTemplateLoaderResult } from '@shared/interfaces';
 import { Template, TemplateApiResponse } from '@shared/types';
-import { INITIAL_BLOCKS } from '@email-template/constants';
+import { INITIAL_BLOCKS } from '@whatsapp-template/constants';
 
 export function useWhatsAppTemplateLoader(): UseTemplateLoaderResult {
   const [templates, setTemplates] = useState<Template[] | undefined>();

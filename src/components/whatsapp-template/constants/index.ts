@@ -1,3 +1,6 @@
+export * from './blocks.constant';
+export * from './variables.constant';
+
 export const WHATSAPP_CATEGORIES = [
   { value: 'MARKETING', label: 'Marketing' },
   { value: 'UTILITY', label: 'Utility' },

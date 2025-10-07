@@ -1,4 +1,4 @@
-import { Language } from "../interfaces";
+import { Language } from "../../email-template/interfaces";
 
 // Default template constants
 export const DEFAULT_TEMPLATES = {
