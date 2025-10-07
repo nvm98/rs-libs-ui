@@ -24,7 +24,6 @@ export interface UseTemplateLoaderResult {
   error: string | null;
   loadTemplate: (templateName: string) => void;
   createDefaultTemplate: (templateName: string) => void;
-
   clearTemplate: () => void;
   updateTemplates: (newTemplates: Template[]) => void;
   selectTemplate: (template: Template) => void;
@@ -71,14 +70,12 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
   // create default template
   const createDefaultTemplate = useCallback((templateName: string) => {
     const defaultTemplate: Template = {
-      id: '',
-      shop: '',
-      name: templateName,
+      type: templateName,
       content: '',
       blocks: initialBlocks,
       locale: 'en',
-      type: 'email' as const,
-      engine: 'liquid' as const,
+      channel: 'email',
+      engine: 'handlebars',
       is_active: true,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
@@ -117,7 +114,6 @@ export function useTemplateLoader(): UseTemplateLoaderResult {
     error,
     loadTemplate,
     createDefaultTemplate,
-
     clearTemplate,
     updateTemplates,
     selectTemplate

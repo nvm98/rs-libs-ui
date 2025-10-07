@@ -1,13 +1,12 @@
-import { TemplateEngine, TemplateType } from "./common.type";
+import { TemplateEngine, Channel } from "./common.type";
 
 export interface Template {
   id?: string;
-  shop?: string;
-  name: string;
   content: string;
   blocks?: any;
   locale: string,
-  type: TemplateType;
+  channel: Channel,
+  type: string;
   engine: TemplateEngine;
   description?: string;
   is_active: boolean;

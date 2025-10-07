@@ -11,7 +11,7 @@ import { useTemplateAction } from "./hooks/useTemplateAction";
 
 interface EmailTemplateEditorProps {
   isOpen: boolean;
-  templateName?: string;
+  templateName: string;
   onClose: () => void;
   onSave: (templates: Template[]) => void;
 }
@@ -103,6 +103,7 @@ export function EmailTemplateEditor({
 
     return (
       <EmailEditorLayout
+        templateName={templateName}
         templates={templates}
         onTemplatesUpdate={onTemplatesUpdate}
         onSave={handleSave}

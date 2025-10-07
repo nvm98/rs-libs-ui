@@ -1,3 +1,3 @@
-export type TemplateType = 'email' | 'whatsapp' | 'webpush' | 'sms';
+export type Channel = 'email' | 'whatsapp' | 'webpush' | 'sms';
 
 export type TemplateEngine = 'liquid' | 'handlebars' | 'mustache';

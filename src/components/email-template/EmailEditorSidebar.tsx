@@ -9,6 +9,7 @@ import { VARIABLES } from "./constants/variables.constant";
 import { Template } from "../shared/types/template.type";
 
 interface EmailEditorSidebarProps {
+  templateName: string,
   templates?: Template[];
   selectedLanguage: string;
   blocks: EmailBlock[];
@@ -27,6 +28,7 @@ interface EmailEditorSidebarProps {
 }
 
 export function EmailEditorSidebar({
+  templateName,
   templates = [],
   selectedLanguage,
   blocks,
@@ -43,10 +45,6 @@ export function EmailEditorSidebar({
   isMobile = false,
   onCloseSidebar
 }: EmailEditorSidebarProps) {
-
-
-
-  
   const [showAddLanguageForm, setShowAddLanguageForm] = useState(false);
   const [selectedNewLanguage, setSelectedNewLanguage] = useState('');
 
@@ -83,11 +81,11 @@ export function EmailEditorSidebar({
       if (languageToAdd) {
         const englishTemplate = templates.find(template => template.locale === 'en');
         const newTemplate: Template = {
-          name: `Template ${languageToAdd.label}`,
+          type: templateName,
           content: englishTemplate?.content || '',
           locale: languageToAdd.value,
-          type: 'email',
-          engine: 'liquid',
+          channel: 'email',
+          engine: 'handlebars',
           is_active: true,
           blocks: englishTemplate?.blocks ? [...englishTemplate.blocks] : undefined
         };

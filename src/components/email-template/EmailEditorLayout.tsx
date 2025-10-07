@@ -10,6 +10,7 @@ import { useMediaQuery } from "../shared/hooks/useMediaQuery";
 import { FloatingEditButton } from '../shared/components/FloatingEditButton';
 
 interface EmailEditorLayoutProps {
+  templateName: string,
   templates?: Template[] | undefined;
   onTemplatesUpdate?: (templates: Template[]) => void; // Callback cập nhật danh sách templates
   onSave?: () => void;
@@ -17,6 +18,7 @@ interface EmailEditorLayoutProps {
 }
 
 export function EmailEditorLayout({
+  templateName,
   templates = [],
   onTemplatesUpdate,
   onSave,
@@ -92,6 +94,7 @@ export function EmailEditorLayout({
     <div style={{ display: 'flex', height: '100vh' }}>
       {(!isMobile || showSidebar) && (
         <EmailEditorSidebar
+          templateName={templateName}
           templates={templates}
           onTemplatesUpdate={onTemplatesUpdate}
           selectedLanguage={selectedLanguage}
