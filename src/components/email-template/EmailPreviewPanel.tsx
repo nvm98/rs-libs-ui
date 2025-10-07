@@ -1,4 +1,4 @@
-import { Text, Button, InlineStack } from "@shopify/polaris";
+import { Text, Button, InlineStack, Spinner, Banner } from "@shopify/polaris";
 import { EmailBlockRenderer} from './EmailBlockRenderer';
 import { EmailBlock } from "./interfaces/email-block.interface";
 
@@ -8,6 +8,8 @@ interface EmailPreviewPanelProps {
   replaceVariables: (text: string) => string;
   onSave?: () => void;
   showSaveButton?: boolean;
+  loading?: boolean;
+  error?: string | null;
 }
 
 export function EmailPreviewPanel({
@@ -15,28 +17,55 @@ export function EmailPreviewPanel({
   selectedBlockId,
   replaceVariables,
   onSave,
-  showSaveButton = false
+  showSaveButton = false,
+  loading = false,
+  error = null
 }: EmailPreviewPanelProps) {
   return (
     <div style={{
       flex: 1,
       display: 'flex',
       flexDirection: 'column',
-      backgroundColor: '#f6f6f7'
+      backgroundColor: '#f6f6f7',
+      position: 'relative',
     }}>
+      {loading && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(255, 255, 255, 0.8)',
+          backdropFilter: 'blur(4px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+        }}>
+          <Spinner accessibilityLabel="Saving..." size="large" />
+        </div>
+      )}
       {/* Preview Header */}
       <div style={{
         padding: '16px 20px',
         borderBottom: '1px solid #e1e3e5',
         backgroundColor: '#ffffff'
       }}>
-        <InlineStack align="space-between" blockAlign="center">
+        <InlineStack align="space-between" blockAlign="center" gap="400">
           <Text as="h3" variant="headingSm">Preview</Text>
-          {showSaveButton && onSave && (
-            <Button variant="primary" onClick={onSave}>
-              Save
-            </Button>
-          )}
+          <InlineStack gap="200" blockAlign="center">
+            {error && (
+              <Banner tone="critical" onDismiss={() => {}}>
+                {error}
+              </Banner>
+            )}
+            {showSaveButton && onSave && (
+              <Button variant="primary" onClick={onSave} loading={loading}>
+                Save
+              </Button>
+            )}
+          </InlineStack>
         </InlineStack>
       </div>
 

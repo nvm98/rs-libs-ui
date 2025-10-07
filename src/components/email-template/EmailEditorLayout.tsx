@@ -15,6 +15,8 @@ interface EmailEditorLayoutProps {
   onTemplatesUpdate?: (templates: Template[]) => void; // Callback cập nhật danh sách templates
   onSave?: () => void;
   showSaveButton?: boolean;
+  loading?: boolean;
+  error?: string | null;
 }
 
 export function EmailEditorLayout({
@@ -22,7 +24,9 @@ export function EmailEditorLayout({
   templates = [],
   onTemplatesUpdate,
   onSave,
-  showSaveButton = false
+  showSaveButton = false,
+  loading = false,
+  error = null
 }: EmailEditorLayoutProps) {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [currentTemplate, setCurrentTemplate] = useState<Template | null>(null);
@@ -118,6 +122,8 @@ export function EmailEditorLayout({
         replaceVariables={replaceVariables}
         onSave={onSave}
         showSaveButton={showSaveButton}
+        loading={loading}
+        error={error}
       />
       {isMobile && !showSidebar && (
         <FloatingEditButton onClick={() => setShowSidebar(true)} />

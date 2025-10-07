@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Modal, TitleBar } from "@shopify/app-bridge-react";
 import { EmailEditorLayout } from './EmailEditorLayout';
 import { EmailEditorEmptyState } from './EmailEditorEmptyState';
-import { initialBlocks } from "./constants/block.constant";
+
 import { EmailEditorErrorState } from "./EmailEditorErrorState";
 import { Template } from "./types";
 import { EmailEditorSkeleton } from "./skeletons/EmailEditorSkeleton";
@@ -66,8 +66,18 @@ export function EmailTemplateEditor({
   // Handle save
   const handleSave = () => {
     if (templates) {
-      templateAction.saveAllTemplates(templates);
-      onSave(templates);
+      templateAction.saveAllTemplates(
+        templates,
+        () => {
+          // On success, call the parent onSave and close the modal
+          onSave(templates);
+          onClose();
+        },
+        (error) => {
+          // On error, the error state is handled by the hook and displayed in the UI
+          console.error("Failed to save templates:", error);
+        }
+      );
     }
   };
 
@@ -108,6 +118,8 @@ export function EmailTemplateEditor({
         onTemplatesUpdate={onTemplatesUpdate}
         onSave={handleSave}
         showSaveButton={true}
+        loading={templateAction.loading}
+        error={templateAction.error}
       />
     );
   };

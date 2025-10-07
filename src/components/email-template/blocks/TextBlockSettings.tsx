@@ -31,15 +31,14 @@ export function TextBlockSettings({
   return (
     <BlockStack gap="300">
       <Text as="h4" variant="headingXs">Content</Text>
-
-      <TextField
-        label="Text Content"
-        value={block.content.text || ''}
-        onChange={(value) => updateContent({ text: value })}
-        multiline={4}
-        autoComplete="off"
-      />
-
+        <TextField
+          label="Text Content"
+          value={block.content.text || ''}
+          onChange={(value) => updateContent({ text: value })}
+          multiline={4}
+          autoSize
+          autoComplete="off"
+        />
       <Divider />
 
       <Text as="h4" variant="headingXs">Styling</Text>

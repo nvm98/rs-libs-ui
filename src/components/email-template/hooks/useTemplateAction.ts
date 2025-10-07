@@ -21,7 +21,7 @@ export interface UseTemplateActionResult {
   error: string | null;
   success: boolean;
   savedTemplate: Template | null;
-  saveAllTemplates: (templatesData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>[]) => void;
+  saveAllTemplates: (templatesData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>[], onSuccess?: () => void, onError?: (error: string) => void) => void;
   clearActionState: () => void;
 }
 
@@ -30,14 +30,20 @@ export function useTemplateAction(): UseTemplateActionResult {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [savedTemplate, setSavedTemplate] = useState<Template | null>(null);
+  const [onSuccessCallback, setOnSuccessCallback] = useState<(() => void) | null>(null);
+  const [onErrorCallback, setOnErrorCallback] = useState<((error: string) => void) | null>(null);
   const fetcher = useFetcher<TemplateActionApiResponse>();
 
   // Save all templates (all locales for a templateName)
-  const saveAllTemplates = useCallback((templatesData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>[]) => {
+  const saveAllTemplates = useCallback((templatesData: Omit<Template, 'id' | 'shop' | 'created_at' | 'updated_at'>[], onSuccess?: () => void, onError?: (error: string) => void) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
     setSavedTemplate(null);
+
+    // Store callbacks
+    setOnSuccessCallback(() => onSuccess || null);
+    setOnErrorCallback(() => onError || null);
 
     // Send all templates in a single request as JSON payload
     fetcher.submit(templatesData, {
@@ -59,28 +65,38 @@ export function useTemplateAction(): UseTemplateActionResult {
   useEffect(() => {
     if (fetcher.state === 'loading') {
       setLoading(true);
-    } 
-    
+    }
+
     if (fetcher.state === 'idle') {
       setLoading(false);
       const response = fetcher.data;
-      
+
       if (!response) {
         return;
       }
-      
+
       if (!response.success) {
         setError(response.error);
         setSuccess(false);
+        // Execute error callback if available
+        if (onErrorCallback) {
+          onErrorCallback(response.error);
+          setOnErrorCallback(null); // Clear callback after use
+        }
       } else {
         setError(null);
         setSuccess(true);
         if (response.data) {
           setSavedTemplate(response.data);
         }
+        // Execute success callback if available
+        if (onSuccessCallback) {
+          onSuccessCallback();
+          setOnSuccessCallback(null); // Clear callback after use
+        }
       }
     }
-  }, [fetcher.state, fetcher.data]);
+  }, [fetcher.state, fetcher.data, onSuccessCallback, onErrorCallback]);
 
   return {
     loading,
