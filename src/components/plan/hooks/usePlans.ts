@@ -55,7 +55,7 @@ export function usePlans(): UsePlansResult {
       setError(null);
       
       const formData = new FormData();
-      formData.append('planType', planType);
+      formData.append('type', planType);
       
       upgradeFetcher.submit(formData, {
         method: 'POST',
