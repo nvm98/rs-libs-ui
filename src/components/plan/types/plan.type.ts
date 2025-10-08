@@ -1,15 +1,7 @@
-export type PlanType = 'free' | 'fixed' | 'usage'
+import { Plan } from '../interfaces/plan.interface';
 
-// Map UI plan types to Shopify billing plan names
-export const PLAN_MAPPING: Record<string, string> = {
-  free: 'Free',
-  fixed: 'Fixed',
-  usage: 'Usage'
-};
+// Plans object structure (similar to Shopify's Config['billing'])
+export type PlansConfig<T extends Record<string, Plan> = Record<string, Plan>> = T;
 
-// Plan pricing configuration
-export const PLAN_PRICING = {
-  free: 0,
-  fixed: 14.99,
-  usage: 'Usage-based'
-};
+// Extract plan keys from PlansConfig (similar to keyof Config['billing'])
+export type PlanType<T extends PlansConfig = PlansConfig> = keyof T;

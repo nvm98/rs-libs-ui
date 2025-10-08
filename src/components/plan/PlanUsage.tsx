@@ -1,11 +1,11 @@
 import { BlockStack, Box, FormLayout, InlineStack, Text } from "@shopify/polaris";
-import { PlanType } from "./types/plan.type";
+import { PlanType, PlansConfig } from "./types/plan.type";
 
-interface PlanUsageProps {
-  selectedPlan: PlanType;
+interface PlanUsageProps<T extends PlansConfig = PlansConfig> {
+  selectedPlan: PlanType<T>;
 }
 
-export function PlanUsage({ selectedPlan }: PlanUsageProps) {
+export function PlanUsage<T extends PlansConfig = PlansConfig>({ selectedPlan }: PlanUsageProps<T>) {
   return (
     <FormLayout>
       <Box>

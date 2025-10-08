@@ -7,29 +7,32 @@ import {
 } from "@shopify/polaris";
 import { PlanCard } from "./PlanCard";
 import { PlanFeature } from "./interfaces/plan-features.interface";
-import { PlanType } from "./types/plan.type";
+import { PlanType, PlansConfig } from "./types/plan.type";
 import { Plan } from "./interfaces";
 
-export interface PlansPackageProps {
-  selectedPlan: PlanType;
-  onPlanChange: (plan: PlanType) => void;
-  onPlanUpgrade: (planType: PlanType) => Promise<void>;
-  plans: Plan[];
+export interface PlansPackageProps<T extends PlansConfig = PlansConfig> {
+  selectedPlan: PlanType<T>;
+  onPlanChange: (plan: PlanType<T>) => void;
+  onPlanUpgrade: (planType: PlanType<T>) => Promise<void>;
+  plans: T;
   error?: string | null;
 }
 
-export function PlansPackage({
+export function PlansPackage<T extends PlansConfig = PlansConfig>({
   selectedPlan,
   onPlanChange,
   onPlanUpgrade,
   plans,
   error,
-}: PlansPackageProps) {
+}: PlansPackageProps<T>) {
   const [processingPlan, setProcessingPlan] = useState<string | null>(null);
 
-  const handlePlanUpgrade = async (planType: PlanType) => {
+  // Convert plans object to array for rendering
+  const plansArray = Object.values(plans) as Plan[];
+
+  const handlePlanUpgrade = async (planType: PlanType<T>) => {
     try {
-      setProcessingPlan(planType);
+      setProcessingPlan(planType as string);
       await onPlanUpgrade(planType);
     } finally {
       setProcessingPlan(null);
@@ -51,7 +54,7 @@ export function PlansPackage({
         )}
 
         <Grid>
-          {plans.map((plan) => (
+          {plansArray.map((plan) => (
             <Grid.Cell key={plan.type} columnSpan={{ xs: 6, sm: 3, md: 2, lg: 4, xl: 4 }}>
               <PlanCard
                 id={plan.type}
