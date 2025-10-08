@@ -1,4 +1,4 @@
-export { SMSTemplateEditor } from './SMSTemplateEditor';
+export { SMSTemplateEditor, SMSTemplateEditor as default } from './SMSTemplateEditor';
 export { SMSEditorLayout } from './SMSEditorLayout';
 export { SMSEditorSidebar } from './SMSEditorSidebar';
 export { SMSPreviewPanel } from './SMSPreviewPanel';

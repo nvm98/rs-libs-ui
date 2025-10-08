@@ -1,4 +1,4 @@
-export { WebPushTemplateEditor } from './WebPushTemplateEditor';
+export { WebPushTemplateEditor, WebPushTemplateEditor as default } from './WebPushTemplateEditor';
 export { WebPushEditorLayout } from './WebPushEditorLayout';
 export { WebPushEditorSidebar } from './WebPushEditorSidebar';
 export { WebPushEditorEmptyState } from './WebPushEditorEmptyState';
