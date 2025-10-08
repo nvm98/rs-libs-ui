@@ -36,6 +36,7 @@ export default [
           { find: '@sms-template', replacement: path.resolve(__dirname, 'src/components/sms-template') },
           { find: '@webpush-template', replacement: path.resolve(__dirname, 'src/components/webpush-template') },
           { find: '@whatsapp-template', replacement: path.resolve(__dirname, 'src/components/whatsapp-template') },
+          { find: '@plan', replacement: path.resolve(__dirname, 'src/components/plan') },
           { find: '@shared', replacement: path.resolve(__dirname, 'src/components/shared') },
         ]
       }),
@@ -70,6 +71,7 @@ export default [
           { find: '@sms-template', replacement: path.resolve(__dirname, 'src/components/sms-template') },
           { find: '@webpush-template', replacement: path.resolve(__dirname, 'src/components/webpush-template') },
           { find: '@whatsapp-template', replacement: path.resolve(__dirname, 'src/components/whatsapp-template') },
+          { find: '@plan', replacement: path.resolve(__dirname, 'src/components/plan') },
           { find: '@shared', replacement: path.resolve(__dirname, 'src/components/shared') },
         ]
       }),

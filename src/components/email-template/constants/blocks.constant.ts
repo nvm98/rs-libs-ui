@@ -3,7 +3,7 @@ import { EmailBlockType } from "../types";
 
 export const INITIAL_BLOCKS: EmailBlock[] = [
     { 
-      id: '1', 
+      id: 'header-1', 
       type: EmailBlockType.HEADER, 
       content: { 
         logoUrl: '{{shop_logo_url}}', 
@@ -18,7 +18,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       } 
     },
     { 
-      id: '2', 
+      id: 'text-2', 
       type: EmailBlockType.TEXT, 
       content: { 
         text: 'Hi {{customer_first_name}}, your order is ready!', 
@@ -32,7 +32,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       } 
     },
     { 
-      id: '3', 
+      id: 'product-3', 
       type: EmailBlockType.PRODUCT, 
       content: { 
         showImage: true, 
@@ -48,7 +48,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       } 
     },
     { 
-      id: '4', 
+      id: 'button-4', 
       type: EmailBlockType.BUTTON, 
       content: { 
         text: 'Shop Now', 
@@ -65,7 +65,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       } 
     },
     { 
-      id: '5', 
+      id: 'footer-5', 
       type: EmailBlockType.FOOTER, 
       content: { 
         text: '© 2024 {{shop_name}}. All rights reserved.', 

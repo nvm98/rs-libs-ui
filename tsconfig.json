@@ -28,6 +28,8 @@
       "@webpush-template/*": ["./src/components/webpush-template/*"],
       "@whatsapp-template": ["./src/components/whatsapp-template"],
       "@whatsapp-template/*": ["./src/components/whatsapp-template/*"],
+      "@plan": ["./src/components/plan"],
+      "@plan/*": ["./src/components/plan/*"],
       "@shared": ["./src/components/shared"],
       "@shared/*": ["./src/components/shared/*"]
     }
