@@ -23,7 +23,7 @@ export function PlansErrorState({
     <Box padding="600">
       <BlockStack gap="400" align="center">
         <Box 
-          background="bg-surface-critical-subdued" 
+          background="bg-surface-critical" 
           padding="300" 
           borderRadius="full"
         >
@@ -34,7 +34,7 @@ export function PlansErrorState({
           <Text variant="headingMd" as="h3" alignment="center">
             Unable to load plan information
           </Text>
-          <Text variant="bodyMd" tone="subdued" alignment="center">
+          <Text as='span' variant="bodyMd" tone="subdued" alignment="center">
             {error}
           </Text>
         </BlockStack>

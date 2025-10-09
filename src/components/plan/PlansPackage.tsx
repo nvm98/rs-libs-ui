@@ -6,7 +6,9 @@ import {
   Banner,
   Button,
   InlineStack,
+  Box,
 } from "@shopify/polaris";
+import { useTranslation } from 'react-i18next';
 import { PlanCard } from "./PlanCard";
 import { PlansErrorState } from "./PlansErrorState";
 import { PlanFeature } from "./interfaces/plan-features.interface";
@@ -32,6 +34,7 @@ export function PlansPackage<T extends PlansConfig = PlansConfig>({
   isLoadingSelectedPlan = false,
   onRetry,
 }: PlansPackageProps<T>) {
+  const { t } = useTranslation('plans');
   const [processingPlan, setProcessingPlan] = useState<string | null>(null);
 
   // Convert plans object to array for rendering
@@ -68,19 +71,21 @@ export function PlansPackage<T extends PlansConfig = PlansConfig>({
     <FormLayout>
       <BlockStack gap="400">
         {error && selectedPlan !== null && (
-          <Banner tone="warning">
-            <InlineStack gap="300" align="space-between" blockAlign="center">
-              <p>Error updating plan information: {error}</p>
-              {onRetry && (
-                <Button
-                  size="slim"
-                  onClick={onRetry}
-                  loading={isLoadingSelectedPlan}
-                >
-                  Retry
-                </Button>
-              )}
-            </InlineStack>
+          <Banner tone="warning" onDismiss={onRetry}>
+            <Box width='100%'>
+              <InlineStack gap="300" align="space-between" blockAlign="center">
+                <p>{t('errorUpdating')}: {error}</p>
+                {onRetry && (
+                  <Button
+                    size="slim"
+                    onClick={onRetry}
+                    loading={isLoadingSelectedPlan}
+                  >
+                    {t('retry')}
+                  </Button>
+                )}
+              </InlineStack>
+            </Box>
           </Banner>
         )}
 
@@ -96,8 +101,8 @@ export function PlansPackage<T extends PlansConfig = PlansConfig>({
                 planType={plan.type as PlanType}
                 onSelect={onPlanChange}
                 onUpgrade={handlePlanUpgrade}
-                buttonText={`Choose ${plan.name}`}
-                activeButtonText={isLoadingSelectedPlan ? "Loading..." : "Current Plan"}
+                buttonText={t('choosePlan', { planName: plan.name })}
+                activeButtonText={isLoadingSelectedPlan ? t('loading') : t('currentPlan')}
                 isLoading={processingPlan === plan.type}
                 isSelectedPlanLoading={isLoadingSelectedPlan}
               />
