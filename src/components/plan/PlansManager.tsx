@@ -1,7 +1,6 @@
 import { Layout, Card, Spinner, Box, Text, BlockStack } from '@shopify/polaris';
 import { PlansPackage } from './PlansPackage';
 import { PlanUsage } from './PlanUsage';
-import { Plan } from './interfaces';
 import { usePlansLoader, usePlansActions } from './hooks';
 import { PlansConfig } from './types/plan.type';
 
@@ -10,28 +9,8 @@ export interface PlansManagerProps<T extends PlansConfig = PlansConfig> {
 }
 
 export function PlansManager<T extends PlansConfig = PlansConfig>({ plans }: PlansManagerProps<T>) {
-  const { selectedPlan, isLoading, error } = usePlansLoader<T>();
+  const { selectedPlan, isLoading, error, refreshBillingData } = usePlansLoader<T>();
   const { handlePlanChange, handlePlanUpgrade, upgradeLoading } = usePlansActions<T>();
-
-  if (isLoading || upgradeLoading) {
-    return (
-      <Box padding="400">
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Spinner accessibilityLabel="Loading plan details" size="large" />
-        </div>
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box padding="400">
-        <Text as="p" alignment="center" tone="critical">
-          {error}
-        </Text>
-      </Box>
-    );
-  }
 
   return (
     <Layout>
@@ -43,10 +22,18 @@ export function PlansManager<T extends PlansConfig = PlansConfig>({ plans }: Pla
               onPlanChange={handlePlanChange}
               onPlanUpgrade={handlePlanUpgrade}
               plans={plans}
+              isLoadingSelectedPlan={isLoading || upgradeLoading}
+              error={error}
+              onRetry={refreshBillingData}
             />
           </Card>
           <Card>
-            <PlanUsage selectedPlan={selectedPlan} />
+            <PlanUsage
+              selectedPlan={selectedPlan}
+              isLoadingSelectedPlan={isLoading}
+              error={error}
+              onRetry={refreshBillingData}
+            />
           </Card>
         </BlockStack>
       </Layout.Section>

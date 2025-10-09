@@ -4,18 +4,23 @@ import {
   FormLayout,
   Grid,
   Banner,
+  Button,
+  InlineStack,
 } from "@shopify/polaris";
 import { PlanCard } from "./PlanCard";
+import { PlansErrorState } from "./PlansErrorState";
 import { PlanFeature } from "./interfaces/plan-features.interface";
 import { PlanType, PlansConfig } from "./types/plan.type";
 import { Plan } from "./interfaces";
 
 export interface PlansPackageProps<T extends PlansConfig = PlansConfig> {
-  selectedPlan: PlanType<T>;
+  selectedPlan: PlanType<T> | null;
   onPlanChange: (plan: PlanType<T>) => void;
   onPlanUpgrade: (planType: PlanType<T>) => Promise<void>;
   plans: T;
   error?: string | null;
+  isLoadingSelectedPlan?: boolean;
+  onRetry?: () => void;
 }
 
 export function PlansPackage<T extends PlansConfig = PlansConfig>({
@@ -24,6 +29,8 @@ export function PlansPackage<T extends PlansConfig = PlansConfig>({
   onPlanUpgrade,
   plans,
   error,
+  isLoadingSelectedPlan = false,
+  onRetry,
 }: PlansPackageProps<T>) {
   const [processingPlan, setProcessingPlan] = useState<string | null>(null);
 
@@ -44,12 +51,36 @@ export function PlansPackage<T extends PlansConfig = PlansConfig>({
     return features.map(feature => ({ text: feature.text || feature }));
   };
 
+  // Nếu có lỗi nghiêm trọng và đang không loading, hiển thị error state
+  if (error && !isLoadingSelectedPlan && selectedPlan === null) {
+    return (
+      <FormLayout>
+        <PlansErrorState
+          error={error}
+          onRetry={onRetry}
+          isRetrying={isLoadingSelectedPlan}
+        />
+      </FormLayout>
+    );
+  }
+
   return (
     <FormLayout>
       <BlockStack gap="400">
-        {error && (
-          <Banner tone="critical">
-            <p>{error}</p>
+        {error && selectedPlan !== null && (
+          <Banner tone="warning">
+            <InlineStack gap="300" align="space-between" blockAlign="center">
+              <p>Error updating plan information: {error}</p>
+              {onRetry && (
+                <Button
+                  size="slim"
+                  onClick={onRetry}
+                  loading={isLoadingSelectedPlan}
+                >
+                  Retry
+                </Button>
+              )}
+            </InlineStack>
           </Banner>
         )}
 
@@ -61,13 +92,14 @@ export function PlansPackage<T extends PlansConfig = PlansConfig>({
                 name={plan.name}
                 price={plan.price}
                 features={convertFeatures(plan.features)}
-                isActive={selectedPlan === plan.type as PlanType}
+                isActive={isLoadingSelectedPlan ? false : selectedPlan === plan.type as PlanType}
                 planType={plan.type as PlanType}
                 onSelect={onPlanChange}
                 onUpgrade={handlePlanUpgrade}
                 buttonText={`Choose ${plan.name}`}
-                activeButtonText="Current Plan"
+                activeButtonText={isLoadingSelectedPlan ? "Loading..." : "Current Plan"}
                 isLoading={processingPlan === plan.type}
+                isSelectedPlanLoading={isLoadingSelectedPlan}
               />
             </Grid.Cell>
           ))}

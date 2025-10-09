@@ -25,6 +25,7 @@ export interface PlanCardProps {
   activeButtonText?: string;
   description?: string;
   isLoading?: boolean;
+  isSelectedPlanLoading?: boolean;
 }
 
 export function PlanCard({
@@ -40,6 +41,7 @@ export function PlanCard({
   activeButtonText,
   description,
   isLoading = false,
+  isSelectedPlanLoading = false,
 }: PlanCardProps) {
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -63,6 +65,10 @@ export function PlanCard({
   const getButtonText = () => {
     if (isProcessing || isLoading) {
       return 'Processing...';
+    }
+
+    if (isSelectedPlanLoading) {
+      return 'Loading...';
     }
 
     if (isActive && activeButtonText) {
@@ -143,7 +149,7 @@ export function PlanCard({
           tone={isActive ? 'success' : undefined}
           variant="primary"
           onClick={handlePlanSelection}
-          disabled={isActive || isProcessing || isLoading}
+          disabled={isActive || isProcessing || isLoading || isSelectedPlanLoading}
           size="large"
           fullWidth
         >
