@@ -1,6 +1,7 @@
 import { Box, BlockStack, Text, EmptyState } from "@shopify/polaris";
 import { NotificationIcon } from "@shopify/polaris-icons";
 import { useMediaQuery } from "../shared/hooks/useMediaQuery";
+import { useTranslation } from "react-i18next";
 
 interface WebPushEditorEmptyStateProps {
   templateName?: string;
@@ -11,20 +12,21 @@ export function WebPushEditorEmptyState({
   templateName,
   onCreateTemplate,
 }: WebPushEditorEmptyStateProps) {
+  const { t } = useTranslation('webpush-template');
   const isMobile = useMediaQuery('(max-width: 768px)');
 
   const getTemplateName = (name?: string) => {
-    if (!name) return 'Web Push Template';
-    if (name.includes('back-to-stock')) return 'Back to Stock Notification';
-    if (name.includes('confirmation')) return 'Confirmation Notification';
-    return 'Web Push Template';
+    if (!name) return t('emptyState.defaultTemplateName');
+    if (name.includes('back-to-stock')) return t('emptyState.backToStockTemplateName');
+    if (name.includes('confirmation')) return t('emptyState.confirmationTemplateName');
+    return t('emptyState.defaultTemplateName');
   };
 
   const getTemplateDescription = (name?: string) => {
-    if (!name) return 'Create a new web push notification template with customizable content';
-    if (name.includes('back-to-stock')) return 'Notify customers via web push when out-of-stock products are available again';
-    if (name.includes('confirmation')) return 'Send web push confirmations to customers for their orders or subscriptions';
-    return 'Create a new web push notification template with customizable content';
+    if (!name) return t('emptyState.defaultDescription');
+    if (name.includes('back-to-stock')) return t('emptyState.backToStockDescription');
+    if (name.includes('confirmation')) return t('emptyState.confirmationDescription');
+    return t('emptyState.defaultDescription');
   };
 
   return (
@@ -43,7 +45,7 @@ export function WebPushEditorEmptyState({
         }}>
         {/* Settings Header */}
         <Box padding={'400'}>
-          <Text as="h3" variant="headingSm" tone="subdued">Settings</Text>
+          <Text as="h3" variant="headingSm" tone="subdued">{t('emptyState.settingsTitle')}</Text>
         </Box>
 
         {/* Empty blocks list */}
@@ -68,10 +70,10 @@ export function WebPushEditorEmptyState({
             </div>
             <BlockStack gap="100" align="center">
               <Text as="p" variant="bodyMd" tone="subdued" alignment="center">
-                No blocks yet
+                {t('emptyState.noBlocksYet')}
               </Text>
               <Text as="p" variant="bodySm" tone="subdued" alignment="center">
-                Create your first template to get started
+                {t('emptyState.getStarted')}
               </Text>
             </BlockStack>
           </BlockStack>
@@ -92,7 +94,7 @@ export function WebPushEditorEmptyState({
           borderBottom: '1px solid #e1e3e5',
           backgroundColor: '#ffffff'
         }}>
-          <Text as="h3" variant="headingSm" tone="subdued">Web Push Preview</Text>
+          <Text as="h3" variant="headingSm" tone="subdued">{t('emptyState.previewTitle')}</Text>
         </div>
 
         {/* Empty State Content */}
@@ -112,7 +114,7 @@ export function WebPushEditorEmptyState({
               <EmptyState
                 heading={getTemplateName(templateName)}
                 action={{
-                  content: 'Create template',
+                  content: t('emptyState.createTemplateButton'),
                   onAction: onCreateTemplate,
                 }}
                 image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
@@ -126,7 +128,7 @@ export function WebPushEditorEmptyState({
               <div style={{ width: '100%' }}>
                 <BlockStack gap="200">
                   <Text as="h4" variant="headingSm" alignment="center">
-                    What you can create:
+                    {t('emptyState.whatYouCanCreate')}
                   </Text>
                   <div style={{
                     display: 'grid',
@@ -135,12 +137,12 @@ export function WebPushEditorEmptyState({
                     textAlign: 'left'
                   }}>
                     {[
-                      'Custom titles',
-                      'Rich body text',
-                      'Brand icons',
-                      'Action buttons',
-                      'Dynamic variables',
-                      'Personalization'
+                      t('emptyState.features.titles'),
+                      t('emptyState.features.body'),
+                      t('emptyState.features.icons'),
+                      t('emptyState.features.buttons'),
+                      t('emptyState.features.variables'),
+                      t('emptyState.features.personalization')
                     ].map((feature, index) => (
                       <div key={index} style={{
                         display: 'flex',
@@ -164,7 +166,7 @@ export function WebPushEditorEmptyState({
 
               {/* Help Text */}
               <Text as="p" variant="bodySm" tone="subdued" alignment="center">
-                You can always customize and modify your template later
+                {t('emptyState.customizeLater')}
               </Text>
             </BlockStack>
           </div>

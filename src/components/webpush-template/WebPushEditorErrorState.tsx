@@ -1,5 +1,6 @@
 import { Box, BlockStack, Text, Button } from "@shopify/polaris";
 import { RefreshIcon, AlertTriangleIcon } from "@shopify/polaris-icons";
+import { useTranslation } from "react-i18next";
 
 interface WebPushEditorErrorStateProps {
   error: string;
@@ -10,6 +11,7 @@ export function WebPushEditorErrorState({
   error,
   onRetry
 }: WebPushEditorErrorStateProps) {
+  const { t } = useTranslation('webpush-template');
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       {/* Left Sidebar - Error */}
@@ -23,7 +25,7 @@ export function WebPushEditorErrorState({
       }}>
         {/* Settings Header */}
         <Box padding={'400'}>
-          <Text as="h3" variant="headingSm" tone="subdued">Template Blocks</Text>
+          <Text as="h3" variant="headingSm" tone="subdued">{t('errorState.templateBlocksTitle')}</Text>
         </Box>
 
         {/* Error blocks list */}
@@ -48,10 +50,10 @@ export function WebPushEditorErrorState({
             </div>
             <BlockStack gap="100" align="center">
               <Text as="p" variant="bodyMd" tone="critical" alignment="center">
-                Failed to load
+                {t('errorState.failedToLoad')}
               </Text>
               <Text as="p" variant="bodySm" tone="subdued" alignment="center">
-                Unable to load template blocks
+                {t('errorState.unableToLoadBlocks')}
               </Text>
             </BlockStack>
           </BlockStack>

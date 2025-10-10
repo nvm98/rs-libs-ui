@@ -7,6 +7,7 @@ import { EmailBlock } from "./interfaces/email-block.interface";
 import { VARIABLES } from "./constants";
 import { Template } from "../shared/types/template.type";
 import { LANGUAGES } from "@shared/constants";
+import { useTranslation } from "react-i18next";
 
 interface EmailEditorSidebarProps {
   templateName: string,
@@ -45,6 +46,7 @@ export function EmailEditorSidebar({
   isMobile = false,
   onCloseSidebar
 }: EmailEditorSidebarProps) {
+  const { t } = useTranslation('email-template');
   const [showAddLanguageForm, setShowAddLanguageForm] = useState(false);
   const [selectedNewLanguage, setSelectedNewLanguage] = useState('');
 
@@ -107,7 +109,7 @@ export function EmailEditorSidebar({
   // Tạo options cho language selector với option "Add new language"
   const languageOptions = [
     ...availableLanguages.map(lang => ({ label: lang.label, value: lang.value })),
-    { label: '+ Add new language', value: 'add_new' }
+    { label: t('sidebar.addNewLanguageOption'), value: 'add_new' }
   ];
 
   const handleLanguageSelectChange = useCallback((value: string) => {
@@ -153,10 +155,10 @@ export function EmailEditorSidebar({
                     variant="tertiary"
                     icon={ChevronLeftIcon}
                     onClick={onCloseSidebar}
-                    accessibilityLabel="Close sidebar"
+                    accessibilityLabel={t('sidebar.closeLabel')}
                   />
                 )}
-                <Text as="h3" variant="headingSm">Settings</Text>
+                <Text as="h3" variant="headingSm">{t('sidebar.settingsTitle')}</Text>
               </InlineStack>
               <InlineStack gap="200" align="center">
                 {/* Language selector với khả năng thêm ngôn ngữ mới */}

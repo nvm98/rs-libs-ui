@@ -1,4 +1,5 @@
 import { Box, BlockStack, InlineStack, Text, Button } from "@shopify/polaris";
+import { useTranslation } from "react-i18next";
 
 interface EmailEditorErrorStateProps {
   templateName: string;
@@ -9,14 +10,15 @@ export function EmailEditorErrorState({
   templateName,
   handleTryAgain,
 }: EmailEditorErrorStateProps) {
+  const { t } = useTranslation('email-template');
 
   return (
     <Box paddingBlockStart={'800'}>
       <BlockStack gap={'400'}>
         <Box padding={'200'}>
           <BlockStack gap={'200'}>
-            <Text as="h2" alignment="center" variant="headingLg">Template not found</Text>
-            <Text as="p" alignment="center" variant="bodyLg">We couldn't load the template you're looking for. This might be due to a temporary issue or the template may no longer be available.</Text>
+            <Text as="h2" alignment="center" variant="headingLg">{t('errorState.title')}</Text>
+            <Text as="p" alignment="center" variant="bodyLg">{t('errorState.description')}</Text>
           </BlockStack>
         </Box>
         <InlineStack align="center">
@@ -24,7 +26,7 @@ export function EmailEditorErrorState({
             variant="primary"
             onClick={() => handleTryAgain(templateName)}
           >
-            Try again
+            {t('errorState.tryAgainButton')}
           </Button>
         </InlineStack>
       </BlockStack>
