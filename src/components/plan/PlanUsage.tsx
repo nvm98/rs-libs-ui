@@ -49,22 +49,22 @@ export function PlanUsage<T extends PlansConfig = PlansConfig>({
           <InlineStack gap="500" wrap>
             <BlockStack gap="100">
               <Text variant="bodyMd" as="p">{t('usage.activeSubscriptions')}</Text>
-              <Text variant="headingLg" as="h4">247</Text>
+              <Text variant="headingLg" as="h4">-</Text>
             </BlockStack>
 
             <BlockStack gap="100">
               <Text variant="bodyMd" as="p">{t('usage.emailNotifications')}</Text>
-              <Text variant="headingLg" as="h4">1,523</Text>
+              <Text variant="headingLg" as="h4">-</Text>
             </BlockStack>
 
             <BlockStack gap="100">
               <Text variant="bodyMd" as="p">{t('usage.smsNotifications')}</Text>
-              <Text variant="headingLg" as="h4">89</Text>
+              <Text variant="headingLg" as="h4">-</Text>
             </BlockStack>
 
             <BlockStack gap="100">
               <Text variant="bodyMd" as="p">{t('usage.estimatedCost')}</Text>
-              <Text variant="headingLg" tone="success" as="h4">$102.45</Text>
+              <Text variant="headingLg" tone="success" as="h4">-</Text>
             </BlockStack>
           </InlineStack>
 
