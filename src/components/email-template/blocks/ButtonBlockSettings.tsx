@@ -16,6 +16,15 @@ const parsePixelValue = (value: string): number => {
   return isNaN(parsed) ? 6 : parsed;
 };
 
+// Helper function to parse padding values
+const parsePadding = (value: string): { vertical: number; horizontal: number } => {
+  if (!value) return { vertical: 14, horizontal: 32 };
+  const parts = value.split(' ').map(part => parseInt(part.replace('px', '')));
+  if (parts.length === 1 && !isNaN(parts[0])) return { vertical: parts[0], horizontal: parts[0] };
+  if (parts.length >= 2 && !isNaN(parts[0]) && !isNaN(parts[1])) return { vertical: parts[0], horizontal: parts[1] };
+  return { vertical: 14, horizontal: 32 };
+};
+
 export function ButtonBlockSettings({
   block,
   updateContent,
@@ -27,16 +36,16 @@ export function ButtonBlockSettings({
 
       <TextField
         label="Button Text"
-        value={block.content.text || ''}
-        onChange={(value) => updateContent({ text: value })}
+        value={block.content.buttonText || ''}
+        onChange={(value) => updateContent({ buttonText: value })}
         placeholder="Click Here"
         autoComplete="off"
       />
 
       <TextField
         label="Link URL"
-        value={block.content.link || ''}
-        onChange={(value) => updateContent({ link: value })}
+        value={block.content.linkUrl || ''}
+        onChange={(value) => updateContent({ linkUrl: value })}
         placeholder="https://example.com"
         autoComplete="off"
       />
@@ -50,8 +59,8 @@ export function ButtonBlockSettings({
         <Box paddingBlockStart="100">
           <input
             type="color"
-            value={block.styles.backgroundColor || '#007ace'}
-            onChange={(e) => updateStyles({ backgroundColor: e.target.value })}
+            value={block.content.backgroundColor || '#007ace'}
+            onChange={(e) => updateContent({ backgroundColor: e.target.value })}
             style={{
               width: '100%',
               height: '36px',
@@ -68,8 +77,8 @@ export function ButtonBlockSettings({
         <Box paddingBlockStart="100">
           <input
             type="color"
-            value={block.styles.color || '#ffffff'}
-            onChange={(e) => updateStyles({ color: e.target.value })}
+            value={block.content.textColor || '#ffffff'}
+            onChange={(e) => updateContent({ textColor: e.target.value })}
             style={{
               width: '100%',
               height: '36px',
@@ -85,19 +94,59 @@ export function ButtonBlockSettings({
         <Box paddingBlockEnd="100">
           <InlineStack align="space-between">
             <Text as="p" variant="bodyMd">Border Radius</Text>
-            <Text as="p" variant="bodyMd" tone="subdued">{parsePixelValue(block.styles.borderRadius || '6px')}px</Text>
+            <Text as="p" variant="bodyMd" tone="subdued">{parsePixelValue(block.content.borderRadius || '6px')}px</Text>
           </InlineStack>
         </Box>
         <RangeSlider
           label=""
-          value={parsePixelValue(block.styles.borderRadius || '6px')}
+          value={parsePixelValue(block.content.borderRadius || '6px')}
           min={0}
           max={24}
           step={1}
-          onChange={(value) => updateStyles({ borderRadius: `${value}px` })}
+          onChange={(value) => updateContent({ borderRadius: `${value}px` })}
         />
       </Box>
-      
+
+      <Box>
+        <Box paddingBlockEnd="100">
+          <InlineStack align="space-between">
+            <Text as="p" variant="bodyMd">Vertical Padding</Text>
+            <Text as="p" variant="bodyMd" tone="subdued">{parsePadding(block.content.padding || '14px 32px').vertical}px</Text>
+          </InlineStack>
+        </Box>
+        <RangeSlider
+          label=""
+          value={parsePadding(block.content.padding || '14px 32px').vertical}
+          min={0}
+          max={50}
+          step={1}
+          onChange={(value) => {
+            const currentPadding = parsePadding(block.content.padding || '14px 32px');
+            updateContent({ padding: `${value}px ${currentPadding.horizontal}px` });
+          }}
+        />
+      </Box>
+
+      <Box>
+        <Box paddingBlockEnd="100">
+          <InlineStack align="space-between">
+            <Text as="p" variant="bodyMd">Horizontal Padding</Text>
+            <Text as="p" variant="bodyMd" tone="subdued">{parsePadding(block.content.padding || '14px 32px').horizontal}px</Text>
+          </InlineStack>
+        </Box>
+        <RangeSlider
+          label=""
+          value={parsePadding(block.content.padding || '14px 32px').horizontal}
+          min={0}
+          max={100}
+          step={1}
+          onChange={(value) => {
+            const currentPadding = parsePadding(block.content.padding || '14px 32px');
+            updateContent({ padding: `${currentPadding.vertical}px ${value}px` });
+          }}
+        />
+      </Box>
+
       <Select
         label="Alignment"
         options={[
@@ -105,8 +154,8 @@ export function ButtonBlockSettings({
           { label: 'Center', value: 'center' },
           { label: 'Right', value: 'right' }
         ]}
-        value={block.styles.textAlign || 'center'}
-        onChange={(value) => updateStyles({ textAlign: value })}
+        value={block.content.alignment || 'center'}
+        onChange={(value) => updateContent({ alignment: value as 'left' | 'center' | 'right' })}
       />
     </BlockStack>
   );

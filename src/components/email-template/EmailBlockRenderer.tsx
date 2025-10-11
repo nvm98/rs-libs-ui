@@ -100,7 +100,7 @@ function BlockComponent({
     case 'footer':
       return <FooterBlockRenderer block={block} replaceVariables={replaceVariables} />;
     case 'divider':
-      return <DividerBlockRenderer block={block} />;
+      return <DividerBlockRenderer block={block} replaceVariables={replaceVariables} />;
     case 'spacer':
       return <SpacerBlockRenderer block={block} />;
     default:

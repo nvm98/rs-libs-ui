@@ -1,17 +1,21 @@
-import { StyleOnlyRendererProps } from './types/RendererTypes';
+import { RendererComponentProps } from './types/RendererTypes';
 
-export function DividerBlockRenderer({ block }: StyleOnlyRendererProps) {
-  const { styles } = block;
-  
+export function DividerBlockRenderer({ block }: RendererComponentProps) {
+  const { content, styles } = block;
+
   return (
     <div style={{
       margin: styles.margin || '24px 0',
-      padding: '0 24px'
+      padding: styles.padding || '0 24px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
     }}>
       <hr style={{
         border: 'none',
-        borderTop: `1px solid ${styles.borderColor || '#e1e3e5'}`,
-        margin: 0
+        borderTop: `${content.lineHeight || '1px'} ${content.lineStyle || 'solid'} ${content.lineColor || '#e1e3e5'}`,
+        margin: 0,
+        width: content.width || '80%'
       }} />
     </div>
   );

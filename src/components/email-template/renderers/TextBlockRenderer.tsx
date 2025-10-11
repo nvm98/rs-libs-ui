@@ -2,7 +2,7 @@ import { BlockRendererProps } from './types/RendererTypes';
 
 export function TextBlockRenderer({ block, replaceVariables }: BlockRendererProps) {
   const { content, styles } = block;
-  
+
   return (
     <div style={{
       fontSize: styles.fontSize || '16px',
@@ -12,7 +12,7 @@ export function TextBlockRenderer({ block, replaceVariables }: BlockRendererProp
       lineHeight: '1.6',
       whiteSpace: 'pre-wrap'
     }}>
-      {content.variables ? replaceVariables(content.text) : content.text}
+      {replaceVariables ? replaceVariables(content.text) : content.text}
     </div>
   );
 }

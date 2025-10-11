@@ -1,15 +1,22 @@
 import { EmailBlock } from '../interfaces/email-block.interface';
 import { EmailBlockType } from './email-block-type.type';
 
+export interface SocialLink {
+  platform: string;
+  url: string;
+  icon?: string;
+}
+
 export type FooterBlock = EmailBlock & {
   type: EmailBlockType.FOOTER;
   content: {
-    text: string;
-    unsubscribeText: string;
-    showSocial: boolean;
+    companyInfo: string; // Rich Text - company name, address, copyright info
+    socialLinks: SocialLink[]; // Array of social media links
+    unsubscribeLink: string; // URL for unsubscribe (required by law)
+    preferenceLink: string; // URL for email preferences (optional)
+    backgroundColor: string; // Background color for footer
   };
   styles: {
-    backgroundColor: string;
     color: string;
     fontSize: string;
     textAlign: 'left' | 'center' | 'right';

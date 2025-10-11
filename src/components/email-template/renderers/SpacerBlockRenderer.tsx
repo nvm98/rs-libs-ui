@@ -1,11 +1,12 @@
-import { StyleOnlyRendererProps } from './types/RendererTypes';
+import { RendererComponentProps } from './types/RendererTypes';
 
-export function SpacerBlockRenderer({ block }: StyleOnlyRendererProps) {
-  const { styles } = block;
-  
+export function SpacerBlockRenderer({ block }: RendererComponentProps) {
+  const { content } = block;
+
   return (
     <div style={{
-      height: styles.height || '32px'
+      height: content.height || '32px',
+      backgroundColor: content.backgroundColor || 'transparent',
     }} />
   );
 }

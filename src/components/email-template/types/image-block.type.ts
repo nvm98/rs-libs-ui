@@ -4,14 +4,14 @@ import { EmailBlockType } from './email-block-type.type';
 export type ImageBlock = EmailBlock & {
   type: EmailBlockType.IMAGE;
   content: {
-    src: string;
-    alt: string;
-    link: string;
+    imageUrl: string;
+    altText: string;
+    linkUrl: string;
+    caption: string;
   };
   styles: {
     width: string;
-    maxWidth: string;
+    alignment: 'left' | 'center' | 'right';
     padding: string;
-    textAlign: 'left' | 'center' | 'right';
   };
 };

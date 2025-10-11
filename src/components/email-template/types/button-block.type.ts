@@ -4,16 +4,13 @@ import { EmailBlockType } from './email-block-type.type';
 export type ButtonBlock = EmailBlock & {
   type: EmailBlockType.BUTTON;
   content: {
-    text: string;
-    link: string;
-    variables: boolean;
-  };
-  styles: {
+    buttonText: string;
+    linkUrl: string;
     backgroundColor: string;
-    color: string;
+    textColor: string;
     padding: string;
     borderRadius: string;
-    textAlign: 'left' | 'center' | 'right';
-    margin: string;
+    alignment: 'left' | 'center' | 'right';
   };
+  styles: {};
 };

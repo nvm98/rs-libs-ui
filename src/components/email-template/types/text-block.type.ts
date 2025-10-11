@@ -5,7 +5,6 @@ export type TextBlock = EmailBlock & {
   type: EmailBlockType.TEXT;
   content: {
     text: string;
-    variables: boolean;
   };
   styles: {
     fontSize: string;

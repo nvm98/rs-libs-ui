@@ -1,27 +1,31 @@
-import { BlockRendererProps } from './types/RendererTypes';
+import { RendererComponentProps } from './types/RendererTypes';
 
-export function ButtonBlockRenderer({ block, replaceVariables }: BlockRendererProps) {
-  const { content, styles } = block;
-  
+export function ButtonBlockRenderer({ block, replaceVariables }: RendererComponentProps) {
+  const { content } = block;
+
+  // Ensure replaceVariables is defined before using it
+  const processVariable = (text: string) =>
+    replaceVariables ? replaceVariables(text) : text;
+
   return (
     <div style={{
-      textAlign: styles.textAlign || 'center',
-      margin: styles.margin || '16px 24px'
+      textAlign: content.alignment || 'center',
+      padding: '16px 24px' // Add default padding for spacing
     }}>
-      <a 
-        href={content.variables ? replaceVariables(content.link) : content.link}
+      <a
+        href={processVariable(content.linkUrl || '#')}
         style={{
           display: 'inline-block',
-          backgroundColor: styles.backgroundColor || '#007ace',
-          color: styles.color || '#ffffff',
+          backgroundColor: content.backgroundColor || '#007ace',
+          color: content.textColor || '#ffffff',
           textDecoration: 'none',
-          padding: styles.padding || '14px 32px',
-          borderRadius: styles.borderRadius || '6px',
+          padding: content.padding || '14px 32px',
+          borderRadius: content.borderRadius || '6px',
           fontWeight: 'bold',
           fontSize: '16px'
         }}
       >
-        {content.variables ? replaceVariables(content.text) : content.text}
+        {processVariable(content.buttonText || 'Click Here')}
       </a>
     </div>
   );

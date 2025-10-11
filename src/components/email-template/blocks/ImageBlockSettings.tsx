@@ -34,25 +34,33 @@ export function ImageBlockSettings({
 
       <TextField
         label="Image URL"
-        value={block.content.src || ''}
-        onChange={(value) => updateContent({ src: value })}
+        value={block.content.imageUrl || ''}
+        onChange={(value) => updateContent({ imageUrl: value })}
         placeholder="https://example.com/image.jpg"
         autoComplete="off"
       />
 
       <TextField
         label="Alt Text"
-        value={block.content.alt || ''}
-        onChange={(value) => updateContent({ alt: value })}
+        value={block.content.altText || ''}
+        onChange={(value) => updateContent({ altText: value })}
         placeholder="Image description"
         autoComplete="off"
       />
 
       <TextField
         label="Link URL (optional)"
-        value={block.content.link || ''}
-        onChange={(value) => updateContent({ link: value })}
+        value={block.content.linkUrl || ''}
+        onChange={(value) => updateContent({ linkUrl: value })}
         placeholder="https://example.com"
+        autoComplete="off"
+      />
+
+      <TextField
+        label="Caption (optional)"
+        value={block.content.caption || ''}
+        onChange={(value) => updateContent({ caption: value })}
+        placeholder="Image caption"
         autoComplete="off"
       />
 
@@ -77,14 +85,6 @@ export function ImageBlockSettings({
         />
       </Box>
 
-      <TextField
-        label="Height"
-        value={block.styles.height || 'auto'}
-        onChange={(value) => updateStyles({ height: value })}
-        placeholder="200px or auto"
-        autoComplete="off"
-      />
-
       <Select
         label="Alignment"
         options={[
@@ -92,8 +92,8 @@ export function ImageBlockSettings({
           { label: 'Center', value: 'center' },
           { label: 'Right', value: 'right' }
         ]}
-        value={block.styles.textAlign || 'center'}
-        onChange={(value) => updateStyles({ textAlign: value })}
+        value={block.styles.alignment || 'center'}
+        onChange={(value) => updateStyles({ alignment: value as 'left' | 'center' | 'right' })}
       />
 
       <Box>

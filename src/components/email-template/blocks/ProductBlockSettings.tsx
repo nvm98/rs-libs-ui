@@ -5,9 +5,12 @@ import {
   Divider,
   RangeSlider,
   Box,
-  InlineStack
+  InlineStack,
+  Select,
+  TextField
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
+import { ProductLayoutType } from '../types/product-block.type';
 
 // Helper function to parse padding values (simplified to single value)
 const parsePaddingValue = (value: string): number => {
@@ -35,25 +38,56 @@ export function ProductBlockSettings({
 }: BlockSettingsComponentProps) {
   return (
     <BlockStack gap="300">
+      <Text as="h4" variant="headingXs">Layout</Text>
+
+      <Select
+        label="Product Layout"
+        options={[
+          { label: 'Single', value: 'single' },
+          { label: 'Grid', value: 'grid' },
+          { label: 'List', value: 'list' },
+        ]}
+        value={block.content.productLayout || 'single'}
+        onChange={(value) => updateContent({ productLayout: value as ProductLayoutType })}
+      />
+
+      <Divider />
+
       <Text as="h4" variant="headingXs">Display Options</Text>
 
       <Checkbox
-        label="Show Product Image"
-        checked={block.content.showImage}
-        onChange={(checked) => updateContent({ showImage: checked })}
+        label="Show Product Name"
+        checked={block.content.showProductName}
+        onChange={(checked) => updateContent({ showProductName: checked })}
       />
 
       <Checkbox
         label="Show Product Price"
-        checked={block.content.showPrice}
-        onChange={(checked) => updateContent({ showPrice: checked })}
+        checked={block.content.showProductPrice}
+        onChange={(checked) => updateContent({ showProductPrice: checked })}
       />
 
       <Checkbox
         label="Show Product Description"
-        checked={block.content.showDescription}
-        onChange={(checked) => updateContent({ showDescription: checked })}
+        checked={block.content.showProductDescription}
+        onChange={(checked) => updateContent({ showProductDescription: checked })}
       />
+
+      <Checkbox
+        label="Show CTA Button"
+        checked={block.content.showCTAButton}
+        onChange={(checked) => updateContent({ showCTAButton: checked })}
+      />
+
+      {block.content.showCTAButton && (
+        <TextField
+          label="Button Text"
+          value={block.content.buttonText || ''}
+          onChange={(value) => updateContent({ buttonText: value })}
+          placeholder="e.g., Buy Now"
+          autoComplete="off"
+        />
+      )}
 
       <Divider />
 

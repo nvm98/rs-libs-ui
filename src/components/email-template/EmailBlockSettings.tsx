@@ -49,14 +49,7 @@ export function EmailBlockSettings({ block, onUpdate }: EmailBlockSettingsProps)
     return null;
   }
 
-  // Handle components that don't need updateContent (divider, spacer)
-  if (block.type === 'divider' || block.type === 'spacer') {
-    const StyleOnlyComponent = Component as React.ComponentType<{
-      block: EmailBlock;
-      updateStyles: (updates: any) => void;
-    }>;
-    return <StyleOnlyComponent block={block} updateStyles={updateStyles} />;
-  }
+  // All components now use both updateContent and updateStyles
 
   const FullComponent = Component as React.ComponentType<{
     block: EmailBlock;

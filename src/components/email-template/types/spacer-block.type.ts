@@ -3,8 +3,9 @@ import { EmailBlockType } from './email-block-type.type';
 
 export type SpacerBlock = EmailBlock & {
   type: EmailBlockType.SPACER;
-  content: {};
-  styles: {
+  content: {
     height: string;
+    backgroundColor: string;
   };
+  styles: {};
 };

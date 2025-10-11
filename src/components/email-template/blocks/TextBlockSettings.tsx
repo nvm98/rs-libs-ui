@@ -83,11 +83,10 @@ export function TextBlockSettings({
         options={[
           { label: 'Left', value: 'left' },
           { label: 'Center', value: 'center' },
-          { label: 'Right', value: 'right' },
-          { label: 'Justify', value: 'justify' }
+          { label: 'Right', value: 'right' }
         ]}
         value={block.styles.textAlign || 'left'}
-        onChange={(value) => updateStyles({ textAlign: value })}
+        onChange={(value) => updateStyles({ textAlign: value as 'left' | 'center' | 'right' })}
       />
       
       <Box>

@@ -8,3 +8,12 @@ export interface BlockRendererProps {
 export interface StyleOnlyRendererProps {
   block: EmailBlock;
 }
+
+export interface RendererComponentProps {
+  block: EmailBlock;
+  replaceVariables?: (text: string) => string;
+}
+
+export interface RendererProps<T extends EmailBlock> {
+  block: T;
+}

@@ -16,8 +16,13 @@ export const VARIABLES = [
   },
   {
     variable: '{{shop_logo_url}}',
-    example: 'https://cdn.shopify.com/s/files/1/0000/0000/0000/files/logo.png',
+    example: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPpAh63HncAuJOC6TxWkGLYpS0WwNXswz9MA&s',
     description: 'The URL of your shop logo'
+  },
+  {
+    variable: '{{product_image_url}}',
+    example: 'https://blog.adobe.com/en/publish/2024/10/14/media_1ca79b205381242c5f8beaaee2f0e1cfb2aa8f324.png?width=750&format=png&optimize=medium',
+    description: 'The URL of your product image'
   },
   {
     variable: '{{order_number}}',
@@ -30,9 +35,14 @@ export const VARIABLES = [
     description: 'The title of the product in the order'
   },
   {
+    variable: '{{product_description}}',
+    example: 'Wireless Headphones Description',
+    description: 'The title of the product in the order'
+  },
+  {
     variable: '{{product_price}}',
     example: '$199.99',
-    description: 'The price of the product'
+    description: 'The title of the product in the order'
   },
   {
     variable: '{{shop_domain}}',
