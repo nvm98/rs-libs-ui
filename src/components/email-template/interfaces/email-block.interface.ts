@@ -1,4 +1,4 @@
-import { EmailBlockType } from "../types/email-block-type.type";
+import { EmailBlockType } from "../types";
 
 export interface EmailBlock {
   id: string;

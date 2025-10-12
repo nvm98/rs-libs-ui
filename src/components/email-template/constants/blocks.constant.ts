@@ -84,22 +84,6 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
             imageUrl: '{{product_image_url}}',
             productUrl: '{{product_url}}'
           },
-          {
-            id: 'product-2',
-            name: '{{product_title}}',
-            price: '{{product_price}}',
-            description: '{{product_description}}',
-            imageUrl: '{{product_image_url}}',
-            productUrl: '{{product_url}}'
-          },
-          {
-            id: 'product-3',
-            name: '{{product_title}}',
-            price: '{{product_price}}',
-            description: '{{product_description}}',
-            imageUrl: '{{product_image_url}}',
-            productUrl: '{{product_url}}'
-          }
         ],
         productLayout: 'single',
         showProductName: true,
