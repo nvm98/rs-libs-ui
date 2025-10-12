@@ -5,11 +5,12 @@ import {
   Divider
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
+import { SubjectBlock } from "@email-template/types";
 
 export function SubjectBlockSettings({
   block,
   updateContent
-}: BlockSettingsComponentProps) {
+}: BlockSettingsComponentProps<SubjectBlock>) {
   return (
     <BlockStack gap="300">
       <Text as="h4" variant="headingXs">Email Subject</Text>

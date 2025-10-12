@@ -13,8 +13,8 @@ export interface StyleUpdateFunction {
   (updates: any): void;
 }
 
-export interface BlockSettingsComponentProps {
-  block: EmailBlock;
+export interface BlockSettingsComponentProps<T extends EmailBlock> {
+  block: T;
   updateContent: ContentUpdateFunction;
   updateStyles: StyleUpdateFunction;
 }

@@ -10,13 +10,14 @@ import {
   Checkbox
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
-import { parsePaddingValue, parsePixelValue } from "@shared/utils/common.util";
+import { parsePaddingValue, parsePixelValue } from "@shared/utils/blocks.util";
+import { HeaderBlock } from "@email-template/types";
 
 export function HeaderBlockSettings({
   block,
   updateContent,
   updateStyles
-}: BlockSettingsComponentProps) {
+}: BlockSettingsComponentProps<HeaderBlock>) {
 
   return (
     <BlockStack gap="300">

@@ -13,9 +13,9 @@ import {
   DeleteIcon,
 } from "@shopify/polaris-icons";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
-import { SocialLink } from '../types/footer-block.type';
+import { FooterBlock, SocialLink } from '../types/footer-block.type';
 import { useState } from 'react';
-import { parsePaddingValue, parsePixelValue } from "@shared/utils/common.util";
+import { parsePaddingValue, parsePixelValue } from "@shared/utils/blocks.util";
 
 // Social media platform options
 const socialPlatformOptions = [
@@ -44,7 +44,7 @@ export function FooterBlockSettings({
   block,
   updateContent,
   updateStyles
-}: BlockSettingsComponentProps) {
+}: BlockSettingsComponentProps<FooterBlock>) {
   const [newSocialPlatform, setNewSocialPlatform] = useState('facebook');
   const [newSocialUrl, setNewSocialUrl] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);

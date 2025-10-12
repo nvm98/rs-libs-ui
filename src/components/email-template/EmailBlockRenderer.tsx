@@ -10,6 +10,7 @@ import {
   SpacerBlockRenderer,
   FooterBlockRenderer
 } from './renderers';
+import { EmailBlockType } from './types';
 
 interface EmailBlockRendererProps {
   blocks: EmailBlock[];
@@ -104,23 +105,23 @@ function BlockComponent({
 }) {
   // Handle each block type explicitly to ensure proper typing
   switch (block.type) {
-    case 'subject':
+    case EmailBlockType.SUBJECT:
       return <SubjectBlockRenderer block={block} replaceVariables={replaceVariables} />;
-    case 'header':
+    case EmailBlockType.HEADER:
       return <HeaderBlockRenderer block={block} replaceVariables={replaceVariables} />;
-    case 'text':
+    case EmailBlockType.TEXT:
       return <TextBlockRenderer block={block} replaceVariables={replaceVariables} />;
-    case 'image':
+    case EmailBlockType.IMAGE:
       return <ImageBlockRenderer block={block} replaceVariables={replaceVariables} />;
-    case 'button':
+    case EmailBlockType.BUTTON:
       return <ButtonBlockRenderer block={block} replaceVariables={replaceVariables} />;
-    case 'product':
+    case EmailBlockType.PRODUCT:
       return <ProductBlockRenderer block={block} replaceVariables={replaceVariables} />;
-    case 'footer':
+    case EmailBlockType.FOOTER:
       return <FooterBlockRenderer block={block} replaceVariables={replaceVariables} />;
-    case 'divider':
+    case EmailBlockType.DIVIDER:
       return <DividerBlockRenderer block={block} replaceVariables={replaceVariables} />;
-    case 'spacer':
+    case EmailBlockType.SPACER:
       return <SpacerBlockRenderer block={block} />;
     default:
       return null;

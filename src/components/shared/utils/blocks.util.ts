@@ -16,3 +16,19 @@ export const parsePadding = (value: string, defaultValue: number = 12): { vertic
   if (parts.length >= 2 && !isNaN(parts[0]) && !isNaN(parts[1])) return { vertical: parts[0], horizontal: parts[1] };
   return { vertical: defaultValue, horizontal: defaultValue };
 };
+
+export const parseMarginValue = (value: string, defaultValue: number = 24): number => {
+  const firstValue = value.split(' ')[0];
+  const parsed = parseInt(firstValue.replace('px', ''));
+  return isNaN(parsed) ? defaultValue : parsed;
+};
+
+export const parseWidthValue = (value: string, defaultValue: number = 80): number => {
+  const parsed = parseInt(value.replace('%', ''));
+  return isNaN(parsed) ? defaultValue : parsed;
+};
+
+export const parseLineHeightValue = (value: string, defaultValue: number = 1): number => {
+  const parsed = parseInt(value.replace('px', ''));
+  return isNaN(parsed) ? defaultValue : parsed;
+};

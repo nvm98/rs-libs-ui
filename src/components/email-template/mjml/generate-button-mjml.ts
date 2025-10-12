@@ -6,16 +6,16 @@ import { ButtonBlock } from '../types/button-block.type';
  * @returns The MJML string for the button.
  */
 export function generateButtonMjml(block: ButtonBlock): string {
-  const { content } = block;
+  const { content, styles } = block;
 
   return `
     <mj-button
       href="${content.linkUrl || '#'}"
-      background-color="${content.backgroundColor || '#007ace'}"
-      color="${content.textColor || '#ffffff'}"
-      padding="${content.padding || '14px 32px'}"
-      border-radius="${content.borderRadius || '6px'}"
-      align="${content.alignment || 'center'}"
+      background-color="${styles.backgroundColor || '#007ace'}"
+      color="${styles.textColor || '#ffffff'}"
+      padding="${styles.padding || '14px 32px'}"
+      border-radius="${styles.borderRadius || '6px'}"
+      align="${styles.alignment || 'center'}"
       font-weight="bold"
       font-size="16px"
     >

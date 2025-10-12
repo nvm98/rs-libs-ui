@@ -10,7 +10,7 @@ import {
   TextField
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
-import { ProductLayoutType } from '../types/product-block.type';
+import { ProductBlock, ProductLayoutType } from '../types/product-block.type';
 
 // Helper function to parse padding values (simplified to single value)
 const parsePaddingValue = (value: string): number => {
@@ -35,7 +35,7 @@ export function ProductBlockSettings({
   block,
   updateContent,
   updateStyles
-}: BlockSettingsComponentProps) {
+}: BlockSettingsComponentProps<ProductBlock>) {
   return (
     <BlockStack gap="300">
       <Text as="h4" variant="headingXs">Layout</Text>

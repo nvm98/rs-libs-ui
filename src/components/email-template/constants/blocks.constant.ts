@@ -110,13 +110,14 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       content: {
         buttonText: 'Shop Now',
         linkUrl: '{{shop_url}}',
+      },
+      styles: {
         backgroundColor: '#007ace',
         textColor: '#ffffff',
         padding: '14px 32px',
         borderRadius: '6px',
         alignment: 'center'
       },
-      styles: {},
       canDelete: true,
       canDragable: true,
       isRequired: false
@@ -220,13 +221,14 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
     content: {
       buttonText: 'Click Here',
       linkUrl: '#',
+    },
+    styles: {
       backgroundColor: '#007ace',
       textColor: '#ffffff',
       padding: '14px 32px',
       borderRadius: '6px',
       alignment: 'center'
     },
-    styles: {},
     canDelete: true,
     canDragable: true,
     isRequired: false

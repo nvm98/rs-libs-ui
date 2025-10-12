@@ -9,4 +9,3 @@ export enum EmailBlockType {
   SPACER = 'spacer',
   FOOTER = 'footer'
 }
-  

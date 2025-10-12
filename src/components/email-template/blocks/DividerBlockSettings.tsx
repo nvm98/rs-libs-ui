@@ -4,36 +4,17 @@ import {
   RangeSlider,
   Box,
   InlineStack,
-  Select,
-  TextField
+  Select
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
-import { LineStyleType } from '../types/divider-block.type';
-
-// Helper function to parse margin values (simplified to single value)
-const parseMarginValue = (value: string): number => {
-  const firstValue = value.split(' ')[0];
-  const parsed = parseInt(firstValue.replace('px', ''));
-  return isNaN(parsed) ? 24 : parsed;
-};
-
-// Helper function to parse width percentage
-const parseWidthValue = (value: string): number => {
-  const parsed = parseInt(value.replace('%', ''));
-  return isNaN(parsed) ? 80 : parsed;
-};
-
-// Helper function to parse line height
-const parseLineHeightValue = (value: string): number => {
-  const parsed = parseInt(value.replace('px', ''));
-  return isNaN(parsed) ? 1 : parsed;
-};
+import { DividerBlock, LineStyleType } from '../types/divider-block.type';
+import { parseLineHeightValue, parseMarginValue, parseWidthValue } from "@shared/utils/blocks.util";
 
 export function DividerBlockSettings({
   block,
   updateContent,
   updateStyles
-}: BlockSettingsComponentProps) {
+}: BlockSettingsComponentProps<DividerBlock>) {
   const lineStyleOptions = [
     { label: 'Solid', value: 'solid' },
     { label: 'Dashed', value: 'dashed' },

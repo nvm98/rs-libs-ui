@@ -9,13 +9,14 @@ import {
   InlineStack
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
-import { parsePaddingValue, parsePixelValue } from "@shared/utils/common.util";
+import { parsePaddingValue, parsePixelValue } from "@shared/utils/blocks.util";
+import { ImageBlock } from "@email-template/types";
 
 export function ImageBlockSettings({
   block,
   updateContent,
   updateStyles
-}: BlockSettingsComponentProps) {
+}: BlockSettingsComponentProps<ImageBlock>) {
   return (
     <BlockStack gap="300">
       <Text as="h4" variant="headingXs">Content</Text>

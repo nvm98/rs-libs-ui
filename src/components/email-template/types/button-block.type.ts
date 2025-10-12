@@ -6,11 +6,16 @@ export type ButtonBlock = EmailBlock & {
   content: {
     buttonText: string;
     linkUrl: string;
+  };
+  styles: {
     backgroundColor: string;
     textColor: string;
     padding: string;
     borderRadius: string;
     alignment: 'left' | 'center' | 'right';
   };
-  styles: {};
 };
+
+export const buttonBlockDefault = {
+  
+}

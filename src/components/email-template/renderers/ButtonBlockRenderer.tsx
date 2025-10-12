@@ -1,7 +1,7 @@
 import { RendererComponentProps } from './types/RendererTypes';
 
 export function ButtonBlockRenderer({ block, replaceVariables }: RendererComponentProps) {
-  const { content } = block;
+  const { content, styles } = block;
 
   // Ensure replaceVariables is defined before using it
   const processVariable = (text: string) =>
@@ -9,18 +9,18 @@ export function ButtonBlockRenderer({ block, replaceVariables }: RendererCompone
 
   return (
     <div style={{
-      textAlign: content.alignment || 'center',
+      textAlign: styles.alignment || 'center',
       padding: '16px 24px' // Add default padding for spacing
     }}>
       <a
         href={processVariable(content.linkUrl || '#')}
         style={{
           display: 'inline-block',
-          backgroundColor: content.backgroundColor || '#007ace',
-          color: content.textColor || '#ffffff',
+          backgroundColor: styles.backgroundColor || '#007ace',
+          color: styles.textColor || '#ffffff',
           textDecoration: 'none',
-          padding: content.padding || '14px 32px',
-          borderRadius: content.borderRadius || '6px',
+          padding: styles.padding || '14px 32px',
+          borderRadius: styles.borderRadius || '6px',
           fontWeight: 'bold',
           fontSize: '16px'
         }}

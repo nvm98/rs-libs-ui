@@ -8,3 +8,4 @@ export * from './image-block.type';
 export * from './divider-block.type';
 export * from './spacer-block.type';
 export * from './footer-block.type';
+export * from './subject-block.type';

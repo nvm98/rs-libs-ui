@@ -6,13 +6,14 @@ import {
   InlineStack
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
-import { parsePixelValue } from "@shared/utils/common.util";
+import { parsePixelValue } from "@shared/utils/blocks.util";
+import { SpacerBlock } from "@email-template/types";
 
 export function SpacerBlockSettings({
   block,
   updateContent,
   updateStyles
-}: BlockSettingsComponentProps) {
+}: BlockSettingsComponentProps<SpacerBlock>) {
   return (
     <BlockStack gap="300">
       <Text as="h4" variant="headingXs">Content</Text>
