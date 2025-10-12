@@ -6,7 +6,7 @@ export function HeaderBlockRenderer({ block, replaceVariables }: BlockRendererPr
   const renderWebViewLink = () => {
     if (!content.showWebViewLink) return null;
     return (
-      <div style={{ textAlign: 'right', fontSize: '12px', paddingBottom: '8px' }}>
+      <div style={{ textAlign: 'right', fontSize: '12px', padding: '8px' }}>
         <a href="{{view_in_browser_url}}" style={{ color: '#0000EE' }}>
           View in browser
         </a>

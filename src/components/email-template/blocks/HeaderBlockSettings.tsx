@@ -10,23 +10,13 @@ import {
   Checkbox
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
+import { parsePaddingValue, parsePixelValue } from "@shared/utils/common.util";
 
 export function HeaderBlockSettings({
   block,
   updateContent,
   updateStyles
 }: BlockSettingsComponentProps) {
-  // Helper functions to convert between different units
-  const parsePixelValue = (value: string): number => {
-    const parsed = parseInt(value.replace('px', ''));
-    return isNaN(parsed) ? 0 : parsed;
-  };
-
-  const parsePaddingValue = (value: string): number => {
-    // Handle padding like "24px" or "24px 16px" - take first value
-    const firstValue = value.split(' ')[0];
-    return parsePixelValue(firstValue);
-  };
 
   return (
     <BlockStack gap="300">

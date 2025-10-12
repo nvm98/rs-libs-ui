@@ -9,19 +9,7 @@ import {
   InlineStack
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
-
-// Helper function to parse pixel values
-const parsePixelValue = (value: string): number => {
-  const parsed = parseInt(value.replace('px', ''));
-  return isNaN(parsed) ? 16 : parsed;
-};
-
-// Helper function to parse padding values (simplified to single value)
-const parsePaddingValue = (value: string): number => {
-  const firstValue = value.split(' ')[0];
-  const parsed = parseInt(firstValue.replace('px', ''));
-  return isNaN(parsed) ? 16 : parsed;
-};
+import { parsePaddingValue, parsePixelValue } from "@shared/utils/common.util";
 
 export function TextBlockSettings({
   block,

@@ -6,8 +6,8 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       id: 'subject-0',
       type: EmailBlockType.SUBJECT,
       content: {
-        subjectLine: 'Your order update',
-        previewText: 'Thank you for your order! Here\'s what\'s happening next.'
+        subjectLine: "🎉 It's Back! The item you've been waiting for is here: {{product_title}}!",
+        previewText: 'Don\'t miss out this time! Stock is limited. Click to shop now before it\'s gone again.'
       },
       styles: {},
       canDelete: false,
@@ -21,16 +21,16 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         logoUrl: '{{shop_logo_url}}',
         logoAltText: '{{shop_name}}',
         logoLinkUrl: '{{shop_url}}',
-        showWebViewLink: true,
+        showWebViewLink: false,
         alignment: 'center'
       },
       styles: {
         backgroundColor: '#ffffff',
-        padding: '32px 24px',
+        padding: '20px',
         logoStyles: {
-          width: 'auto',
+          width: '120px',
           borderRadius: '0px',
-          padding: '0'
+          padding: '0px'
         }
       },
       canDelete: true,
@@ -41,14 +41,13 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       id: 'text-2', 
       type: EmailBlockType.TEXT, 
       content: { 
-        text: 'Hi {{customer_first_name}}, your order is ready!', 
-        variables: true 
+        text: 'Hi {{customer_first_name}}, your order is ready!We have exciting news! The item you asked to be notified about, the {{product_title}}, is officially back in stock! | Immediate, personalized, and clear announcement.',
       }, 
       styles: { 
-        fontSize: '16px', 
+        fontSize: '14px', 
         color: '#333333', 
         textAlign: 'left', 
-        padding: '16px 24px' 
+        padding: '16px' 
       },
       canDelete: true,
       canDragable: true,
@@ -61,11 +60,11 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         imageUrl: 'https://blog.adobe.com/en/publish/2024/10/14/media_1ca79b205381242c5f8beaaee2f0e1cfb2aa8f324.png?width=750&format=png&optimize=medium',
         altText: 'A descriptive image',
         linkUrl: '',
-        caption: 'This is an optional caption for the image.'
+        caption: ''
       },
       styles: {
         width: '100%',
-        padding: '16px 24px',
+        padding: '0px',
         alignment: 'center'
       },
       canDelete: true,
@@ -114,7 +113,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         border: '1px solid #e1e3e5',
         borderRadius: '8px',
         padding: '20px',
-        margin: '16px 24px',
+        margin: '0px',
         alignment: 'left'
       },
       canDelete: true,
@@ -182,16 +181,16 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       logoUrl: '{{shop_logo_url}}',
       logoAltText: '{{shop_name}}',
       logoLinkUrl: '{{shop_url}}',
-      showWebViewLink: true,
+      showWebViewLink: false,
       alignment: 'center'
     },
     styles: {
       backgroundColor: '#ffffff',
-      padding: '32px 24px',
+      padding: '20px',
       logoStyles: {
-        width: 'auto',
+        width: '120px',
         borderRadius: '0px',
-        padding: '0'
+        padding: '0px'
       }
     },
     canDelete: true,
@@ -206,10 +205,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       variables: true
     },
     styles: {
-      fontSize: '16px',
+      fontSize: '14px',
       color: '#333333',
       textAlign: 'left',
-      padding: '16px 24px'
+      padding: '16px'
     },
     canDelete: true,
     canDragable: true,
@@ -225,7 +224,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
     },
     styles: {
       width: '100%',
-      padding: '16px 24px',
+      padding: '0px',
       alignment: 'center'
     },
     canDelete: true,
@@ -273,7 +272,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       border: '1px solid #e1e3e5',
       borderRadius: '8px',
       padding: '20px',
-      margin: '16px 24px',
+      margin: '0px',
       alignment: 'left'
     },
     canDelete: true,

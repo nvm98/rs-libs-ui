@@ -58,8 +58,8 @@ export function EmailBlockRenderer({
             <strong>Subject:</strong> {subjectLine}
           </div>
           {previewText && (
-            <div style={{ fontSize: '12px', color: '#8b8b8b', fontStyle: 'italic' }}>
-              <strong>Preview:</strong> {previewText}
+            <div style={{ color: '#8b8b8b', fontStyle: 'italic' }}>
+              <strong>Preview Text:</strong> {previewText}
             </div>
           )}
         </div>

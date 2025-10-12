@@ -15,19 +15,7 @@ import {
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
 import { SocialLink } from '../types/footer-block.type';
 import { useState } from 'react';
-
-// Helper function to parse pixel values
-const parsePixelValue = (value: string): number => {
-  const parsed = parseInt(value.replace('px', ''));
-  return isNaN(parsed) ? 12 : parsed;
-};
-
-// Helper function to parse padding values (simplified to single value)
-const parsePaddingValue = (value: string): number => {
-  const firstValue = value.split(' ')[0];
-  const parsed = parseInt(firstValue.replace('px', ''));
-  return isNaN(parsed) ? 24 : parsed;
-};
+import { parsePaddingValue, parsePixelValue } from "@shared/utils/common.util";
 
 // Social media platform options
 const socialPlatformOptions = [

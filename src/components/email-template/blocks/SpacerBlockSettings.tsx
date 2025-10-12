@@ -6,12 +6,7 @@ import {
   InlineStack
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
-
-// Helper function to parse pixel values
-const parsePixelValue = (value: string): number => {
-  const parsed = parseInt(value.replace('px', ''));
-  return isNaN(parsed) ? 32 : parsed;
-};
+import { parsePixelValue } from "@shared/utils/common.util";
 
 export function SpacerBlockSettings({
   block,

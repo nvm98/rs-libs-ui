@@ -173,6 +173,26 @@ export function ProductBlockSettings({
       <Box>
         <Box paddingBlockEnd="100">
           <InlineStack align="space-between">
+            <Text as="p" variant="bodyMd">Border Radius</Text>
+            <Text as="p" variant="bodyMd" tone="subdued">{parseBorderWidth(block.styles.borderRadius || '4')}px</Text>
+          </InlineStack>
+        </Box>
+        <RangeSlider
+          label=""
+          value={parseBorderWidth(block.styles.borderRadius || '1px')}
+          min={0}
+          max={48}
+          step={1}
+          onChange={(value) => {
+            const currentColor = parseBorderColor(block.styles.borderRadius || '1px');
+            updateStyles({ borderRadius: value === 0 ? 'none' : `${value}px` });
+          }}
+        />
+      </Box>
+
+      <Box>
+        <Box paddingBlockEnd="100">
+          <InlineStack align="space-between">
             <Text as="p" variant="bodyMd">Padding</Text>
             <Text as="p" variant="bodyMd" tone="subdued">{parsePaddingValue(block.styles.padding || '20px')}px</Text>
           </InlineStack>

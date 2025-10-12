@@ -9,21 +9,7 @@ import {
   InlineStack
 } from "@shopify/polaris";
 import { BlockSettingsComponentProps } from './types/BlockSettingsTypes';
-
-// Helper function to parse pixel values
-const parsePixelValue = (value: string): number => {
-  const parsed = parseInt(value.replace('px', ''));
-  return isNaN(parsed) ? 6 : parsed;
-};
-
-// Helper function to parse padding values
-const parsePadding = (value: string): { vertical: number; horizontal: number } => {
-  if (!value) return { vertical: 14, horizontal: 32 };
-  const parts = value.split(' ').map(part => parseInt(part.replace('px', '')));
-  if (parts.length === 1 && !isNaN(parts[0])) return { vertical: parts[0], horizontal: parts[0] };
-  if (parts.length >= 2 && !isNaN(parts[0]) && !isNaN(parts[1])) return { vertical: parts[0], horizontal: parts[1] };
-  return { vertical: 14, horizontal: 32 };
-};
+import { parsePadding, parsePixelValue } from "@shared/utils/common.util";
 
 export function ButtonBlockSettings({
   block,
