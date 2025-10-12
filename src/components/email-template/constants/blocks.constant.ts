@@ -3,6 +3,18 @@ import { EmailBlockType } from "../types";
 
 export const INITIAL_BLOCKS: EmailBlock[] = [
     {
+      id: 'subject-0',
+      type: EmailBlockType.SUBJECT,
+      content: {
+        subjectLine: 'Your order update',
+        previewText: 'Thank you for your order! Here\'s what\'s happening next.'
+      },
+      styles: {},
+      canDelete: false,
+      canDragable: false,
+      isRequired: false
+    },
+    {
       id: 'header-1',
       type: EmailBlockType.HEADER,
       content: {
@@ -20,7 +32,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
           borderRadius: '0px',
           padding: '0'
         }
-      }
+      },
+      canDelete: true,
+      canDragable: true,
+      isRequired: false
     },
     { 
       id: 'text-2', 
@@ -34,7 +49,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         color: '#333333', 
         textAlign: 'left', 
         padding: '16px 24px' 
-      } 
+      },
+      canDelete: true,
+      canDragable: true,
+      isRequired: false
     },
     {
       id: 'image-3',
@@ -49,7 +67,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         width: '100%',
         padding: '16px 24px',
         alignment: 'center'
-      }
+      },
+      canDelete: true,
+      canDragable: true,
+      isRequired: false
     },
     {
       id: 'product-4',
@@ -95,7 +116,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         padding: '20px',
         margin: '16px 24px',
         alignment: 'left'
-      }
+      },
+      canDelete: true,
+      canDragable: true,
+      isRequired: false
     },
     {
       id: 'button-5',
@@ -109,7 +133,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         borderRadius: '6px',
         alignment: 'center'
       },
-      styles: {}
+      styles: {},
+      canDelete: true,
+      canDragable: true,
+      isRequired: false
     },
     {
       id: 'footer-6',
@@ -129,11 +156,26 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         fontSize: '14px',
         textAlign: 'center',
         padding: '24px'
-      }
+      },
+      canDelete: false,
+      canDragable: false,
+      isRequired: false
     }
   ];
 
   export const BLOCK_TEMPLATES: Record<EmailBlockType, Omit<EmailBlock, 'id'>> = {
+  subject: {
+    type: EmailBlockType.SUBJECT,
+    content: {
+      subjectLine: 'Your order update',
+      previewText: 'Thank you for your order! Here\'s what\'s happening next.'
+    },
+    styles: {},
+    canDelete: false,
+    canDragable: false,
+    isRequired: true,
+    isUnique: true
+  },
   header: {
     type: EmailBlockType.HEADER,
     content: {
@@ -151,7 +193,11 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         borderRadius: '0px',
         padding: '0'
       }
-    }
+    },
+    canDelete: true,
+    canDragable: true,
+    isRequired: false,
+    isUnique: true
   },
   text: {
     type: EmailBlockType.TEXT,
@@ -164,7 +210,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       color: '#333333',
       textAlign: 'left',
       padding: '16px 24px'
-    }
+    },
+    canDelete: true,
+    canDragable: true,
+    isRequired: false
   },
   image: {
     type: EmailBlockType.IMAGE,
@@ -178,7 +227,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       width: '100%',
       padding: '16px 24px',
       alignment: 'center'
-    }
+    },
+    canDelete: true,
+    canDragable: true,
+    isRequired: false
   },
   button: {
     type: EmailBlockType.BUTTON,
@@ -191,7 +243,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       borderRadius: '6px',
       alignment: 'center'
     },
-    styles: {}
+    styles: {},
+    canDelete: true,
+    canDragable: true,
+    isRequired: false
   },
   product: {
     type: EmailBlockType.PRODUCT,
@@ -220,7 +275,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       padding: '20px',
       margin: '16px 24px',
       alignment: 'left'
-    }
+    },
+    canDelete: true,
+    canDragable: true,
+    isRequired: false
   },
   divider: {
     type: EmailBlockType.DIVIDER,
@@ -233,7 +291,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
     styles: {
       margin: '24px 0',
       padding: '0 24px'
-    }
+    },
+    canDelete: true,
+    canDragable: true,
+    isRequired: false
   },
   spacer: {
     type: EmailBlockType.SPACER,
@@ -241,7 +302,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       height: '32px',
       backgroundColor: 'transparent'
     },
-    styles: {}
+    styles: {},
+    canDelete: true,
+    canDragable: true,
+    isRequired: false
   },
   footer: {
     type: EmailBlockType.FOOTER,
@@ -257,6 +321,10 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       fontSize: '14px',
       textAlign: 'center',
       padding: '24px'
-    }
+    },
+    canDelete: false,
+    canDragable: false,
+    isRequired: false,
+    isUnique: true
   }
 };

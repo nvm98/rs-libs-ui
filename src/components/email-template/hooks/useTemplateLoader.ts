@@ -1,9 +1,28 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
-import { Template } from '../types';
-import { INITIAL_BLOCKS } from '../constants/blocks.constant';
+import { Template, EmailBlockType } from '../types';
+import { INITIAL_BLOCKS, BLOCK_TEMPLATES } from '../constants/blocks.constant';
 import { UseTemplateLoaderResult } from '@shared/interfaces';
 import { TemplateApiResponse } from '@shared/types';
+
+// Utility function to ensure template has a Subject block
+function ensureSubjectBlock(template: Template): Template {
+  const hasSubjectBlock = template.blocks.some(block => block.type === EmailBlockType.SUBJECT);
+
+  if (!hasSubjectBlock) {
+    const subjectBlock = {
+      id: `subject-${Date.now()}`,
+      ...BLOCK_TEMPLATES.subject
+    };
+
+    return {
+      ...template,
+      blocks: [subjectBlock, ...template.blocks]
+    };
+  }
+
+  return template;
+}
 
 export function useEmailTemplateLoader(): UseTemplateLoaderResult {
   const [templates, setTemplates] = useState<Template[] | undefined>();
@@ -38,9 +57,10 @@ export function useEmailTemplateLoader(): UseTemplateLoaderResult {
     setTemplates(newTemplates);
   }, []);
 
-  // select tempalte
+  // select template
   const selectTemplate = useCallback((template: Template) => {
-    setTemplate(template);
+    const templateWithSubject = ensureSubjectBlock(template);
+    setTemplate(templateWithSubject);
   }, []);
 
   // create default template
@@ -56,8 +76,9 @@ export function useEmailTemplateLoader(): UseTemplateLoaderResult {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
-    setTemplates([defaultTemplate]);
-    setTemplate(defaultTemplate);
+    const templateWithSubject = ensureSubjectBlock(defaultTemplate);
+    setTemplates([templateWithSubject]);
+    setTemplate(templateWithSubject);
   }, []);
 
   // Handle fetcher state changes
@@ -73,7 +94,7 @@ export function useEmailTemplateLoader(): UseTemplateLoaderResult {
         setError(response.error);
       }
       if (response && Array.isArray(response.data) && response.data.length > 0) {
-        let templates = response.data;
+        let templates = response.data.map(ensureSubjectBlock);
         setTemplates(templates);
         setTemplate(templates[0]);
       } else {

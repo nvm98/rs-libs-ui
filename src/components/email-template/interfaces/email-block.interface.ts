@@ -5,4 +5,8 @@ export interface EmailBlock {
   type: EmailBlockType;
   content: any;
   styles: any;
+  canDelete?: boolean;
+  canDragable?: boolean;
+  isRequired?: boolean;
+  isUnique?: boolean;
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  SubjectBlockSettings,
   HeaderBlockSettings,
   TextBlockSettings,
   ImageBlockSettings,
@@ -33,6 +34,7 @@ export function EmailBlockSettings({ block, onUpdate }: EmailBlockSettingsProps)
 
   // Component mapping for cleaner organization
   const components = {
+    subject: SubjectBlockSettings,
     header: HeaderBlockSettings,
     text: TextBlockSettings,
     image: ImageBlockSettings,

@@ -38,6 +38,7 @@ export function BlockHeader({
   // Block type icons
   const getBlockIcon = (type: EmailBlockType) => {
     const iconMap = {
+      subject: TextIcon,
       header: ImageIcon,
       text: TextIcon,
       image: ImageIcon,
@@ -53,6 +54,7 @@ export function BlockHeader({
   // Block type labels
   const getBlockLabel = (type: EmailBlockType) => {
     const labelMap = {
+      subject: 'Subject',
       header: 'Header',
       text: 'Text',
       image: 'Image',
@@ -67,9 +69,9 @@ export function BlockHeader({
 
   return (
     <div
-      draggable
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
+      draggable={block.canDragable}
+      onDragStart={block.canDragable ? onDragStart : undefined}
+      onDragEnd={block.canDragable ? onDragEnd : undefined}
       onClick={(e) => {
         // Don't trigger if clicking on drag handle or delete button
         if (!(e.target as Element).closest('[data-drag-handle]') &&
@@ -102,7 +104,18 @@ export function BlockHeader({
     >
       {/* Left side: Drag handle + Icon + Text */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <div data-drag-handle style={{ cursor: 'grab' }}>
+        <div
+          data-drag-handle={block.canDragable ? true : undefined}
+          style={{
+            cursor: block.canDragable ? 'grab' : 'default',
+            opacity: block.canDragable ? 1 : 0.1,
+            width: '16px',
+            height: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
           <Icon source={DragHandleIcon} />
         </div>
         <Icon source={getBlockIcon(block.type)} />
@@ -119,27 +132,29 @@ export function BlockHeader({
           </div>
         )}
         {/* Always reserve space for delete button to prevent layout shift */}
-        <div
-          data-delete-button
-          onClick={(e) => {
-            e.stopPropagation();
-            onRemove();
-          }}
-          style={{
-            cursor: isHovered ? 'pointer' : 'default',
-            padding: '4px',
-            borderRadius: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '24px',
-            height: '24px',
-            opacity: isHovered ? 1 : 0,
-            transition: 'opacity 0.15s ease'
-          }}
-        >
-          <Icon source={DeleteIcon} tone="base" />
-        </div>
+        {block.canDelete && (
+          <div
+            data-delete-button
+            onClick={(e) => {
+              e.stopPropagation();
+              onRemove();
+            }}
+            style={{
+              cursor: isHovered ? 'pointer' : 'default',
+              padding: '4px',
+              borderRadius: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '24px',
+              height: '24px',
+              opacity: isHovered ? 1 : 0,
+              transition: 'opacity 0.15s ease'
+            }}
+          >
+            <Icon source={DeleteIcon} tone="base" />
+          </div>
+        )}
       </div>
     </div>
   );

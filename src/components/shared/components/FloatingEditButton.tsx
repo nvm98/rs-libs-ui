@@ -22,8 +22,9 @@ export function FloatingEditButton({ onClick }: FloatingEditButtonProps) {
       }}>
         <div style={{
           maxWidth: '200px',
+          minWidth: '180px',
         }}>
-          <Button fullWidth onClick={onClick} icon={EditIcon} accessibilityLabel="Edit template">Edit template</Button>
+          <Button variant="primary" fullWidth onClick={onClick} icon={EditIcon} accessibilityLabel="Edit template">Edit template</Button>
         </div>
     </div>
   );

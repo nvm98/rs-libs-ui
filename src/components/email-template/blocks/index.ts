@@ -1,4 +1,5 @@
 // Barrel exports for all block settings components
+export { SubjectBlockSettings } from './SubjectBlockSettings';
 export { HeaderBlockSettings } from './HeaderBlockSettings';
 export { TextBlockSettings } from './TextBlockSettings';
 export { ImageBlockSettings } from './ImageBlockSettings';

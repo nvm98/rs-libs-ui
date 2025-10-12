@@ -1,4 +1,5 @@
 export enum EmailBlockType {
+  SUBJECT = 'subject',
   HEADER = 'header',
   TEXT = 'text',
   IMAGE = 'image',

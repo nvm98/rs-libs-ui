@@ -1,5 +1,6 @@
 import { EmailBlock } from './interfaces/email-block.interface';
 import {
+  SubjectBlockRenderer,
   HeaderBlockRenderer,
   TextBlockRenderer,
   ImageBlockRenderer,
@@ -21,6 +22,18 @@ export function EmailBlockRenderer({
   selectedBlockId = null,
   replaceVariables,
 }: EmailBlockRendererProps) {
+  // Find subject block to get subject line and preview text
+  const subjectBlock = blocks.find(block => block.type === 'subject');
+  const subjectLine = subjectBlock ?
+    replaceVariables(subjectBlock.content.subjectLine || 'Your order update') :
+    replaceVariables('Your order update');
+  const previewText = subjectBlock ?
+    replaceVariables(subjectBlock.content.previewText || '') :
+    '';
+
+  // Filter out subject block from main content rendering
+  const contentBlocks = blocks.filter(block => block.type !== 'subject');
+
   return (
     <div style={{
       backgroundColor: '#f6f6f7',
@@ -41,9 +54,14 @@ export function EmailBlockRenderer({
           <div style={{ marginBottom: '6px' }}>
             <strong>To:</strong> {replaceVariables('{{customer_email}}')}
           </div>
-          <div>
-            <strong>Subject:</strong> {replaceVariables('Your order update')}
+          <div style={{ marginBottom: previewText ? '6px' : '0' }}>
+            <strong>Subject:</strong> {subjectLine}
           </div>
+          {previewText && (
+            <div style={{ fontSize: '12px', color: '#8b8b8b', fontStyle: 'italic' }}>
+              <strong>Preview:</strong> {previewText}
+            </div>
+          )}
         </div>
       </div>
 
@@ -55,7 +73,7 @@ export function EmailBlockRenderer({
         borderRadius: '0 0 8px 8px',
         overflow: 'hidden'
       }}>
-        {blocks.map((block, index) => (
+        {contentBlocks.map((block) => (
           <div
             key={block.id}
             style={{
@@ -86,6 +104,8 @@ function BlockComponent({
 }) {
   // Handle each block type explicitly to ensure proper typing
   switch (block.type) {
+    case 'subject':
+      return <SubjectBlockRenderer block={block} replaceVariables={replaceVariables} />;
     case 'header':
       return <HeaderBlockRenderer block={block} replaceVariables={replaceVariables} />;
     case 'text':

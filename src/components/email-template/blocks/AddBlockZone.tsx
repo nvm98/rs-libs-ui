@@ -10,21 +10,24 @@ import {
 } from "@shopify/polaris-icons";
 import { EmailBlockType } from '../types/email-block-type.type';
 import { BLOCK_TEMPLATES } from '../constants/blocks.constant';
+import { EmailBlock } from '../interfaces/email-block.interface';
 
 interface AddBlockZoneProps {
   position: number | 'top' | 'bottom';
   isDragOver?: boolean;
   isDragging?: boolean;
   onAddBlock: (type: EmailBlockType, index?: number) => void;
+  blocks: EmailBlock[];
 }
 
-export function AddBlockZone({ position, onAddBlock, isDragOver = false, isDragging = false }: AddBlockZoneProps) {
+export function AddBlockZone({ position, onAddBlock, isDragOver = false, isDragging = false, blocks }: AddBlockZoneProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
   // Block type icons
   const getBlockIcon = (type: EmailBlockType) => {
     const iconMap = {
+      subject: TextIcon,
       header: ImageIcon,
       text: TextIcon,
       image: ImageIcon,
@@ -40,6 +43,7 @@ export function AddBlockZone({ position, onAddBlock, isDragOver = false, isDragg
   // Block type labels
   const getBlockLabel = (type: EmailBlockType) => {
     const labelMap = {
+      subject: 'Subject',
       header: 'Header',
       text: 'Text',
       image: 'Image',
@@ -54,16 +58,17 @@ export function AddBlockZone({ position, onAddBlock, isDragOver = false, isDragg
 
   const handleAddBlock = (type: EmailBlockType) => {
     let index: number | undefined;
-    
+
     if (position === 'top') {
       index = 0;
     } else if (typeof position === 'number') {
       index = position + 1;
     }
     // For 'bottom', index remains undefined (append to end)
-    
+
     onAddBlock(type, index);
     setShowMenu(false);
+    setIsHovered(false);
   };
 
   const isActive = isHovered || isDragOver;
@@ -174,42 +179,52 @@ export function AddBlockZone({ position, onAddBlock, isDragOver = false, isDragg
           padding: '8px'
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            {Object.entries(BLOCK_TEMPLATES).map(([type]: [string, any]) => (
-              <div
-                key={type}
-                onClick={() => handleAddBlock(type as EmailBlockType)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '10px 12px',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.15s ease',
-                  backgroundColor: 'transparent'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#f3f4f6';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
-              >
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: '20px',
-                  height: '20px',
-                  color: '#007ace'
-                }}>
-                  <Icon source={getBlockIcon(type as EmailBlockType)} />
-                </div>
-                <Text as="span" variant="bodyMd" fontWeight="medium">
-                  {getBlockLabel(type as EmailBlockType)}
-                </Text>
-              </div>
-            ))}
+            {(() => {
+              const existingBlockTypes = blocks.map(b => b.type);
+              return Object.entries(BLOCK_TEMPLATES)
+                .filter(([type, template]) => {
+                  if (template.isUnique && existingBlockTypes.includes(type as EmailBlockType)) {
+                    return false;
+                  }
+                  return type !== 'subject';
+                })
+                .map(([type]: [string, any]) => (
+                  <div
+                    key={type}
+                    onClick={() => handleAddBlock(type as EmailBlockType)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '10px 12px',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.15s ease',
+                      backgroundColor: 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#f3f4f6';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '20px',
+                      height: '20px',
+                      color: '#007ace'
+                    }}>
+                      <Icon source={getBlockIcon(type as EmailBlockType)} />
+                    </div>
+                    <Text as="span" variant="bodyMd" fontWeight="medium">
+                      {getBlockLabel(type as EmailBlockType)}
+                    </Text>
+                  </div>
+                ));
+            })()}
           </div>
         </div>
       )}
