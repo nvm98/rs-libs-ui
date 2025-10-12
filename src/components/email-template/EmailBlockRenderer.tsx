@@ -59,7 +59,6 @@ export function EmailBlockRenderer({
           <div
             key={block.id}
             style={{
-              marginBottom: index < blocks.length - 1 ? '20px' : '0',
               position: 'relative',
               outline: selectedBlockId === block.id ? '2px solid #007ace' : 'none',
               outlineOffset: selectedBlockId === block.id ? '2px' : '0',

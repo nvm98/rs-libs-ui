@@ -1,6 +1,10 @@
-import { Text, Button, InlineStack, Spinner, Banner } from "@shopify/polaris";
+import { Text, Button, InlineStack, Spinner, Banner, ButtonGroup } from "@shopify/polaris";
 import { EmailBlockRenderer} from './EmailBlockRenderer';
 import { EmailBlock } from "./interfaces/email-block.interface";
+import { useState } from "react";
+import { DesktopIcon, MobileIcon } from "@shopify/polaris-icons";
+
+type PreviewMode = 'desktop' | 'mobile';
 
 interface EmailPreviewPanelProps {
   blocks: EmailBlock[];
@@ -21,6 +25,8 @@ export function EmailPreviewPanel({
   loading = false,
   error = null
 }: EmailPreviewPanelProps) {
+  const [previewMode, setPreviewMode] = useState<PreviewMode>('desktop');
+
   return (
     <div style={{
       flex: 1,
@@ -60,6 +66,18 @@ export function EmailPreviewPanel({
                 {error}
               </Banner>
             )}
+            <ButtonGroup variant="segmented">
+              <Button
+                pressed={previewMode === 'desktop'}
+                onClick={() => setPreviewMode('desktop')}
+                icon={DesktopIcon}
+              />
+              <Button
+                pressed={previewMode === 'mobile'}
+                onClick={() => setPreviewMode('mobile')}
+                icon={MobileIcon}
+              />
+            </ButtonGroup>
             {showSaveButton && onSave && (
               <Button variant="primary" onClick={onSave} loading={loading}>
                 Save
@@ -81,12 +99,13 @@ export function EmailPreviewPanel({
         {blocks.length > 0 ? (
           <div style={{
             width: '100%',
-            maxWidth: '600px',
+            maxWidth: previewMode === 'mobile' ? '375px' : '600px',
             backgroundColor: '#ffffff',
             borderRadius: '8px',
             border: '1px solid #e1e3e5',
             overflow: 'hidden',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            transition: 'max-width 0.3s ease'
           }}>
             <EmailBlockRenderer
               blocks={blocks}

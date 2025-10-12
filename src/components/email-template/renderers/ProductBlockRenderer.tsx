@@ -99,7 +99,7 @@ export function ProductBlockRenderer({ block, replaceVariables }: BlockRendererP
   };
 
   const containerStyle = {
-    margin: styles.margin || '16px 24px',
+    margin: styles.margin || '0px',
     display: 'grid',
     gap: '16px',
     gridTemplateColumns: content.productLayout === 'grid' ? 'repeat(auto-fit, minmax(250px, 1fr))' : '1fr'
