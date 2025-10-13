@@ -8,15 +8,13 @@ const HeaderContentSchema = z.object({
   logoUrl: z.string().url('Logo URL must be a valid URL'),
   logoAltText: z.string().min(1, 'Logo alt text is required'),
   logoLinkUrl: z.string().url('Logo link URL must be a valid URL'),
-  backgroundColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Background color must be a valid hex color'),
   showWebViewLink: z.boolean(),
-  alignment: AlignmentSchema,
 });
 
 const HeaderStylesSchema = z.object({
   backgroundColor: z.string().regex(/^#[0-9A-Fa-f]{6}$/, 'Background color must be a valid hex color'),
   padding: z.string().min(1, 'Padding is required'),
-  textAlign: AlignmentSchema,
+  alignment: AlignmentSchema,
   logoStyles: z.object({
     width: z.string().optional(),
     borderRadius: z.string().optional(),

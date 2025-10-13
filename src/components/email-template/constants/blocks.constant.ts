@@ -22,7 +22,6 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         logoAltText: '{{shop_name}}',
         logoLinkUrl: '{{shop_url}}',
         showWebViewLink: false,
-        alignment: 'center'
       },
       styles: {
         backgroundColor: '#ffffff',
@@ -30,7 +29,8 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
         logoStyles: {
           width: '120px',
           borderRadius: '0px',
-          padding: '0px'
+          padding: '0px',
+          alignment: 'center'
         }
       },
       canDelete: true,
@@ -59,7 +59,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       content: {
         imageUrl: 'https://blog.adobe.com/en/publish/2024/10/14/media_1ca79b205381242c5f8beaaee2f0e1cfb2aa8f324.png?width=750&format=png&optimize=medium',
         altText: 'A descriptive image',
-        linkUrl: '',
+        linkUrl: '{{product_url}}',
         caption: ''
       },
       styles: {
@@ -167,7 +167,6 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       logoAltText: '{{shop_name}}',
       logoLinkUrl: '{{shop_url}}',
       showWebViewLink: false,
-      alignment: 'center'
     },
     styles: {
       backgroundColor: '#ffffff',
@@ -175,7 +174,8 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       logoStyles: {
         width: '120px',
         borderRadius: '0px',
-        padding: '0px'
+        padding: '0px',
+        alignment: 'center'
       }
     },
     canDelete: true,
@@ -204,7 +204,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
     content: {
       imageUrl: 'https://blog.adobe.com/en/publish/2024/10/14/media_1ca79b205381242c5f8beaaee2f0e1cfb2aa8f324.png?width=750&format=png&optimize=medium',
       altText: 'Image',
-      linkUrl: '',
+      linkUrl: '{{product_url}}',
       caption: ''
     },
     styles: {
@@ -285,7 +285,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
     type: EmailBlockType.SPACER,
     content: {
       height: '32px',
-      backgroundColor: 'transparent'
+      backgroundColor: '#fff'
     },
     styles: {},
     canDelete: true,

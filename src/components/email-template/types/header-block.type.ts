@@ -7,14 +7,12 @@ export type HeaderBlock = EmailBlock & {
     logoUrl: string;
     logoAltText: string;
     logoLinkUrl: string;
-    backgroundColor: string;
     showWebViewLink: boolean;
-    alignment: 'left' | 'center' | 'right';
   };
   styles: {
     backgroundColor: string;
     padding: string;
-    textAlign: 'left' | 'center' | 'right';
+    alignment: 'left' | 'center' | 'right';
     logoStyles: {
       width?: string;
       borderRadius?: string;
