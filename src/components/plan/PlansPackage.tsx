@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BlockStack,
   FormLayout,
@@ -34,6 +34,7 @@ export function PlansPackage<T extends PlansConfig = PlansConfig>({
   isLoadingSelectedPlan = false,
   onRetry,
 }: PlansPackageProps<T>) {
+  
   const { t } = useTranslation('plans');
   const [processingPlan, setProcessingPlan] = useState<string | null>(null);
 

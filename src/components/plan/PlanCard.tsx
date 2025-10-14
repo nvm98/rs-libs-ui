@@ -145,16 +145,20 @@ export function PlanCard({
         </BlockStack>
 
         {/* CTA Button */}
-        <Button
-          tone={isActive ? 'success' : undefined}
-          variant="primary"
-          onClick={handlePlanSelection}
-          disabled={isActive || isProcessing || isLoading || isSelectedPlanLoading}
-          size="large"
-          fullWidth
-        >
-          {getButtonText()}
-        </Button>
+        {
+          !isActive && (
+            <Button
+              tone={isActive ? 'success' : undefined}
+              variant="primary"
+              onClick={handlePlanSelection}
+              disabled={isActive || isProcessing || isLoading || isSelectedPlanLoading}
+              size="large"
+              fullWidth
+            >
+              {getButtonText()}
+            </Button>
+          )
+        }
         </BlockStack>
       </Card>
     </Box>
