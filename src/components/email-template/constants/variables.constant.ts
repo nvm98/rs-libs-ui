@@ -1,6 +1,6 @@
 export const VARIABLES = [
   {
-    variable: '{{customer_first_name}}',
+    variable: '{{customer_name}}',
     example: 'John',
     description: 'The first name of the customer who placed the order'
   },
