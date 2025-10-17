@@ -20,14 +20,14 @@ export const VARIABLES = [
     description: 'The URL of your shop logo'
   },
   {
+    variable: '{{shop_domain}}',
+    example: 'mystore.myshopify.com',
+    description: 'The domain of your Shopify store'
+  },
+  {
     variable: '{{product_image_url}}',
     example: 'https://blog.adobe.com/en/publish/2024/10/14/media_1ca79b205381242c5f8beaaee2f0e1cfb2aa8f324.png?width=750&format=png&optimize=medium',
     description: 'The URL of your product image'
-  },
-  {
-    variable: '{{order_number}}',
-    example: '#1001',
-    description: 'The unique order number for this purchase'
   },
   {
     variable: '{{product_title}}',
@@ -45,8 +45,8 @@ export const VARIABLES = [
     description: 'The title of the product in the order'
   },
   {
-    variable: '{{shop_domain}}',
-    example: 'mystore.myshopify.com',
-    description: 'The domain of your Shopify store'
+    variable: '{{order_number}}',
+    example: '#1001',
+    description: 'The unique order number for this purchase'
   }
 ];
