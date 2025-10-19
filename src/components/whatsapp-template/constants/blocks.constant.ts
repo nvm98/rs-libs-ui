@@ -5,7 +5,7 @@ export const INITIAL_BLOCKS = [
     id: 'header-1',
     type: WhatsAppBlockType.HEADER,
     format: 'TEXT',
-    text: 'Hello {{customer_first_name}}!',
+    text: 'Hello {{customer_name}}!',
   },
   {
     id: 'body-1',

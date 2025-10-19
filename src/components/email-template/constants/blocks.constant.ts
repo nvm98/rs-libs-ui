@@ -41,7 +41,7 @@ export const INITIAL_BLOCKS: EmailBlock[] = [
       id: 'text-2', 
       type: EmailBlockType.TEXT, 
       content: { 
-        text: 'Hi {{customer_first_name}}, your order is ready!We have exciting news! The item you asked to be notified about, the {{product_title}}, is officially back in stock! | Immediate, personalized, and clear announcement.',
+        text: 'Hi {{customer_name}}, your order is ready!We have exciting news! The item you asked to be notified about, the {{product_title}}, is officially back in stock! | Immediate, personalized, and clear announcement.',
       }, 
       styles: { 
         fontSize: '14px', 
