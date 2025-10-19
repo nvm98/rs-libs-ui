@@ -36,8 +36,6 @@ export function usePlansLoader<T extends PlansConfig = PlansConfig>(): UsePlansL
       if (!response) {
         return;
       }
-
-      console.log(`response data:`, response);
       
       if (!response.success) {
         setError(response.error || 'Failed to load billing data');
